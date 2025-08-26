@@ -2,7 +2,7 @@
   (:require [hiccup.page :refer [html5 include-css include-js]]))
 
 (defn layout [title content]
-  "Base HTML layout with Leaflet.js for maps"
+  "Base HTML layout with Leaflet.js for maps and OSM attribution"
   (html5
    [:head
     [:title title]
@@ -14,6 +14,16 @@
     [:script {:src "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"}]]
    [:body
     content
+    ;; Attribution footer
+    [:footer {:style "text-align: center; padding: 20px; font-size: 12px; color: #666; background: #f9f9f9; margin-top: 40px;"}
+     [:p
+      "Boundary data © "
+      [:a {:href "https://www.openstreetmap.org/copyright" :target "_blank"} "OpenStreetMap contributors"]
+      " | Licensed under "
+      [:a {:href "https://opendatacommons.org/licenses/odbl/" :target "_blank"} "ODbL"]
+      " | Educational use"]
+     [:p {:style "font-size: 10px; margin-top: 5px;"}
+      "Border Blur teaches Israeli geography through community-verified municipal boundaries"]]
     ;; Map JavaScript at bottom of page
     (include-js "/js/map.js")]))
 

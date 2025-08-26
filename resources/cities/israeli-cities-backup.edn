@@ -1,0 +1,129 @@
+{:tel-aviv
+ {:name "Tel Aviv"
+  :country "Israel"
+  :center [34.7818 32.0853] ; [lng lat]
+  :famous? true
+  :neighbors [:ramat-gan :givatayim :holon :bat-yam :yafo]
+  ;; Simplified polygon for testing - real data would be more detailed
+  :boundary [[34.7500 32.1200]
+             [34.8200 32.1200]
+             [34.8200 32.0500]
+             [34.7500 32.0500]
+             [34.7500 32.1200]]}
+
+ :ramat-gan
+ {:name "Ramat Gan"
+  :country "Israel"
+  :center [34.8131 32.0853] ; [lng lat]
+  :famous? false
+  :neighbors [:tel-aviv :givatayim :bnei-brak :or-yehuda]
+  ;; Simplified polygon - adjacent to Tel Aviv on the east
+  :boundary [[34.8000 32.1200]
+             [34.8500 32.1200]
+             [34.8500 32.0500]
+             [34.8000 32.0500]
+             [34.8000 32.1200]]}
+
+ :givatayim
+ {:name "Givatayim"
+  :country "Israel"
+  :center [34.8095 32.0720] ; [lng lat]
+  :famous? false
+  :neighbors [:tel-aviv :ramat-gan]
+  ;; Between Tel Aviv and Ramat Gan
+  :boundary [[34.8000 32.0850]
+             [34.8200 32.0850]
+             [34.8200 32.0600]
+             [34.8000 32.0600]
+             [34.8000 32.0850]]}
+
+ :bnei-brak
+ {:name "Bnei Brak"
+  :country "Israel"
+  :center [34.8333 32.0807] ; [lng lat]
+  :famous? false
+  :neighbors [:ramat-gan :petah-tikva :or-yehuda]
+  ;; Northeast of Ramat Gan
+  :boundary [[34.8200 32.1000]
+             [34.8500 32.1000]
+             [34.8500 32.0700]
+             [34.8200 32.0700]
+             [34.8200 32.1000]]}
+
+ :holon
+ {:name "Holon"
+  :country "Israel"
+  :center [34.7772 32.0116] ; [lng lat]
+  :famous? false
+  :neighbors [:tel-aviv :bat-yam :rishon-lezion]
+  ;; South of Tel Aviv
+  :boundary [[34.7500 32.0300]
+             [34.8000 32.0300]
+             [34.8000 31.9900]
+             [34.7500 31.9900]
+             [34.7500 32.0300]]}
+
+ :bat-yam
+ {:name "Bat Yam"
+  :country "Israel"
+  :center [34.7458 32.0167] ; [lng lat]
+  :famous? false
+  :neighbors [:tel-aviv :holon :yafo]
+  ;; Southwest of Tel Aviv, on the coast
+  :boundary [[34.7200 32.0300]
+             [34.7600 32.0300]
+             [34.7600 32.0000]
+             [34.7200 32.0000]
+             [34.7200 32.0300]]}
+
+ :jerusalem
+ {:name "Jerusalem"
+  :country "Israel"
+  :center [35.2137 31.7683] ; [lng lat]
+  :famous? true
+  :neighbors [:bethlehem :maale-adumim :mevaseret-zion]
+  ;; Simplified polygon for testing
+  :boundary [[35.1500 31.8200]
+             [35.2800 31.8200]
+             [35.2800 31.7000]
+             [35.1500 31.7000]
+             [35.1500 31.8200]]}
+
+ :yafo
+ {:name "Yafo"
+  :country "Israel"
+  :center [34.7520 32.0546] ; [lng lat] - Old Jaffa area
+  :famous? true
+  :neighbors [:tel-aviv :bat-yam]
+  ;; Yafo (Jaffa) - historic port city, now part of Tel Aviv-Yafo
+  :boundary [[34.7400 32.0650]
+             [34.7650 32.0650]
+             [34.7650 32.0400]
+             [34.7400 32.0400]
+             [34.7400 32.0650]]}
+
+ :ramat-hasharon
+ {:name "Ramat Hasharon"
+  :country "Israel"
+  :center [34.8394 32.1462] ; [lng lat]
+  :famous? false
+  :neighbors [:herzliya :kfar-saba :hod-hasharon]
+  ;; Upscale city north of Tel Aviv
+  :boundary [[34.8200 32.1700]
+             [34.8600 32.1700]
+             [34.8600 32.1200]
+             [34.8200 32.1200]
+             [34.8200 32.1700]]}
+
+ :or-yehuda
+ {:name "Or Yehuda"
+  :country "Israel"
+  :center [34.8586 32.0306] ; [lng lat]
+  :famous? false
+  :neighbors [:ramat-gan :azor :givatayim]
+  ;; Small city southeast of Ramat Gan
+  :boundary [[34.8450 32.0450]
+             [34.8750 32.0450]
+             [34.8750 32.0150]
+             [34.8450 32.0150]
+             [34.8450 32.0450]]}}
