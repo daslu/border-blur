@@ -1,0 +1,155 @@
+{:tel-aviv
+ {:name "Tel Aviv"
+  :country "Israel"
+  :center [34.7818 32.0853]
+  :famous? true
+  :neighbors [:ramat-gan :givatayim :holon :bat-yam :yafo]
+  ;; More conservative Tel Aviv boundary to reduce overlaps
+  ;; Reduced eastward extent to avoid givatayim overlap
+  :boundary [[34.7400 32.1200] ; Northwest - north of Yarkon
+             [34.8000 32.1200] ; Northeast - reduced from 34.8100
+             [34.8000 32.0950] ; East - reduced boundary 
+             [34.8000 32.0800] ; Southeast - more conservative  
+             [34.7900 32.0600] ; South - pulled back from holon
+             [34.7600 32.0500] ; Southwest - Jaffa area
+             [34.7400 32.0550] ; West central - coastline
+             [34.7400 32.0800] ; Northwest coast
+             [34.7400 32.1200]]}
+
+ :ramat-gan
+ {:name "Ramat Gan"
+  :country "Israel"
+  :center [34.8131 32.0853]
+  :famous? false
+  :neighbors [:tel-aviv :givatayim :bnei-brak :or-yehuda]
+  ;; Tighter boundary to reduce bnei-brak overlap
+  ;; Moved western border east to avoid tel-aviv/givatayim conflicts
+  :boundary [[34.8050 32.1100] ; Northwest - moved east from 34.8100
+             [34.8400 32.1100] ; Northeast - reduced from 34.8450
+             [34.8400 32.0650] ; Southeast - reduced extent
+             [34.8250 32.0550] ; South - tighter boundary
+             [34.8050 32.0650] ; Southwest - pulled west boundary east
+             [34.8050 32.0950] ; West - more conservative
+             [34.8050 32.1100]]}
+
+ :givatayim
+ {:name "Givatayim"
+  :country "Israel"
+  :center [34.8095 32.0720]
+  :famous? false
+  :neighbors [:tel-aviv :ramat-gan]
+  ;; Smaller, more precise boundary between tel-aviv and ramat-gan
+  ;; Reduced to minimize overlaps with both neighbors
+  :boundary [[34.7950 32.0850] ; Northwest - moved east
+             [34.8100 32.0850] ; Northeast - tighter bounds
+             [34.8100 32.0700] ; Southeast - reduced south extent
+             [34.8050 32.0650] ; South - smaller boundary
+             [34.7950 32.0650] ; Southwest - moved east
+             [34.7950 32.0750] ; West - conservative west border
+             [34.7950 32.0850]]}
+
+ :bnei-brak
+ {:name "Bnei Brak"
+  :country "Israel"
+  :center [34.8333 32.0807]
+  :famous? false
+  :neighbors [:ramat-gan :petah-tikva :or-yehuda]
+  ;; Moved western border east to reduce ramat-gan overlap
+  :boundary [[34.8350 32.1000] ; Northwest - moved east from 34.8250
+             [34.8500 32.1000] ; Northeast - unchanged
+             [34.8500 32.0750] ; Southeast - slightly larger south
+             [34.8400 32.0700] ; South - adjusted
+             [34.8350 32.0750] ; Southwest - moved boundary east
+             [34.8350 32.0900] ; West - eastern boundary
+             [34.8350 32.1000]]}
+
+ :holon
+ {:name "Holon"
+  :country "Israel"
+  :center [34.7772 32.0116]
+  :famous? false
+  :neighbors [:tel-aviv :bat-yam :rishon-lezion]
+  ;; Reduced northern boundary to minimize bat-yam overlap
+  ;; Moved north boundary south to create clear separation
+  :boundary [[34.7500 32.0400] ; Northwest - moved south from 32.0500
+             [34.8000 32.0400] ; Northeast - reduced north boundary
+             [34.8100 32.0200] ; East - unchanged
+             [34.7800 31.9800] ; Southeast - unchanged
+             [34.7400 31.9850] ; Southwest - unchanged
+             [34.7400 32.0200] ; West - unchanged
+             [34.7500 32.0400]]}
+
+ :bat-yam
+ {:name "Bat Yam"
+  :country "Israel"
+  :center [34.7458 32.0167]
+  :famous? false
+  :neighbors [:tel-aviv :holon :yafo]
+  ;; Reduced eastern boundary to minimize holon overlap
+  ;; Created clear separation from holon by moving east border west
+  :boundary [[34.7350 32.0300] ; North - reduced from 32.0350
+             [34.7500 32.0280] ; Northeast - moved west and south
+             [34.7550 32.0100] ; East - reduced eastern extent  
+             [34.7550 31.9950] ; Southeast - unchanged
+             [34.7350 31.9900] ; Southwest - unchanged
+             [34.7250 32.0000] ; West coast - unchanged
+             [34.7250 32.0250] ; Northwest coast - unchanged
+             [34.7350 32.0300]]}
+
+ :yafo
+ {:name "Yafo"
+  :country "Israel"
+  :center [34.7520 32.0546]
+  :famous? true
+  :neighbors [:tel-aviv :bat-yam]
+  ;; Yafo boundary - kept separate from main Tel Aviv
+  :boundary [[34.7450 32.0700] ; North
+             [34.7650 32.0650] ; Northeast  
+             [34.7700 32.0500] ; East
+             [34.7600 32.0350] ; Southeast
+             [34.7400 32.0400] ; Southwest
+             [34.7350 32.0550] ; West coast
+             [34.7450 32.0700]]}
+
+ :or-yehuda
+ {:name "Or Yehuda"
+  :country "Israel"
+  :center [34.8586 32.0306]
+  :famous? false
+  :neighbors [:ramat-gan :azor :givatayim]
+  ;; Small city southeast - kept tight boundaries
+  :boundary [[34.8450 32.0500] ; Northwest
+             [34.8750 32.0500] ; Northeast
+             [34.8750 32.0150] ; Southeast
+             [34.8550 32.0100] ; South
+             [34.8450 32.0150] ; Southwest
+             [34.8450 32.0300] ; West
+             [34.8450 32.0500]]}
+
+ :jerusalem
+ {:name "Jerusalem"
+  :country "Israel"
+  :center [35.2137 31.7683]
+  :famous? true
+  :neighbors [:bethlehem :maale-adumim :mevaseret-zion]
+  ;; Jerusalem - far from Tel Aviv area, unchanged
+  :boundary [[35.1500 31.8200] ; Northwest
+             [35.2800 31.8200] ; Northeast
+             [35.2800 31.7000] ; Southeast
+             [35.1500 31.7000] ; Southwest
+             [35.1500 31.8200]]}
+
+ :ramat-hasharon
+ {:name "Ramat Hasharon"
+  :country "Israel"
+  :center [34.8394 32.1462]
+  :famous? false
+  :neighbors [:herzliya :kfar-saba :hod-hasharon]
+  ;; North of Tel Aviv area, unchanged
+  :boundary [[34.8200 32.1700] ; Northwest
+             [34.8600 32.1700] ; Northeast
+             [34.8600 32.1300] ; Southeast
+             [34.8400 32.1200] ; South
+             [34.8200 32.1200] ; Southwest
+             [34.8200 32.1450] ; West
+             [34.8200 32.1700]]}}

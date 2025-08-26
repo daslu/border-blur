@@ -11,17 +11,27 @@
       edn/read-string))
 
 (defn boundary->polygon [boundary-coords]
-  "Convert boundary coordinates to JTS polygon using WKT format"
+  "Convert boundary coordinates to JTS polygon - FIXED to use proper vector format"
   (try
-    (let [wkt-coords (clojure.string/join ", "
-                                          (map (fn [[lng lat]] (str lng " " lat)) boundary-coords))
-          wkt (str "POLYGON((" wkt-coords "))")
-          poly (jts/polygon-wkt wkt)]
+    ;; The key issue: JTS needs vectors, not sequences. Convert each coordinate pair to a vector
+    (let [;; Convert lazy sequences to proper vectors and ensure numeric types
+          vector-coords (mapv (fn [[lng lat]]
+                                [(double lng) (double lat)])
+                              boundary-coords)
+          ;; Ensure polygon is closed by adding first point at end if not already closed
+          closed-coords (if (= (first vector-coords) (last vector-coords))
+                          vector-coords
+                          (conj vector-coords (first vector-coords)))
+          ;; Create linear ring from vector coordinates
+          ring (jts/linear-ring closed-coords)
+          ;; Create polygon from ring
+          poly (jts/polygon ring)]
       poly)
     (catch Exception e
       (println "Error creating polygon:" (.getMessage e))
-      ;; Return a simple fallback polygon
-      (jts/polygon-wkt "POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))"))))
+      (println "Falling back to simplified Tel Aviv boundary")
+      ;; Return a simplified Tel Aviv polygon as fallback
+      (jts/polygon (jts/linear-ring [[34.74 32.02] [34.83 32.02] [34.83 32.13] [34.74 32.13] [34.74 32.02]])))))
 
 (defn get-city [cities city-key]
   "Get city data without polygon conversion for now"

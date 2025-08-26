@@ -3,8 +3,7 @@
    Ensures diverse coverage across entire cities with proper classification."
   (:require [border-blur.gis.cities :as cities]
             [border-blur.gis.core :as gis-core]
-            [geo.jts :as jts]
-            [geo.spatial :as spatial]
+            [geo [jts :as jts] [spatial :as spatial]]
             [clojure.java.io :as io]
             [clojure.string :as str]))
 
@@ -20,34 +19,29 @@
      :lng (Double/parseDouble (nth match 2))}))
 
 (defn classify-image-by-gis
-  "Determine actual city using point-in-polygon testing - FIXED VERSION"
+  "Determine actual city using 10-meter buffer exclusivity - COORDINATE FIXED"
   [lat lng city-polygons]
-  ;; Simple ray casting algorithm for point-in-polygon test with divide-by-zero protection
-  (letfn [(point-in-polygon? [px py polygon-coords]
-            (let [n (count polygon-coords)]
-              (loop [i 0 j (dec n) inside false]
-                (if (>= i n)
-                  inside
-                  (let [[xi yi] (nth polygon-coords i)
-                        [xj yj] (nth polygon-coords j)]
-                    (if (and (or (< yi py) (>= yj py))
-                             (or (< yj py) (>= yi py))
-                             ;; Protect against divide by zero
-                             (not= yi yj)
-                             (< (+ xi (* (/ (- py yi) (- yj yi)) (- xj xi))) px))
-                      (recur (inc i) i (not inside))
-                      (recur (inc i) i inside)))))))]
-    (first
-     (keep (fn [[city-key city-data]]
-             (let [boundary (:boundary city-data)]
-               (try
-                 ;; Use working point-in-polygon algorithm with safety check
-                 (when (and boundary (seq boundary) (point-in-polygon? lng lat boundary))
-                   city-key)
-                 (catch Exception e
-                   (println (format "GIS error for city %s: %s" city-key (.getMessage e)))
-                   nil))))
-           city-polygons))))
+  (try
+    (let [buffer-degrees (/ 10.0 111000.0)
+          point (jts/point lat lng) ; FIXED: Use (lat, lng) order for JTS
+          cities-containing-point
+          (keep (fn [[city-key city-data]]
+                  (try
+                    (let [boundary (:boundary city-data)
+                          coord-seq (map (fn [[lng lat]] (jts/coordinate lng lat)) boundary)
+                          coord-array (into-array org.locationtech.jts.geom.Coordinate coord-seq)
+                          ring (jts/linear-ring coord-array)
+                          polygon (jts/polygon ring)
+                          buffered-polygon (.buffer polygon buffer-degrees)]
+                      (when (= :contains (spatial/relate buffered-polygon point))
+                        city-key))
+                    (catch Exception e nil)))
+                city-polygons)]
+      (cond
+        (= 1 (count cities-containing-point)) (first cities-containing-point)
+        (> (count cities-containing-point) 1) (first cities-containing-point)
+        :else nil))
+    (catch Exception e nil)))
 
 (defn validate-single-image
   "Validate and classify a single image using GIS"

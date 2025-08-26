@@ -1,5 +1,5 @@
 (ns border-blur.images.verified-collector
-  "Advanced image collector with GIS verification and proper attribution"
+  "Advanced image collector with GIS verification and proper attribution using corrected boundaries"
   (:require [border-blur.images.fetcher :as fetcher]
             [border-blur.gis.cities :as cities]
             [border-blur.gis.core :as gis-core]
@@ -7,6 +7,7 @@
             [cheshire.core :as json]
             [clojure.string :as str]
             [clojure.java.io :as io]
+            [clojure.edn :as edn]
             [geo.poly :as poly])
   (:import [java.time LocalDateTime]
            [java.time.format DateTimeFormatter]))
@@ -35,6 +36,21 @@
             :requirements ["Must check individual image license"
                            "Must attribute photographer"
                            "Commercial use depends on license"]}})
+
+;; Load corrected boundaries for better GIS classification
+(defn load-corrected-cities []
+  "Load city data from corrected-boundaries.edn with better boundary definitions"
+  (-> (io/resource "cities/corrected-boundaries.edn")
+      slurp
+      edn/read-string))
+
+;; Use corrected boundaries by default, fall back to original if not available
+(def corrected-cities
+  (try
+    (load-corrected-cities)
+    (catch Exception e
+      (println "Warning: Could not load corrected-boundaries.edn, falling back to original cities")
+      (cities/load-cities))))
 
 (defn generate-image-metadata
   "Generate comprehensive metadata for collected image"
@@ -85,11 +101,11 @@
     (take num-points valid-points)))
 
 (defn collect-verified-images-for-city
-  "Collect and verify images using geo.poly/poly-contains? for accurate boundary testing"
+  "Collect and verify images using poly-contains? with multi-city filtering"
   [city-key target-count]
   (println (str "🔍 Collecting " target-count " verified images for " (name city-key) "..."))
 
-  (let [city-data (cities/get-city cities/cities city-key)]
+  (let [city-data (get corrected-cities city-key)]
 
     (if-not city-data
       {:error (str "City not found: " city-key)}
@@ -101,26 +117,58 @@
 
         (println (str "  Generated " (count search-points) " search points within " (name city-key)))
 
-        ;; Clean approach using ONLY geo.poly/poly-contains?
+        ;; Clean approach: poly-contains? + multi-city filtering
         (letfn [(point-in-city? [city-key lat lng]
-                  "Test if point is within city using geo.poly/poly-contains?"
-                  (when-let [city-data (cities/get-city cities/cities city-key)]
+                  "Test if point is within city using poly-contains?"
+                  (when-let [city-data (get corrected-cities city-key)]
                     (when-let [boundary (:boundary city-data)]
                       (let [coords-flat (mapcat (fn [[lng lat]] [lat lng]) boundary)
                             poly-format [[coords-flat]]]
                         (poly/poly-contains? lat lng poly-format)))))
 
+                (find-all-containing-cities [lat lng]
+                  "Find ALL cities that contain this point"
+                  (->> corrected-cities
+                       (filter (fn [[city-key _]]
+                                 (point-in-city? city-key lat lng)))
+                       (map (fn [[city-key city-data]]
+                              {:key city-key :name (:name city-data)}))))
+
                 (classify-image-location [lat lng target-city-key]
-                  "Simple, accurate classification using poly-contains?"
-                  (if (point-in-city? target-city-key lat lng)
-                    {:correct? true
-                     :confidence :high
-                     :method "poly-contains"
-                     :verified-city (:name (cities/get-city cities/cities target-city-key))}
-                    {:correct? false
-                     :confidence :none
-                     :method "poly-contains"
-                     :reason "outside-boundary"}))]
+                  "Accept only if point is in exactly one city (the target city)"
+                  (let [containing-cities (find-all-containing-cities lat lng)]
+                    (cond
+                      ;; Perfect case: point is in exactly one city and it's our target
+                      (and (= (count containing-cities) 1)
+                           (= (:key (first containing-cities)) target-city-key))
+                      {:correct? true
+                       :confidence :high
+                       :method "poly-contains-unique"
+                       :verified-city (:name (first containing-cities))
+                       :ambiguity :none}
+
+                      ;; Ambiguous case: point is in multiple cities - reject
+                      (> (count containing-cities) 1)
+                      {:correct? false
+                       :confidence :none
+                       :method "poly-contains-ambiguous"
+                       :reason "multiple-cities"
+                       :ambiguity (mapv :name containing-cities)}
+
+                      ;; Point is in exactly one city but not our target - reject
+                      (= (count containing-cities) 1)
+                      {:correct? false
+                       :confidence :none
+                       :method "poly-contains-wrong-city"
+                       :reason "different-city"
+                       :actual-city (:name (first containing-cities))}
+
+                      ;; Point is not in any city - reject
+                      :else
+                      {:correct? false
+                       :confidence :none
+                       :method "poly-contains-outside"
+                       :reason "outside-boundaries"})))]
 
           ;; Collect images from multiple points until we have enough
           (while (and (< (count @collected-images) target-count)
@@ -149,7 +197,7 @@
                                                         :metadata metadata
                                                         :verification classification}))))))))))
 
-        (println (str "\n  ✅ Collected " (count @collected-images) " poly-contains verified images for " (name city-key)))
+        (println (str "\n  ✅ Collected " (count @collected-images) " unambiguous poly-contains images for " (name city-key)))
 
         {:success true
          :city city-key
@@ -157,7 +205,7 @@
          :target-count target-count
          :attempts @attempts
          :images @collected-images
-         :method "poly-contains"}))))
+         :method "poly-contains-filtered"}))))
 
 (defn collect-all-missing-cities
   "Collect images for all cities that currently have insufficient coverage"

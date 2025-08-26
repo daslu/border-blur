@@ -309,36 +309,33 @@
                     :medium "Neighborhood"
                     :hard "Border Area")
 
-        ;; PROPER GIS VERIFICATION: Use actual polygon boundaries
+        ;; ENHANCED GIS VERIFICATION: Use 10-meter buffer exclusivity system
         [lon lat] coords
-        tel-aviv-yafo (cities/get-city cities/cities :tel-aviv-yafo)
-        actually-in-tel-aviv (when (and tel-aviv-yafo lat lon)
-                               (try
-                                 (gis-core/point-in-city? lat lon (:boundary tel-aviv-yafo))
-                                 (catch Exception e
-                                   (println "GIS verification failed:" (.getMessage e))
-                                   ;; Fallback to bounding box if GIS fails
-                                   (and (<= 34.74 lon 34.83) (<= 32.02 lat 32.13)))))
+        classification-result (gis-core/classify-point-by-city-buffers lat lon
+                                                                       (into {} (map (fn [[city-key city-data]]
+                                                                                       [city-key (assoc city-data
+                                                                                                        :polygon (cities/boundary->polygon (:boundary city-data)))])
+                                                                                     cities/cities)))
 
-        ;; Determine actual city using proper polygon testing
-        actual-city (if actually-in-tel-aviv
-                      "Tel Aviv-Yafo"
-                      ;; Test against other city polygons to find actual location
-                      (let [cities-to-test [[:ramat-gan "Ramat Gan"]
-                                            [:givatayim "Givatayim"]
-                                            [:bnei-brak "Bnei Brak"]
-                                            [:bat-yam "Bat Yam"]
-                                            [:holon "Holon"]]]
-                        (or (first (keep (fn [[city-key city-name]]
-                                           (let [city-data (cities/get-city cities/cities city-key)]
-                                             (when (and city-data lat lon)
-                                               (try
-                                                 (when (gis-core/point-in-city? lat lon (:boundary city-data))
-                                                   city-name)
-                                                 (catch Exception e
-                                                   nil)))))
-                                         cities-to-test))
-                            "Near Tel Aviv Area"))) ; Fallback if not in any known polygon
+        actually-in-tel-aviv (= (:city classification-result) :tel-aviv-yafo)
+
+        ;; Determine actual city using buffer-based classification
+        actual-city (cond
+                      (:city classification-result)
+                      (case (:city classification-result)
+                        :tel-aviv-yafo "Tel Aviv-Yafo"
+                        :ramat-gan "Ramat Gan"
+                        :givatayim "Givatayim"
+                        :bnei-brak "Bnei Brak"
+                        :bat-yam "Bat Yam"
+                        :holon "Holon"
+                        (str (:city classification-result))) ; Fallback to keyword name
+
+                      (:ambiguous classification-result)
+                      (str "Ambiguous: " (clojure.string/join ", " (:ambiguous classification-result)))
+
+                      :else
+                      "Outside City Boundaries") ; Not in any 10m buffer ; Fallback if not in any known polygon
 
         ;; Calculate verification accuracy
         folder-suggests-tel-aviv? (boolean (re-find #"tel-aviv" image-path))

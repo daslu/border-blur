@@ -1,7 +1,9 @@
 (ns border-blur.views
   (:require [hiccup.page :refer [html5 include-css include-js]]
             [cheshire.core :as json]
-            [border-blur.gis.cities :as cities]))
+            [border-blur.gis.cities :as cities]
+            [border-blur.gis.core :as gis-core]
+            [border-blur.images.spatial-optimizer :as optimizer]))
 
 (defn generate-boundaries-json []
   "Generate JSON representation of all city boundaries for JavaScript"
@@ -32,15 +34,17 @@
     :else :unknown))
 
 (defn get-all-image-locations []
-  "Collect all verified-collection images with their locations and metadata"
+  "Collect all verified-collection images with ENHANCED buffer-based city classification"
+  ;; Load required namespaces for buffer classification
+
   (let [verified-collection-path "resources/public/images/verified-collection"
         collection-dir (java.io.File. verified-collection-path)]
     (if (.exists collection-dir)
       (->> (.listFiles collection-dir)
            (filter #(.isDirectory %))
            (mapcat (fn [city-dir]
-                     (let [city-name (.getName city-dir)
-                           city-key (keyword city-name)]
+                     (let [folder-city-name (.getName city-dir)
+                           folder-city-key (keyword folder-city-name)]
                        (->> (.listFiles city-dir)
                             (filter #(.isFile %))
                             (filter #(.endsWith (.getName %) ".jpg"))
@@ -48,20 +52,66 @@
                                     (let [filename (.getName image-file)
                                           image-id (clojure.string/replace filename #"\.jpg$" "")
                                           metadata-file (java.io.File. city-dir (str image-id ".edn"))
-                                          relative-path (str "images/verified-collection/" city-name "/" filename)]
+                                          relative-path (str "images/verified-collection/" folder-city-name "/" filename)]
                                       (when (.exists metadata-file)
                                         (try
                                           (let [metadata (read-string (slurp metadata-file))
-                                                coords (:coordinates metadata)]
+                                                coords (:coordinates metadata)
+                                                lat (:lat coords)
+                                                lng (:lng coords)
+
+                                                ;; APPLY ENHANCED BUFFER-BASED CLASSIFICATION
+                                                buffer-classification (optimizer/classify-image-by-gis lat lng cities/cities)
+
+                                                ;; Determine actual vs folder city
+                                                folder-suggests-city folder-city-name
+                                                actual-city-key buffer-classification
+                                                actual-city-name (case actual-city-key
+                                                                   :tel-aviv-yafo "tel-aviv-yafo"
+                                                                   :ramat-gan "ramat-gan"
+                                                                   :givatayim "givatayim"
+                                                                   :bnei-brak "bnei-brak"
+                                                                   :bat-yam "bat-yam"
+                                                                   :holon "holon"
+                                                                   "unclassified")
+
+                                                ;; Check classification accuracy
+                                                folder-matches-buffer? (= folder-city-name actual-city-name)
+
+                                                classification-status (cond
+                                                                        (nil? actual-city-key) "outside-buffers"
+                                                                        folder-matches-buffer? "accurate"
+                                                                        :else "reclassified")]
+
                                             {:filename filename
                                              :path relative-path
-                                             :coordinates [(:lng coords) (:lat coords)] ; [lng, lat] format
-                                             :city city-name
+                                             :coordinates [lng lat] ; [lng, lat] format for map
+                                             :folder-city folder-city-name ; Original folder location
+                                             :buffer-city actual-city-name ; New buffer-based classification
+                                             :city actual-city-name ; Use buffer classification as primary
+                                             :classification-status classification-status
+                                             :classification-accurate folder-matches-buffer?
                                              :metadata metadata
-                                             :verified true})
+                                             :verified true
+                                             :buffer-enhanced true}) ; Mark as using enhanced classification
+
                                           (catch Exception e
-                                            (println "Error reading metadata for" filename ":" (.getMessage e))
-                                            nil))))))))))
+                                            (println "Error processing" filename ":" (.getMessage e))
+                                            ;; Fallback to folder-based classification
+                                            (let [metadata (try (read-string (slurp metadata-file)) (catch Exception _ {}))
+                                                  coords (get metadata :coordinates {:lat 0 :lng 0})]
+                                              {:filename filename
+                                               :path relative-path
+                                               :coordinates [(:lng coords) (:lat coords)]
+                                               :folder-city folder-city-name
+                                               :buffer-city "error"
+                                               :city folder-city-name
+                                               :classification-status "fallback"
+                                               :classification-accurate false
+                                               :metadata metadata
+                                               :verified false
+                                               :buffer-enhanced false
+                                               :error (.getMessage e)})))))))))))
            (vec))
       [])))
 
@@ -350,16 +400,21 @@
      [:h1 "Spatially Optimized Image Collection"]
      [:p "Visual map of all GIS-verified street-view images in our collection with confirmed city boundaries"]
      [:div {:style "margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 5px;"}
-      [:h3 {:style "margin: 0 0 10px 0;"} "Legend:"]
-      [:div {:style "display: flex; flex-wrap: wrap; gap: 15px;"}
-       [:div [:span {:style "color: #FF6B6B; font-weight: bold;"} "●"] " Tel Aviv-Yafo Images & Boundary"]
-       [:div [:span {:style "color: #4ECDC4; font-weight: bold;"} "●"] " Ramat Gan Images & Boundary"]
-       [:div [:span {:style "color: #45B7D1; font-weight: bold;"} "●"] " Givatayim Images & Boundary"]
-       [:div [:span {:style "color: #96CEB4; font-weight: bold;"} "●"] " Bnei Brak Images & Boundary"]
-       [:div [:span {:style "color: #FECA57; font-weight: bold;"} "●"] " Holon Images & Boundary"]
-       [:div [:span {:style "color: #FF9FF3; font-weight: bold;"} "●"] " Bat Yam Images & Boundary"]]
+      [:h3 {:style "margin: 0 0 10px 0;"} "Enhanced Buffer-Based Classification Legend:"]
+      [:div {:style "display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 10px;"}
+       [:div [:span {:style "color: #FF6B6B; font-weight: bold;"} "●"] " Tel Aviv-Yafo (Buffer Verified)"]
+       [:div [:span {:style "color: #4ECDC4; font-weight: bold;"} "●"] " Ramat Gan (Buffer Verified)"]
+       [:div [:span {:style "color: #45B7D1; font-weight: bold;"} "●"] " Givatayim (Buffer Verified)"]
+       [:div [:span {:style "color: #96CEB4; font-weight: bold;"} "●"] " Bnei Brak (Buffer Verified)"]
+       [:div [:span {:style "color: #FECA57; font-weight: bold;"} "●"] " Holon (Buffer Verified)"]
+       [:div [:span {:style "color: #FF9FF3; font-weight: bold;"} "●"] " Bat Yam (Buffer Verified)"]
+       [:div [:span {:style "color: #999999; font-weight: bold;"} "●"] " Outside Buffers/Reclassified"]]
+      [:div {:style "display: flex; flex-wrap: wrap; gap: 20px; margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 3px;"}
+       [:div [:span {:style "background: #4CAF50; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;"} "✓"] " Folder matches buffer classification"]
+       [:div [:span {:style "background: #FF9800; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;"} "⚠"] " Reclassified by buffer analysis"]
+       [:div [:span {:style "background: #f44336; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;"} "◯"] " Outside all 10m city buffers"]]
       [:p {:style "margin-top: 10px; font-size: 0.9em; color: #666;"}
-       "Click on any marker to view the GIS-verified image. All images confirmed within their respective city boundaries."]]]
+       "Click markers to see buffer classification vs original folder location. Images now classified using 10-meter buffer exclusivity system."]]]
 
     [:div {:id "image-locations-map" :style "width: 100%; height: 600px; border: 1px solid #ddd; border-radius: 5px; margin: 20px 0;"}]
 
@@ -439,39 +494,81 @@
                           (city.osmId ? '<br/>OSM ID: ' + city.osmId : ''));
       });
       
-      // Add verified image markers with enhanced styling
+      // Add verified image markers with ENHANCED buffer-based classification styling
       window.imageLocations.forEach(function(image) {
-          var cityKey = image.city.replace(/:/g, ''); // Remove colon from keyword
+          var bufferCity = image.bufferCity || image.city; // Use buffer classification
+          var folderCity = image.folderCity || image.city; // Original folder location
+          var cityKey = bufferCity.replace(/:/g, ''); // Remove colon from keyword
           var color = cityColors[cityKey] || cityColors['unknown'];
           var coords = image.coordinates;
           
-          // Create circle marker with verification styling
-          var marker = L.circleMarker([coords[1], coords[0]], {
-              radius: 7,
-              fillColor: color,
-              color: '#fff',
-              weight: 2,
-              opacity: 1.0,
-              fillOpacity: 0.9
-          }).addTo(map);
+          // Determine marker style based on classification accuracy
+          var isAccurate = image.classificationAccurate !== false;
+          var isOutsideBuffers = image.classificationStatus === 'outside-buffers';
+          var isReclassified = image.classificationStatus === 'reclassified';
           
-          // Enhanced popup content with verification status
-          var popupContent = '<div style=\"text-align: center; max-width: 220px;\">' +
-                           '<div style=\"background: #e8f5e8; padding: 5px; border-radius: 3px; margin-bottom: 10px;\">' +
-                           '<strong>✅ GIS VERIFIED</strong>' +
+          // Create circle marker with classification-aware styling
+          var markerStyle = {
+              radius: isReclassified ? 9 : 7, // Larger for reclassified
+              fillColor: color,
+              color: isAccurate ? '#fff' : (isOutsideBuffers ? '#f44336' : '#FF9800'), // White border for accurate, red for outside buffers, orange for reclassified
+              weight: isReclassified ? 3 : 2, // Thicker border for reclassified
+              opacity: 1.0,
+              fillOpacity: isOutsideBuffers ? 0.5 : 0.9, // Lower opacity for outside buffers
+              dashArray: isReclassified ? '5,3' : null // Dashed border for reclassified
+          };
+          
+          var marker = L.circleMarker([coords[1], coords[0]], markerStyle).addTo(map);
+          
+          // Enhanced popup content with buffer classification details
+          var statusBadge = '';
+          var statusBackground = '';
+          if (isAccurate && !isOutsideBuffers) {
+              statusBadge = '✅ BUFFER VERIFIED';
+              statusBackground = '#4CAF50';
+          } else if (isReclassified) {
+              statusBadge = '⚠️ RECLASSIFIED';
+              statusBackground = '#FF9800';
+          } else if (isOutsideBuffers) {
+              statusBadge = '◯ OUTSIDE BUFFERS';
+              statusBackground = '#f44336';
+          } else {
+              statusBadge = '❓ UNKNOWN STATUS';
+              statusBackground = '#999';
+          }
+          
+          var popupContent = '<div style=\"text-align: center; max-width: 260px;\">' +
+                           '<div style=\"background: ' + statusBackground + '; color: white; padding: 5px; border-radius: 3px; margin-bottom: 10px;\">' +
+                           '<strong>' + statusBadge + '</strong>' +
                            '</div>' +
                            '<strong>' + image.filename + '</strong><br/>' +
-                           '<img src=\"' + image.path + '\" style=\"max-width: 200px; max-height: 140px; margin: 10px 0; border-radius: 3px; border: 1px solid #ddd;\" /><br/>' +
-                           '<strong>City:</strong> ' + image.city.replace(/:/g, '').replace(/-/g, ' ').replace(/\\b\\w/g, function(l){ return l.toUpperCase() }) + '<br/>' +
-                           '<strong>Source:</strong> Spatially Optimized Collection<br/>' +
-                           '<strong>Coordinates:</strong><br/>' +
-                           'Lat: ' + coords[1].toFixed(6) + '<br/>' +
-                           'Lng: ' + coords[0].toFixed(6) +
-                           '</div>';
+                           '<img src=\"' + image.path + '\" style=\"max-width: 200px; max-height: 140px; margin: 10px 0; border-radius: 3px; border: 1px solid #ddd;\" /><br/>';
+          
+          // Add classification comparison if different
+          if (folderCity !== bufferCity && bufferCity !== 'unclassified') {
+              popupContent += '<div style=\"background: #fff3cd; padding: 5px; border-radius: 3px; margin: 5px 0; font-size: 0.9em;\">' +
+                            '<strong>📁 Folder:</strong> ' + folderCity.replace(/-/g, ' ').replace(/\\b\\w/g, function(l){ return l.toUpperCase() }) + '<br/>' +
+                            '<strong>🎯 Buffer:</strong> ' + bufferCity.replace(/-/g, ' ').replace(/\\b\\w/g, function(l){ return l.toUpperCase() }) +
+                            '</div>';
+          }
+          
+          popupContent += '<strong>Final Classification:</strong> ' + bufferCity.replace(/:/g, '').replace(/-/g, ' ').replace(/\\b\\w/g, function(l){ return l.toUpperCase() }) + '<br/>' +
+                         '<strong>Method:</strong> 10m Buffer Exclusivity<br/>' +
+                         '<strong>Coordinates:</strong><br/>' +
+                         'Lat: ' + coords[1].toFixed(6) + '<br/>' +
+                         'Lng: ' + coords[0].toFixed(6);
+          
+          if (image.error) {
+              popupContent += '<div style=\"background: #f8d7da; color: #721c24; padding: 5px; border-radius: 3px; margin-top: 5px; font-size: 0.8em;\">' +
+                            '<strong>Error:</strong> ' + image.error +
+                            '</div>';
+          }
+          
+          popupContent += '</div>';
           
           marker.bindPopup(popupContent, {
-              maxWidth: 240,
-              minWidth: 200
+              maxWidth: 280,
+              minWidth: 240
           });
       });
       

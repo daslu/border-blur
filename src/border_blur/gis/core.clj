@@ -18,6 +18,58 @@
   "Test if a point is inside a city polygon"
   (spatial/intersects? city-polygon (jts/point lng lat)))
 
+(defn create-city-buffer
+  "Create a 10-meter buffer around a city polygon - FIXED to use degree equivalent"
+  [city-polygon]
+  ;; For geographic coordinates (lat/lng), we need to convert meters to degrees
+  ;; At Israel's latitude (~32°N):
+  ;; - 1 degree latitude ≈ 111,000 meters
+  ;; - 1 degree longitude ≈ 111,000 * cos(32°) ≈ 94,000 meters  
+  ;; - 10 meters ≈ 0.00009 degrees latitude
+  ;; - 10 meters ≈ 0.000106 degrees longitude
+  ;; Using the more conservative latitude conversion: 10m ≈ 0.00009 degrees
+  (let [buffer-degrees (/ 10.0 111000.0)] ; 10 meters in degrees
+    (.buffer city-polygon buffer-degrees)))
+
+(defn point-in-single-city-buffer?
+  "Check if a point is contained within exactly one city's 10m buffer.
+   Returns the city key if point is in exactly one buffer, nil otherwise."
+  [lat lng cities]
+  (let [point (jts/point lng lat)
+        cities-containing-point
+        (->> cities
+             (filter (fn [[city-key city-data]]
+                       (let [city-polygon (:polygon city-data)
+                             buffered-polygon (create-city-buffer city-polygon)]
+                         (spatial/relate point buffered-polygon :contains))))
+             (map first))]
+    (when (= 1 (count cities-containing-point))
+      (first cities-containing-point))))
+
+(defn classify-point-by-city-buffers
+  "Classify a point by city using 10m buffer exclusivity.
+   Returns {:city city-key} if point is in exactly one city buffer,
+   {:ambiguous cities} if in multiple buffers,
+   {:unassigned nil} if in no buffers."
+  [lat lng cities]
+  (let [point (jts/point lng lat)
+        cities-containing-point
+        (->> cities
+             (filter (fn [[city-key city-data]]
+                       (let [city-polygon (:polygon city-data)
+                             buffered-polygon (create-city-buffer city-polygon)]
+                         (spatial/relate point buffered-polygon :contains))))
+             (map first))]
+    (cond
+      (= 1 (count cities-containing-point))
+      {:city (first cities-containing-point)}
+
+      (> (count cities-containing-point) 1)
+      {:ambiguous cities-containing-point}
+
+      :else
+      {:unassigned nil})))
+
 (defn distance-to-border [lat lng city-polygon]
   "Calculate distance from point to polygon border in meters"
   (let [point (jts/point lng lat)]
