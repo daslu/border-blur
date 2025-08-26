@@ -19,12 +19,14 @@
 
 (defn get-api-key [api-name]
   "Get API key from environment or config"
-  (or (System/getenv (str (name api-name) "_API_KEY"))
-      ;; Fallback to config file
-      (get-in (try
-                (read-string (slurp "resources/api-keys.edn"))
-                (catch Exception _ {}))
-              [api-name])))
+  (let [env-key (str (name api-name) "_API_KEY")
+        config-key (keyword (str (name api-name) "-api-key"))]
+    (or (System/getenv env-key)
+        ;; Fallback to config file with proper key format
+        (get-in (try
+                  (read-string (slurp "resources/api-keys.edn"))
+                  (catch Exception _ {}))
+                [config-key]))))
 
 (defmulti fetch-images-near
   "Fetch images near a given coordinate from different APIs"
@@ -42,12 +44,14 @@
                                         :bbox (format "%.6f,%.6f,%.6f,%.6f"
                                                       (- lng 0.01) (- lat 0.01)
                                                       (+ lng 0.01) (+ lat 0.01))
-                                        :limit 20}
+                                        :limit 20
+                                        :fields "id,geometry,captured_at,compass_angle,thumb_1024_url"}
                          :as :json})]
           {:success true
            :images (map (fn [img]
                           {:id (:id img)
-                           :url (str "https://images.mapillary.com/" (:id img) "/thumb-1024.jpg")
+                           :url (or (:thumb_1024_url img)
+                                    (str "https://images.mapillary.com/" (:id img) "/thumb-1024.jpg"))
                            :lat (get-in img [:geometry :coordinates 1])
                            :lng (get-in img [:geometry :coordinates 0])
                            :captured-at (:captured_at img)

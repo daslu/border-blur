@@ -450,6 +450,37 @@
               (select-tel-aviv-image difficulty)
               (select-neighbor-image difficulty)))))))
 
+(defn load-spatially-optimized-images
+  "Load images from the verified-collection directory"
+  [city-key]
+  (let [city-dir (str "resources/public/images/verified-collection/" (name city-key))
+        image-files (try
+                      (->> (clojure.java.io/file city-dir)
+                           .listFiles
+                           (filter #(.endsWith (.getName %) ".jpg"))
+                           (map #(.getName %)))
+                      (catch Exception _ []))]
+    (map (fn [filename]
+           (let [image-id (clojure.string/replace filename #"\.jpg$" "")
+                 metadata-file (str city-dir "/" image-id ".edn")
+                 metadata (try
+                            (read-string (slurp metadata-file))
+                            (catch Exception _ {}))]
+             {:id image-id
+              :url (str "/images/verified-collection/" (name city-key) "/" filename)
+              :metadata metadata
+              :source :spatially-optimized}))
+         image-files)))
+
+(defn get-spatially-optimized-image
+  "Get a random spatially-optimized image for Tel Aviv"
+  []
+  (let [tel-aviv-images (load-spatially-optimized-images :tel-aviv-yafo)]
+    (if (seq tel-aviv-images)
+      (rand-nth tel-aviv-images)
+      ;; Fallback to old method if no optimized images available
+      (get-single-tel-aviv-image))))
+
 ;; ===== IMAGE RECOLLECTION AND VERIFICATION FUNCTIONS =====
 
 (defn verify-all-images-with-polygons

@@ -6,7 +6,8 @@
             [clj-http.client :as http]
             [cheshire.core :as json]
             [clojure.string :as str]
-            [clojure.java.io :as io])
+            [clojure.java.io :as io]
+            [geo.poly :as poly])
   (:import [java.time LocalDateTime]
            [java.time.format DateTimeFormatter]))
 
@@ -84,7 +85,7 @@
     (take num-points valid-points)))
 
 (defn collect-verified-images-for-city
-  "Collect and verify images for a specific city with proper attribution"
+  "Collect and verify images using geo.poly/poly-contains? for accurate boundary testing"
   [city-key target-count]
   (println (str "🔍 Collecting " target-count " verified images for " (name city-key) "..."))
 
@@ -100,46 +101,63 @@
 
         (println (str "  Generated " (count search-points) " search points within " (name city-key)))
 
-        ;; Collect images from multiple points until we have enough
-        (while (and (< (count @collected-images) target-count)
-                    (< @attempts max-attempts)
-                    (seq search-points))
+        ;; Clean approach using ONLY geo.poly/poly-contains?
+        (letfn [(point-in-city? [city-key lat lng]
+                  "Test if point is within city using geo.poly/poly-contains?"
+                  (when-let [city-data (cities/get-city cities/cities city-key)]
+                    (when-let [boundary (:boundary city-data)]
+                      (let [coords-flat (mapcat (fn [[lng lat]] [lat lng]) boundary)
+                            poly-format [[coords-flat]]]
+                        (poly/poly-contains? lat lng poly-format)))))
 
-          (let [search-pt (rand-nth search-points)
-                api-result (fetcher/fetch-from-multiple-sources search-pt 300)]
+                (classify-image-location [lat lng target-city-key]
+                  "Simple, accurate classification using poly-contains?"
+                  (if (point-in-city? target-city-key lat lng)
+                    {:correct? true
+                     :confidence :high
+                     :method "poly-contains"
+                     :verified-city (:name (cities/get-city cities/cities target-city-key))}
+                    {:correct? false
+                     :confidence :none
+                     :method "poly-contains"
+                     :reason "outside-boundary"}))]
 
-            (swap! attempts inc)
-            (print ".")
+          ;; Collect images from multiple points until we have enough
+          (while (and (< (count @collected-images) target-count)
+                      (< @attempts max-attempts)
+                      (seq search-points))
 
-            (when (:success api-result)
-              (doseq [img (:images api-result)]
-                (when (< (count @collected-images) target-count)
-                  (try
-                    ;; Verify image is actually in target city
-                    (let [img-in-city? (gis-core/point-in-city? (:lat img) (:lng img)
-                                                                (:boundary city-data))
-                          verification {:gis-verified true
-                                        :verification-accurate img-in-city?
-                                        :actual-city (if img-in-city?
-                                                       (:name city-data)
-                                                       "Outside boundary")}]
+            (let [search-pt (rand-nth search-points)
+                  api-result (fetcher/fetch-from-multiple-sources search-pt 300)]
 
-                      (when img-in-city?
-                        (let [metadata (generate-image-metadata img verification city-key)]
+              (swap! attempts inc)
+              (print ".")
+
+              (when (:success api-result)
+                (doseq [img (:images api-result)]
+                  (when (< (count @collected-images) target-count)
+                    (let [classification (classify-image-location (:lat img) (:lng img) city-key)]
+
+                      (when (:correct? classification)
+                        (let [metadata (generate-image-metadata img
+                                                                {:gis-verified true
+                                                                 :verification-accurate true
+                                                                 :classification classification
+                                                                 :actual-city (:verified-city classification)}
+                                                                city-key)]
                           (swap! collected-images conj {:image img
                                                         :metadata metadata
-                                                        :verification verification}))))
-                    (catch Exception e
-                      (println (str "\n    GIS verification failed for image: " (.getMessage e))))))))))
+                                                        :verification classification}))))))))))
 
-        (println (str "\n  ✅ Collected " (count @collected-images) " verified images for " (name city-key)))
+        (println (str "\n  ✅ Collected " (count @collected-images) " poly-contains verified images for " (name city-key)))
 
         {:success true
          :city city-key
          :collected-count (count @collected-images)
          :target-count target-count
          :attempts @attempts
-         :images @collected-images}))))
+         :images @collected-images
+         :method "poly-contains"}))))
 
 (defn collect-all-missing-cities
   "Collect images for all cities that currently have insufficient coverage"
@@ -167,6 +185,57 @@
 
     @results))
 
+(defn download-and-save-image
+  "Download an image from URL and save to disk with metadata"
+  [image-data metadata base-dir city-key]
+  (try
+    (let [city-dir (str base-dir "/verified-collection/" (name city-key))
+          img-filename (str (:id (:image image-data)) ".jpg")
+          metadata-filename (str (:id (:image image-data)) ".edn")
+          img-path (str city-dir "/" img-filename)
+          metadata-path (str city-dir "/" metadata-filename)]
+
+      ;; Ensure directory exists
+      (io/make-parents img-path)
+
+      ;; Download and save image
+      (with-open [in (io/input-stream (:url (:image image-data)))
+                  out (io/output-stream img-path)]
+        (io/copy in out))
+
+      ;; Save metadata
+      (spit metadata-path (pr-str metadata))
+
+      {:success true
+       :image-path img-path
+       :metadata-path metadata-path})
+    (catch Exception e
+      {:error (.getMessage e)})))
+
+(defn save-collected-images
+  "Save all collected images to disk with proper directory structure"
+  [collection-results base-dir]
+  (println "💾 Saving collected images to disk...")
+  (let [saved-count (atom 0)
+        error-count (atom 0)]
+
+    (doseq [[city-key result] collection-results]
+      (when (:success result)
+        (println (str "  Saving " (count (:images result)) " images for " (name city-key) "..."))
+        (doseq [img-data (:images result)]
+          (let [save-result (download-and-save-image img-data
+                                                     (:metadata img-data)
+                                                     base-dir
+                                                     city-key)]
+            (if (:success save-result)
+              (swap! saved-count inc)
+              (do
+                (swap! error-count inc)
+                (println (str "    ❌ Failed to save image: " (:error save-result)))))))))
+
+    (println (str "💾 Saved " @saved-count " images successfully, " @error-count " errors"))
+    {:saved @saved-count :errors @error-count}))
+
 (defn run-complete-image-collection
   "Run the complete image collection and verification process"
   ([target-per-city] (run-complete-image-collection target-per-city "resources/public/images"))
@@ -180,16 +249,23 @@
    ;; Step 1: Collect all images
    (let [results (collect-all-missing-cities target-per-city)]
 
-     ;; Step 2: Generate summary
-     (println "\n🎉 COLLECTION COMPLETE!")
+     ;; Step 2: Save images to disk
+     (println "\n💾 SAVING IMAGES TO DISK")
      (println "========================")
-     (let [total-collected (reduce + (map (fn [[_ result]]
-                                            (if (:success result)
-                                              (:collected-count result) 0))
-                                          results))]
-       (println (str "Total images collected: " total-collected))
-       (println (str "Target was: " (* (count results) target-per-city)))
-       (println (str "Success rate: " (int (* 100 (/ total-collected
-                                                     (* (count results) target-per-city)))) "%")))
+     (let [save-results (save-collected-images results base-dir)]
 
-     results)))
+       ;; Step 3: Generate summary
+       (println "\n🎉 COLLECTION COMPLETE!")
+       (println "========================")
+       (let [total-collected (reduce + (map (fn [[_ result]]
+                                              (if (:success result)
+                                                (:collected-count result) 0))
+                                            results))]
+         (println (str "Total images collected: " total-collected))
+         (println (str "Total images saved to disk: " (:saved save-results)))
+         (println (str "Target was: " (* (count results) target-per-city)))
+         (println (str "Collection success rate: " (int (* 100 (/ total-collected
+                                                                  (* (count results) target-per-city)))) "%"))
+         (println (str "Save success rate: " (int (* 100 (/ (:saved save-results) total-collected))) "%")))
+
+       (merge results {:save-summary save-results})))))
