@@ -311,28 +311,21 @@
 
         ;; ENHANCED GIS VERIFICATION: Use 10-meter buffer exclusivity system
         [lon lat] coords
-        classification-result (gis-core/classify-point-by-city-buffers lat lon
-                                                                       (into {} (map (fn [[city-key city-data]]
-                                                                                       [city-key (assoc city-data
-                                                                                                        :polygon (cities/boundary->polygon (:boundary city-data)))])
-                                                                                     cities/cities)))
+        classification-result (gis-core/classify-point-by-city lat lon cities/cities)
 
-        actually-in-tel-aviv (= (:city classification-result) :tel-aviv-yafo)
+        actually-in-tel-aviv (= classification-result :tel-aviv-yafo)
 
         ;; Determine actual city using buffer-based classification
         actual-city (cond
-                      (:city classification-result)
-                      (case (:city classification-result)
+                      classification-result
+                      (case classification-result
                         :tel-aviv-yafo "Tel Aviv-Yafo"
                         :ramat-gan "Ramat Gan"
                         :givatayim "Givatayim"
                         :bnei-brak "Bnei Brak"
                         :bat-yam "Bat Yam"
                         :holon "Holon"
-                        (str (:city classification-result))) ; Fallback to keyword name
-
-                      (:ambiguous classification-result)
-                      (str "Ambiguous: " (clojure.string/join ", " (:ambiguous classification-result)))
+                        (str classification-result)) ; Fallback to keyword name
 
                       :else
                       "Outside City Boundaries") ; Not in any 10m buffer ; Fallback if not in any known polygon

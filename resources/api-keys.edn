@@ -3,7 +3,7 @@
 
  ;; Mapillary (Best coverage, requires API key)
  ;; Sign up at: https://www.mapillary.com/developer
- :mapillary-api-key "your-mapillary-key-here"
+ :mapillary-api-key "MLY|24998674569724705|6549c8a40e976cf43d8b9ac458740706"
 
  ;; Flickr (User photos, requires API key) 
  ;; Sign up at: https://www.flickr.com/services/api/

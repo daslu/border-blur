@@ -496,16 +496,16 @@
       
       // Add verified image markers with ENHANCED buffer-based classification styling
       window.imageLocations.forEach(function(image) {
-          var bufferCity = image.bufferCity || image.city; // Use buffer classification
-          var folderCity = image.folderCity || image.city; // Original folder location
+          var bufferCity = image['buffer-city'] || image.city; // Use buffer classification
+          var folderCity = image['folder-city'] || image.city; // Original folder location
           var cityKey = bufferCity.replace(/:/g, ''); // Remove colon from keyword
           var color = cityColors[cityKey] || cityColors['unknown'];
           var coords = image.coordinates;
           
           // Determine marker style based on classification accuracy
-          var isAccurate = image.classificationAccurate !== false;
-          var isOutsideBuffers = image.classificationStatus === 'outside-buffers';
-          var isReclassified = image.classificationStatus === 'reclassified';
+          var isAccurate = image['classification-accurate'] !== false;
+          var isOutsideBuffers = image['classification-status'] === 'outside-buffers';
+          var isReclassified = image['classification-status'] === 'reclassified';
           
           // Create circle marker with classification-aware styling
           var markerStyle = {
