@@ -1,7 +1,14 @@
 # Border Blur - Project Summary
 
 ## Overview
-**Border Blur** is a fast-paced geography game built in Clojure where players identify whether two street-view images are from the same city or different cities. The game focuses on subtle visual differences around city borders, particularly Tel Aviv and its neighboring cities. Players progress through 20 stages with increasing difficulty, earning points and streak bonuses.
+**Border Blur** is a geography learning game built in Clojure where players view single street-view images and decide whether they are located within Tel Aviv city boundaries. After each answer, the game reveals the truth with an interactive map showing the actual location. The game focuses on Tel Aviv geography education with 3 progressive difficulty stages.
+
+## Game Concept (Redesigned)
+- **Single Image Display**: Players see one street-view image per stage
+- **Binary Choice**: "Yes, it's in Tel Aviv" / "No, it's not in Tel Aviv"
+- **Immediate Reveal**: Answer feedback with interactive map showing true location
+- **Educational Focus**: Learn Tel Aviv boundaries and neighboring cities
+- **Progressive Difficulty**: Easy (clear cases) → Medium (suburban areas) → Hard (border zones)
 
 ## Core Architecture
 
@@ -10,41 +17,46 @@
 - **Compojure**: Routing with RESTful endpoints
 - **Hiccup**: HTML generation with Clojure data structures
 - **Cookie-free sessions**: URL-based session management (`/game/{session-id}`)
+- **Leaflet.js**: Interactive maps for location reveals
 
 ### Game Logic
 - **Atom-based state**: In-memory session storage
-- **Progressive difficulty**: Easy (blue) → Medium (orange) → Hard (red)
-- **Scoring system**: Base points + streak bonuses (max 20 points per stage)
-- **20-stage gameplay**: Complete game sessions with persistent state
+- **Binary scoring**: Yes/No answers with difficulty bonuses
+- **Progressive difficulty**: Easy → Medium → Hard (stages 1-8, 9-16, 17-20)
+- **Scoring system**: 10 base points + difficulty bonus + streak multiplier (max 2x)
+- **3-stage gameplay**: Shortened for testing (originally 20 stages)
 
 ## Key Files & Components
 
 ### Core Application (`src/border_blur/`)
 - **`core.clj`**: Main server, routes, Ring middleware setup
-- **`game.clj`**: Session management, scoring logic, game state
-- **`handlers.clj`**: HTTP request processing, form handling, redirects
-- **`views.clj`**: HTML templates and UI components
+- **`game.clj`**: Binary scoring system, Tel Aviv game state management
+- **`handlers.clj`**: Answer → reveal → next flow, Tel Aviv choice processing
+- **`views.clj`**: Single image layout, reveal page with map integration
 
 ### GIS & Geography (`src/border_blur/gis/`)
-- **`cities.clj`**: City data loading, neighbor relationships
-- **`core.clj`**: Point-in-polygon testing, distance calculations
-- **`boundaries.clj`**: Border detection algorithms (future use)
+- **`cities.clj`**: City data loading, Tel Aviv and neighbor relationships
+- **`core.clj`**: Point-in-polygon testing for Tel Aviv boundaries
+- **`boundaries.clj`**: Border detection algorithms (legacy)
 
 ### Image System (`src/border_blur/images/`)
-- **`selector.clj`**: Smart image pair generation with fallbacks
-- **`fetcher.clj`**: Multi-API framework (Mapillary, OpenStreetCam, Flickr)
-- **`border_finder.clj`**: Border coordinate discovery with OpenStreetMap POI integration
-- **`mapillary_fetcher.clj`**: Enhanced Mapillary API with panoramic filtering and quality scoring
-- **`pair_curator.clj`**: Game pair generation with difficulty matching
+- **`selector.clj`**: Single Tel Aviv image generation with real street-view photos
+- **`fetcher.clj`**: Multi-API framework (legacy pair system)
+- **Real Image Collections**: Tel Aviv + neighbor cities (Ramat Gan, Givatayim, Bnei Brak)
 
 ### Spatial Sampling (`src/border_blur/sampling/`)
-- **`spatial_diversity.clj`**: Advanced spatial sampling using Fastmath3 (Poisson disk, stratified grid)
-- **`diversity_simple.clj`**: Simplified diversity algorithms using built-in Clojure functions
+- **`spatial_diversity.clj`**: Advanced spatial sampling (legacy)
+- **`diversity_simple.clj`**: Simplified diversity algorithms (legacy)
 
 ### Resources
-- **`cities/israeli-cities.edn`**: City boundary data and metadata
-- **`api-keys.edn`**: API configuration template
-- **`public/`**: Static assets (CSS, images, JS)
+- **`cities/israeli-cities.edn`**: Tel Aviv and neighbor city boundaries
+- **`public/images/`**: Real street-view image collections
+  - `border-collection/tel-aviv/`: 18 real Tel Aviv images
+  - `border-collection/ramat-gan/`: Ramat Gan neighbor images
+  - `border-collection/givatayim/`: Givatayim neighbor images
+  - `manual-testing/bnei-brak/`: Bnei Brak neighbor images
+- **`public/js/map.js`**: Leaflet.js map integration and reveal animations
+- **`public/css/style.css`**: Complete styling including reveal page layout
 
 ## Key Dependencies
 
@@ -56,188 +68,223 @@ compojure/compojure "1.7.1"       ; Routing
 hiccup/hiccup "1.0.5"            ; HTML generation
 
 ;; GIS & Geography
-factual/geo "3.0.1"              ; Geometric calculations, polygons
+factual/geo "3.0.1"              ; Tel Aviv boundary testing
 
 ;; Mathematical Operations
-generateme/fastmath "3.0.0-alpha2" ; Advanced spatial sampling algorithms
+generateme/fastmath "3.0.0-alpha2" ; Spatial sampling (legacy)
 
 ;; Data Processing
 cheshire/cheshire "5.12.0"        ; JSON parsing
 org.clojure/data.json "2.5.0"    ; JSON handling
 
 ;; HTTP Clients
-clj-http/clj-http "3.12.3"       ; External API calls
+clj-http/clj-http "3.12.3"       ; External API calls (legacy)
+
+;; Frontend
+;; Leaflet.js 1.9.4 (CDN)          ; Interactive maps
+;; OpenStreetMap tiles             ; Base map layer
 ```
 
 ## Development Workflow
 
 ### Start Server
 ```bash
-cd border-blur
-clojure -M:run 3001    # Starts on port 3001
+clojure -M:run [PORT]     # Default port 3000, supports custom ports
+clojure -M:run 3001       # Start on port 3001
+clojure -M:run 8080       # Start on port 8080
 ```
 
 ### Start REPL
 ```bash
-clojure -A:nrepl       # Port 7888
+clojure -A:nrepl          # Port 7888 with hot reloading
 ```
 
-### Test Components
+### Test Tel Aviv Game Components
 ```clojure
 ;; Load GIS library (specific pattern required)
 (require '[geo [jts :as jts] [spatial :as spatial]])
 
-;; Test game logic
+;; Test binary game logic
 (require '[border-blur.game :as game])
-(def session (game/new-game "Tel Aviv"))
+(def session (game/new-game "Yes, I know Tel Aviv well"))
 (game/save-game-session! session)
 
-;; Test image generation
+;; Test single image generation with real photos
 (require '[border-blur.images.selector :as selector])
-(selector/generate-smart-image-pair "Tel Aviv" 5 20)
+(selector/get-single-tel-aviv-image {:user-city "Tel Aviv" :current-stage 1 :total-stages 3})
 
-;; Test spatial diversity sampling
-(require '[border-blur.sampling.diversity-simple :as div])
-(div/test-diversity-comparison)
-(div/test-tel-aviv-ramat-gan-diversity)
+;; Test answer processing
+(def image (game/get-or-generate-current-image (:session-id session)))
+(def result (game/process-answer (:session-id session) true)) ; true = "Yes, in Tel Aviv"
 ```
 
 ## Implementation Patterns
 
-### Session Management
+### Tel Aviv Game Flow
 ```clojure
-;; Cookie-free sessions via URL paths
-GET "/game/:session-id" -> handlers/game-page
-;; Sessions stored in atoms
-(def game-sessions (atom {}))
-;; UUID-based session IDs
-(str (java.util.UUID/randomUUID))
+;; New game state structure
+{:session-id "uuid"
+ :current-stage 1
+ :total-stages 3
+ :score 0
+ :streak 0
+ :current-image {...}      ; Single image with Tel Aviv answer
+ :answer-revealed false}   ; Reveal screen state
+
+;; Game flow: show → answer → reveal → next
+:showing-image → (user answers) → :revealing-answer → (user clicks next) → :showing-image
 ```
 
-### Image Pair Generation
+### Binary Scoring System
 ```clojure
-;; Progressive difficulty
-(cond (< current-stage 5) :easy
-      (< current-stage 15) :medium  
-      :else :hard)
-
-;; Same/different city mix (60% different, 40% same)
-(< (rand) 0.6) ; determines pair type
+;; New scoring with difficulty bonuses
+(defn calculate-score [correct? difficulty streak]
+  (let [base-points (if correct? 10 0)
+        difficulty-bonus (case difficulty :easy 0 :medium 5 :hard 10)
+        streak-multiplier (min 2.0 (+ 1.0 (* streak 0.2)))]
+    (int (* (+ base-points difficulty-bonus) streak-multiplier))))
 ```
 
-### Error Handling
+### Real Image Integration
 ```clojure
-;; Graceful fallbacks with enhanced placeholders
-(try
-  ;; Attempt real image fetching
-  (fetch-real-images coords)
-  (catch Exception e
-    ;; Fall back to color-coded placeholders
-    (create-fallback-image-pair city-a city-b difficulty answer-type)))
+;; Tel Aviv image probability by difficulty
+(def tel-aviv-probability 
+  (case difficulty
+    :easy 0.6    ; 60% Tel Aviv for clear cases
+    :medium 0.6  ; 60% Tel Aviv for suburban mix  
+    :hard 0.5))  ; 50% Tel Aviv for boundary confusion
+
+;; Real image paths with coordinate parsing
+"/images/border-collection/tel-aviv/32.06695_34.82289_ta-border-south_113269.jpg"
+"/images/border-collection/ramat-gan/32.06857_34.82639_rg-border-west_119347.jpg"
 ```
 
 ## Current Game Features
 
 ### Gameplay Mechanics
-- **20 progressive stages** with increasing difficulty
-- **Color-coded visual cues**: Blue (easy) → Orange (medium) → Red (hard)
-- **Smart scoring**: 10 base points + streak bonus (max 10)
-- **Real city pairs**: Tel Aviv, Ramat Gan, Jerusalem, Holon, etc.
-- **Visual feedback**: Same city pairs use matching colors
+- **3 progressive stages** (easy, medium, hard)
+- **Real street-view images** from collected Tel Aviv border areas
+- **Binary Tel Aviv recognition** with immediate feedback
+- **Interactive map reveals** showing actual image locations
+- **Tel Aviv boundary visualization** with Leaflet.js
+- **Difficulty progression** with color-coded visual indicators
 
 ### Session Flow
-1. Home page: User enters known city
-2. Game creation: New session with UUID
-3. Image pair display: Two images with binary choice
-4. Answer processing: Score calculation and progression
-5. Results page: Final score and statistics
+1. **Home page**: "Have you lived or worked in Tel Aviv?" (3 options)
+2. **Game creation**: New session with UUID
+3. **Single image display**: Street-view with "Is it in Tel Aviv?" choice
+4. **Answer reveal**: Correct/incorrect + map showing true location + Tel Aviv boundaries
+5. **Next image**: Continue to next stage
+6. **Results page**: Final score and statistics (after 3 stages)
+
+### Map Integration
+- **Leaflet.js**: Interactive maps with smooth animations
+- **Tel Aviv boundaries**: Polygon overlay showing city limits
+- **Location markers**: Color-coded (green for Tel Aviv, red for outside)
+- **Reveal animations**: Pan and zoom to actual image location
+- **Legend**: Tel Aviv boundary line and location marker explanation
 
 ## Image System Architecture
 
-### Current: Enhanced Placeholder System + Real Image Infrastructure
+### Current: Real Street-View Image Collection
 ```clojure
-;; Difficulty-based styling for placeholders
-(case difficulty-level
-  :easy "4A90E2/FFFFFF"    ; Blue
-  :medium "F39C12/FFFFFF"  ; Orange  
-  :hard "E74C3C/FFFFFF")   ; Red
+;; Real image collections by city
+(def tel-aviv-images [...])     ; 18 Tel Aviv images
+(def neighbor-images 
+  {:ramat-gan [...]             ; Ramat Gan images
+   :givatayim [...]             ; Givatayim images  
+   :bnei-brak [...]})           ; Bnei Brak images
 
-;; Real image collection with spatial diversity
-(require '[border-blur.sampling.diversity-simple :as div])
-(div/generate-diverse-border-points city-a city-b 
-  {:algorithm :poisson-disk :point-count 15 :min-distance-m 300})
+;; Coordinate parsing from filenames
+(parse-coords-from-filename "32.06695_34.82289_ta-border-south_113269.jpg")
+;; => [34.82289 32.06695]
 ```
 
-### Image Collection Framework (Implemented)
-- **Mapillary API**: Street-view images with comprehensive filtering
-- **Panoramic Detection**: 5-method detection system (95%+ accuracy)
-  - API metadata, camera types, aspect ratios, dimensions, URL patterns
-- **Quality Scoring**: 5-factor algorithm targeting 30-50% filtering
-  - Resolution, recency, camera type, aspect ratio, dimensions
-- **Spatial Diversity**: Dramatic improvements over manual coordinates
-  - 4.0x better minimum distance separation
-  - 268.6x better coverage area
-  - Poisson disk and stratified grid sampling algorithms
+### Image Selection Strategy
+- **60% Tel Aviv images** (within city boundaries)
+- **40% Neighbor images** (Ramat Gan, Givatayim, Bnei Brak)
+- **Progressive difficulty** based on stage number
+- **Fallback system**: Real images preferred, placeholders if errors
+- **Coordinate extraction**: GPS coordinates parsed from filenames
 
-### Target Image Collection
-- **Focus**: Tel Aviv border areas (Ramat Gan, Holon, Givatayim, Bnei Brak)
-- **Quality**: Street-level images with GPS metadata
-- **Storage**: Local caching with metadata preservation
-- **Diversity**: Algorithmically distributed sampling points
+## Map & UI Architecture
+
+### Leaflet.js Integration
+```javascript
+// Map initialization in map.js
+const map = L.map('reveal-map').setView([32.0853, 34.7818], 11);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+// Tel Aviv boundary polygon
+const telAvivBoundary = L.polygon(boundaryCoords, {
+  color: '#2196F3', weight: 3, fillOpacity: 0.1
+}).addTo(map);
+
+// Reveal animation with flyTo
+map.flyTo([lat, lng], 14, { duration: 1.5 });
+```
+
+### CSS Architecture
+- **Single image layout**: `.single-image-container` with difficulty indicators
+- **Reveal page**: Two-column grid (image + map) with `.reveal-container`
+- **Difficulty indicators**: Color-coded badges (blue/orange/red)
+- **Responsive design**: Mobile-friendly with stacked layout
+- **Map styling**: Rounded corners, shadows, legend positioning
+
+## Development Status & Recent Changes
+
+✅ **Major Redesign Complete (Current Session)**:
+- **Game concept**: Transformed from pair comparison to single-image Tel Aviv geography
+- **Scoring system**: Binary Yes/No with difficulty bonuses and streak multipliers  
+- **UI redesign**: Single image layout + reveal page with map integration
+- **Real images**: Integrated existing street-view photo collection (50+ images)
+- **Map integration**: Leaflet.js with Tel Aviv boundaries and reveal animations
+- **CLI enhancement**: Improved port configuration with validation and usage info
+- **Game length**: Shortened to 3 stages for easier testing
+
+🚀 **Ready Features**:
+- Complete Tel Aviv geography learning experience
+- Real street-view image collection with GPS coordinates
+- Interactive map reveals with boundary visualization
+- Progressive difficulty with visual indicators
+- Mobile-responsive design
+
+🔧 **Known Issues**:
+- Reveal page layout needs debugging (CSS/HTML structure issues)
+- Map component integration may need refinement
 
 ## Extension Points
 
-### Image Collection Integration (Ready to Deploy)
+### Educational Enhancements
 ```clojure
-;; Collect diverse border images
-(require '[border-blur.images.mapillary-fetcher :as mapillary])
-(mapillary/collect-border-images "Tel Aviv" "Ramat Gan" 
-  {:point-count 15 :algorithm :poisson-disk :min-distance-m 300})
-
-;; Enhanced image metadata structure (implemented)
-{:id "border-point-0"
- :url "https://images.mapillary.com/..."
- :location-name "border-point-0"
- :location-type "border-sample" 
- :coords [34.8544 32.0573]
- :quality-score 85
- :is-panoramic false
- :captured-at "2024-01-15T10:30:00Z"
- :cities ["Tel Aviv" "Ramat Gan"]}
+;; Potential additions
+- Neighborhood information display
+- Historical facts about locations
+- Achievement system for geography mastery
+- Difficulty analytics and progress tracking
 ```
 
-### Educational Features (Phase 5 - Planned)
-- Location reveal after answers
-- Neighborhood history and facts
-- Achievement system and leaderboards
-- Map visualization of actual locations
+### Technical Improvements
+- Enhanced map interactions (zoom controls, layer toggles)
+- Image preloading for smoother gameplay
+- Session persistence across browser restarts
+- Multi-city support beyond Tel Aviv
 
 ## Known Issues & Notes
 
 ### GIS Library (factual/geo)
-- **Critical**: Must load with `[geo [jts :as jts] [spatial :as spatial]]`
-- **Functions**: Use `spatial/intersects?` not `contains?`
-- **Polygon creation**: Currently bypassed due to format issues
+- **Critical**: Must load with `(require '[geo [jts :as jts] [spatial :as spatial]])`
+- **Tel Aviv boundaries**: Used for point-in-polygon testing
+- **Coordinate format**: [longitude, latitude] format required
 
-### API Integration
-- **Status**: Framework built, not yet integrated
-- **Fallback**: Enhanced placeholder system provides full gameplay
-- **Future**: Google Street View Static API for curated collection
+### CLI Configuration
+- **Port validation**: Ensures ports are in 1024-65535 range
+- **Error handling**: Clear messages for invalid inputs
+- **Usage examples**: Multiple format options documented
 
-## Development Status
+### Map Integration
+- **Leaflet.js**: Loaded via CDN for map functionality
+- **OpenStreetMap**: Free tile layer with good Tel Aviv coverage
+- **Reveal timing**: 500ms delay before animation starts
 
-✅ **Complete**: 
-- Core game mechanics and session management
-- Enhanced placeholder system with visual difficulty cues
-- Complete image collection infrastructure (Mapillary API integration)
-- Advanced spatial diversity sampling algorithms
-- Comprehensive image quality filtering (panoramic detection, quality scoring)
-
-🚀 **Ready to Deploy**: 
-- Real street-view image collection from Tel Aviv border areas
-- Diverse sampling points with 4.0x better distribution than manual coordinates
-- Quality-filtered images with 30-50% filtering rate
-
-📦 **Future**: Educational features, achievements, real-time multiplayer
-
-The game is fully playable with enhanced placeholders while the comprehensive image collection system stands ready for deployment with API keys.
+The game is now a focused Tel Aviv geography learning tool with real street-view images and educational map reveals, successfully redesigned from the original pair-comparison format.

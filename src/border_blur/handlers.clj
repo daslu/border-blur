@@ -23,42 +23,50 @@
     (response/redirect (str "/game/" session-id))))
 
 (defn game-page [session-id request]
-  "Main game interface showing two images"
+  "Main game interface showing single image with Tel Aviv question"
   (if-let [game-session (game/get-game-session session-id)]
     (if (>= (:current-stage game-session) (:total-stages game-session))
       ;; Game is over, redirect to results
       (response/redirect (str "/game/" session-id "/results"))
       ;; Show current stage
-      (let [;; Generate and store image pair in session
-            image-pair (game/generate-image-pair (:user-city game-session)
-                                                 (:current-stage game-session)
-                                                 (:total-stages game-session))
-            ;; Update session with current pair
-            updated-session (assoc game-session :current-pair image-pair)]
-        (game/save-game-session! updated-session)
+      (let [current-image (game/get-or-generate-current-image session-id)
+            updated-session (game/get-game-session session-id)] ; Get fresh session after image generation
         {:status 200
          :headers {"Content-Type" "text/html"}
-         :body (views/game-page updated-session image-pair)}))
+         :body (views/game-page updated-session current-image)}))
     ;; Session not found
     {:status 404
      :headers {"Content-Type" "text/html"}
      :body (views/error-page "Game session not found. Please start a new game.")}))
 
 (defn submit-answer [session-id request]
-  "Process user's answer to current stage"
+  "Process user's Tel Aviv Yes/No answer and show reveal"
   (let [params (:params request)
-        user-answer (keyword (get params "answer"))] ; :same or :different
+        user-answer (= (get params "answer") "yes")] ; Convert to boolean for Tel Aviv
 
     (if-let [result (game/process-answer session-id user-answer)]
-      (if (:game-over? result)
-        ;; Game finished, redirect to results
-        (response/redirect (str "/game/" session-id "/results"))
-        ;; Continue to next stage
-        (response/redirect (str "/game/" session-id)))
+      ;; Show reveal screen with results
+      (let [game-session (game/get-game-session session-id)]
+        {:status 200
+         :headers {"Content-Type" "text/html"}
+         :body (views/reveal-page game-session result)})
       ;; Error processing answer
       {:status 400
        :headers {"Content-Type" "text/html"}
        :body (views/error-page "Error processing your answer.")})))
+
+(defn next-image [session-id request]
+  "Advance to next image after reveal screen"
+  (if-let [result (game/advance-to-next-image session-id)]
+    (if (:game-over? result)
+      ;; Game finished, redirect to results
+      (response/redirect (str "/game/" session-id "/results"))
+      ;; Continue to next stage
+      (response/redirect (str "/game/" session-id)))
+    ;; Error advancing to next image
+    {:status 400
+     :headers {"Content-Type" "text/html"}
+     :body (views/error-page "Error advancing to next image.")}))
 
 (defn results-page [session-id request]
   "Show final game results"

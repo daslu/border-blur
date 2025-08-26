@@ -40,9 +40,21 @@ Starts an nREPL server on port 7888 with hot reloading support.
 
 ### Direct Server Start (without hot reloading)
 ```bash
-clojure -M:run 3001
+clojure -M:run [PORT]
 ```
-Starts the web server on port 3001 (default port is 3000 if not specified).
+Starts the web server on the specified port (default: 3000 if not specified).
+
+**Examples:**
+```bash
+clojure -M:run           # Starts on port 3000  
+clojure -M:run 3001      # Starts on port 3001
+clojure -M:run 8080      # Starts on port 8080
+```
+
+**Features:**
+- Port validation (1024-65535 range)
+- Clear startup messages with clickable localhost URL
+- Error handling for invalid ports
 
 ### Run Tests
 ```bash
