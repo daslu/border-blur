@@ -8,6 +8,9 @@
         ;; HTTP client for APIs
         clj-http/clj-http {:mvn/version "3.12.3"}
 
+        ;; Mathematical operations
+        generateme/fastmath {:mvn/version "3.0.0-alpha2"}
+
         ;; Web framework
         ring/ring-core {:mvn/version "1.12.1"}
         ring/ring-jetty-adapter {:mvn/version "1.12.1"}

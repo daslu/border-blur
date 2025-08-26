@@ -1,151 +1,190 @@
-# Border Blur - Development Plan
+# Border Blur - Implementation Plan
 
-## Project Overview
-**Border Blur** is a fast-paced geography game where players identify whether two street-view images are from the same city or different cities. The game focuses on border areas between cities where visual cues are subtle, making it genuinely challenging.
+## Game Concept (Redesigned)
 
-## Core Game Concept
-- **Binary Choice**: Players see two images and decide: Same City or Different Cities?
-- **Border Focus**: Images are deliberately chosen from areas near city boundaries
-- **Progressive Difficulty**: Starts with obvious differences, progresses to subtle distinctions
-- **Personalized Content**: Prioritizes the user's known city and its neighbors
-- **Cookie-Free**: Session management via URL paths (`/game/{session-id}`)
-- **20 Stages**: Quick gameplay with scoring and streak bonuses
+**"Is it in Tel Aviv?"** - A geography learning game where players view a single street-view image and decide whether it's located within Tel Aviv city boundaries. After each answer, the game immediately reveals the truth with a map showing the actual location.
 
-## ✅ Phase 1: Foundation (COMPLETE)
-### What We Built
-- **Project Structure**: Clean MVC architecture with separate namespaces
-- **GIS Integration**: Factual/geo library working with point-in-polygon and distance calculations
-- **Game Logic**: Session management, scoring system, streak tracking
-- **Web Framework**: Ring/Compojure with cookie-free session handling
-- **UI**: Beautiful responsive design with gradient backgrounds
-- **City Data**: Initial Israeli cities (Tel Aviv, Ramat Gan, Jerusalem)
+### Core Gameplay
+- **Single image per screen** with binary choice: "Yes, it's in Tel Aviv" / "No, it's not in Tel Aviv"
+- **Immediate reveal** showing correct answer + interactive map with actual location
+- **Progressive difficulty** from obvious city centers to tricky boundary areas
+- **Educational focus** on Tel Aviv geography and neighboring city recognition
 
-### Key Files Created
-- `deps.edn` - Dependencies including factual/geo
-- `src/border_blur/core.clj` - Main server and routes
-- `src/border_blur/game.clj` - Game state and scoring logic
-- `src/border_blur/handlers.clj` - HTTP request handlers
-- `src/border_blur/views.clj` - Hiccup HTML generation
-- `src/border_blur/gis/core.clj` - GIS functions
-- `src/border_blur/gis/cities.clj` - City data loading
-- `resources/cities/israeli-cities.edn` - City polygons
-- `resources/public/css/style.css` - Responsive styling
+## Architecture Overview
 
-## ✅ Phase 2: Border Detection & Enhanced Placeholders (COMPLETE)
-### What We Built
-- **Smart Border Detection**: Algorithm to find interesting border points between cities
-- **Enhanced Placeholder System**: Color-coded difficulty with real city names
-- **Progressive Difficulty Visual Cues**: Blue→Orange→Red for easy→medium→hard
-- **Improved Game Logic**: Same/different city detection with visual feedback
-- **Expanded City Database**: Tel Aviv and neighboring cities with realistic data
+### Reusable Components (80% of existing code)
+- ✅ **Web Stack**: Ring/Compojure/Hiccup server architecture
+- ✅ **Session Management**: Cookie-free URL-based sessions (`/game/{session-id}`)
+- ✅ **Image Infrastructure**: Mapillary API integration with quality filtering
+- ✅ **Spatial Algorithms**: Diversity sampling for border point generation
+- ✅ **City Data**: Israeli city boundaries and neighbor relationships
+- ✅ **GIS Operations**: Point-in-polygon testing with factual/geo
 
-### Key Files Created
-- `src/border_blur/gis/boundaries.clj` - Border detection algorithms
-- `src/border_blur/images/fetcher.clj` - Multi-API image fetching framework
-- `src/border_blur/images/selector.clj` - Smart image pair selection with placeholders
-- `resources/cities/expanded-cities.edn` - Israeli cities with real boundaries
+### New Components
+- 🆕 **Map Integration**: Leaflet.js for location reveal
+- 🆕 **Binary Game Logic**: Yes/No scoring instead of pair comparison
+- 🆕 **Reveal UI**: Answer feedback with animated map transitions
+- 🆕 **Tel Aviv Focus**: Specialized image selection for boundary learning
 
-### Key Algorithms
-1. **Border Hotspot Detection**: Finds closest approach points between city polygons
-2. **Difficulty-Based Visual Design**: Color coding for game stages
-3. **City Pair Intelligence**: Real neighboring city combinations
-4. **Fallback Strategy**: Enhanced placeholders when APIs unavailable
+## Implementation Phases
 
-## ✅ Phase 3: Integration & Core Game (COMPLETE)
-### What We Built
-- **Full Game Integration**: All components working together
-- **Session Management**: Cookie-free URL-based sessions
-- **Error Handling**: Graceful fallbacks and polygon creation fixes
-- **Enhanced Placeholders**: Realistic game experience without external APIs
-- **Complete Game Flow**: 20 stages with scoring and streak bonuses
+### Phase 1: Core Game Logic Redesign (2-3 hours)
+**Files to modify:**
+- `src/border_blur/game.clj` - Binary scoring system
+- `src/border_blur/handlers.clj` - Answer → reveal → next flow
 
-### Key Achievements
-- Fixed GIS library integration (factual/geo namespace issues)
-- Resolved handler arity mismatches
-- Implemented complete game session flow
-- Enhanced placeholder system for better UX
-- Real city data integration
+**Changes:**
+```clojure
+;; New game state structure
+{:session-id "uuid"
+ :current-stage 5
+ :score 85
+ :streak 3
+ :current-image {:url "..." :coords [34.85 32.05] :is-in-tel-aviv true}
+ :answer-revealed false
+ :total-stages 20}
 
-## 🚀 Phase 4: Curated Tel Aviv Border Image Collection (NEXT)
-### New Strategy: Fixed Image Pairs
-Instead of dynamic API fetching, create a curated collection of high-quality image pairs around Tel Aviv borders.
-
-### Goals
-1. **Curate 50-100 High-Quality Image Pairs**
-   - Tel Aviv ↔ Ramat Gan border areas
-   - Tel Aviv ↔ Holon boundary zones
-   - Tel Aviv ↔ Givatayim transition areas
-   - Tel Aviv ↔ Bnei Brak border regions
-
-2. **Image Collection Strategy**
-   - Use Google Street View API for specific coordinates
-   - Focus on visually interesting border transition zones
-   - Include both obvious and subtle differences
-   - Ensure high image quality and consistency
-
-3. **Content Categories**
-   - **Easy**: Clear architectural/landscape differences
-   - **Medium**: Subtle neighborhood character changes  
-   - **Hard**: Nearly identical border areas
-
-### Implementation Plan
-1. **Border Point Research**
-   - Map exact Tel Aviv city boundaries
-   - Identify interesting transition zones
-   - Research architectural/urban planning differences
-   - Find GPS coordinates for optimal viewpoints
-
-2. **Image Collection**
-   - Use Google Street View Static API
-   - Collect images at specific coordinates and headings
-   - Store images locally in `resources/public/images/`
-   - Create metadata file linking images to locations
-
-3. **Game Integration**
-   - Replace placeholder system with curated images
-   - Add location metadata for post-game learning
-   - Implement image preloading for smooth gameplay
-   - Add "reveal location" feature after answers
-
-### Data Structure
-```
-resources/
-├── images/
-│   ├── tel-aviv-ramat-gan/
-│   │   ├── easy/
-│   │   ├── medium/
-│   │   └── hard/
-│   └── tel-aviv-holon/
-│       ├── easy/
-│       ├── medium/
-│       └── hard/
-└── image-metadata.edn  ; Coordinates, difficulty, correct answers
+;; New scoring logic
+(defn calculate-points [correct? difficulty streak]
+  (let [base-points (if correct? 10 0)
+        difficulty-bonus (case difficulty :easy 0 :medium 5 :hard 10)
+        streak-multiplier (min 2.0 (+ 1.0 (* streak 0.2)))]
+    (* (+ base-points difficulty-bonus) streak-multiplier)))
 ```
 
-## 📦 Phase 5: Polish & Educational Features
-### Goals
-- Add educational value with location reveals
-- Implement achievement system
-- Add map visualization
-- Performance optimization
+### Phase 2: Image Selection Strategy (1-2 hours)
+**Files to modify:**
+- `src/border_blur/images/selector.clj` - Single image focus
+- `src/border_blur/images/pair_curator.clj` - Adapt for Tel Aviv boundaries
 
-### Features
-1. **Educational Elements**
-   - Show actual locations on map after each answer
-   - Neighborhood history and facts
-   - "Learn more" links to local information
+**Strategy:**
+- **60% Tel Aviv images** (within city boundaries)
+- **40% Non-Tel Aviv images** (from Ramat Gan, Holon, Givatayim, Bnei Brak)
+- **Progressive difficulty**:
+  - Easy (stages 1-7): Clear city centers vs distant neighbors
+  - Medium (stages 8-15): Suburban areas vs close neighbors  
+  - Hard (stages 16-20): Border zones and tricky boundary cases
 
-2. **Gamification**
-   - Streak achievements
-   - Difficulty completion badges
-   - Local knowledge scoring
-   - Leaderboard for Tel Aviv experts
+### Phase 3: UI & Map Integration (3-4 hours)
+**Files to modify:**
+- `src/border_blur/views.clj` - Single image layout + map component
+- `resources/public/style.css` - Map styling and reveal animations
+- Add `resources/public/js/map.js` - Leaflet.js integration
 
-3. **User Experience**
-   - Tutorial for new players
-   - Hint system for difficult pairs
-   - Progress tracking across sessions
-   - Social sharing of scores
+**Map Features:**
+```javascript
+// Reveal animation sequence
+1. Show answer (correct/incorrect feedback)
+2. Fade in map with Tel Aviv boundaries
+3. Animate to actual image location
+4. Show marker with neighborhood info
+5. "Next Image" button appears
+```
+
+**UI Layout:**
+```
+┌─────────────────────────────────────┐
+│ Stage 12/20    Score: 165    🔥 x3  │
+├─────────────────────────────────────┤
+│                                     │
+│        [Street View Image]          │
+│                                     │
+├─────────────────────────────────────┤
+│        Is it in Tel Aviv?           │
+│    [Yes, it is] [No, it isn't]     │
+└─────────────────────────────────────┘
+
+// After answer:
+┌─────────────────────────────────────┐
+│ ✓ Correct! +15 points               │
+├─────────────────────────────────────┤
+│ [Map showing actual location]       │ 
+│ 📍 Rothschild Blvd, Tel Aviv       │
+├─────────────────────────────────────┤
+│           [Next Image]              │
+└─────────────────────────────────────┘
+```
+
+### Phase 4: Enhanced Location Data (1-2 hours)
+**Files to modify:**
+- `resources/cities/israeli-cities.edn` - Add neighborhood boundaries
+- `src/border_blur/gis/cities.clj` - Location name resolution
+
+**Data Enhancements:**
+- Tel Aviv district boundaries (Dizengoff, Rothschild, Florentin, etc.)
+- Street-level address resolution for images
+- Landmark and POI identification near image locations
+
+## Technical Specifications
+
+### Map Integration (Leaflet.js)
+```html
+<!-- In HTML head -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+```
+
+```javascript
+// Map configuration
+const map = L.map('reveal-map').setView([32.0853, 34.7818], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+// Tel Aviv boundary overlay
+const telAvivBoundary = L.geoJSON(boundaryData, {
+  style: { color: '#2196F3', weight: 3, fillOpacity: 0.1 }
+}).addTo(map);
+
+// Reveal animation
+function revealLocation(coords, isInTelAviv) {
+  const marker = L.marker(coords).addTo(map);
+  const markerColor = isInTelAviv ? 'green' : 'red';
+  map.flyTo(coords, 16, { duration: 1.5 });
+}
+```
+
+### Game Flow State Machine
+```clojure
+;; State transitions
+:showing-image → (user answers) → :revealing-answer → (user clicks next) → :showing-image
+
+;; Session progression
+(defn process-answer [session-id answer]
+  (let [session (get-session session-id)
+        correct? (= answer (:correct-answer (:current-image session)))
+        new-score (calculate-score session correct?)
+        next-stage? (< (:current-stage session) 20)]
+    (if next-stage?
+      (-> session
+          (update-score new-score correct?)
+          (advance-stage)
+          (load-next-image))
+      (complete-game session new-score))))
+```
+
+### Difficulty Progression Algorithm
+```clojure
+(defn select-image-by-difficulty [stage]
+  (let [difficulty (cond (< stage 8) :easy
+                        (< stage 16) :medium  
+                        :else :hard)
+        tel-aviv-probability (case difficulty
+                              :easy 0.6    ; Clear cases
+                              :medium 0.6  ; Suburban mix
+                              :hard 0.5)]  ; Boundary confusion
+    (if (< (rand) tel-aviv-probability)
+      (select-tel-aviv-image difficulty)
+      (select-neighbor-image difficulty))))
+```
+
+## Development Timeline
+
+- **Phase 1** (Core Logic): 2-3 hours
+- **Phase 2** (Image Selection): 1-2 hours  
+- **Phase 3** (UI/Map): 3-4 hours
+- **Phase 4** (Enhanced Data): 1-2 hours
+- **Testing & Polish**: 2-3 hours
+
+**Total Estimated Time**: 9-14 hours
 
 ## 🛠️ Development Workflow
 
@@ -163,83 +202,79 @@ clojure -A:nrepl
 
 ### Key REPL Commands
 ```clojure
-;; Load GIS functions
-(require '[geo.jts :as jts] 
-         '[geo.spatial :as spatial])
+;; Load GIS functions (specific pattern required)
+(require '[geo [jts :as jts] [spatial :as spatial]])
 
 ;; Test city boundaries
 (require '[border-blur.gis.cities :as cities])
 (def tel-aviv (cities/get-city cities/cities :tel-aviv))
 
-;; Test game logic
+;; Test new binary game logic
 (require '[border-blur.game :as game])
-(def session (game/new-game "London"))
+(def session (game/new-game "Tel Aviv"))
 (game/save-game-session! session)
 
-;; Test image selection
+;; Test single image selection
 (require '[border-blur.images.selector :as selector])
-(selector/generate-smart-image-pair "Tel Aviv" 5 20)
+(selector/generate-single-image "Tel Aviv" 5 20)
 ```
 
 ## 🔌 Extension Points
 
-### Add New Cities
-1. Edit `resources/cities/expanded-cities.edn`
-2. Add city with `:name`, `:country`, `:center`, `:neighbors`, `:boundary`
-3. Boundary should be closed polygon `[[lng lat] ...]`
+### Add New Cities for Non-Tel Aviv Images
+1. Edit `resources/cities/israeli-cities.edn`
+2. Focus on Tel Aviv neighbors: Ramat Gan, Holon, Givatayim, Bnei Brak
+3. Ensure good boundary data for accurate point-in-polygon testing
 
-### Add New Image APIs
-1. Add configuration to `fetcher.clj` `api-configs`
-2. Implement new `fetch-images-near` method
-3. Add to fallback chain in `fetch-from-multiple-sources`
+### Add Map Features
+1. Tel Aviv neighborhood boundaries overlay
+2. Historical/cultural points of interest markers
+3. Street name and district information
+4. Photo attribution and metadata display
 
-### Customize Difficulty
+### Customize Difficulty Progression
 Edit `selector.clj`:
-- Change difficulty thresholds (stages 5, 15)
-- Adjust same/different ratio (currently 60/40)
-- Modify user city prioritization
+- Adjust stage thresholds for easy/medium/hard
+- Fine-tune Tel Aviv vs neighbor image ratios
+- Add complexity scoring based on visual similarity
 
 ## 📝 Implementation Notes
 
 ### GIS Library (factual/geo)
 - Load with: `(require '[geo [jts :as jts] [spatial :as spatial]])`
-- Create points: `(jts/point lng lat)`
-- Calculate distance: `(spatial/distance point1 point2)` (returns meters)
-- Test containment: `(spatial/intersects? polygon point)`
+- Test Tel Aviv containment: `(spatial/intersects? tel-aviv-polygon point)`
+- Calculate border distances for difficulty scoring
 
-### Session Management
-- No cookies - sessions tracked by URL
-- Session ID in path: `/game/{session-id}`
-- Sessions stored in atom: `@game/game-sessions`
-- Auto-generate UUID: `(str (java.util.UUID/randomUUID))`
+### Session Management  
+- Maintain cookie-free URL sessions: `/game/{session-id}`
+- New state: `:answer-revealed` for reveal screen
+- Track Tel Aviv geography learning progress
 
-### Image APIs
-- **OpenStreetCam**: No API key required, good for testing
-- **Mapillary**: Requires API key, best coverage
-- **Flickr**: Requires API key, user photos
+### Map Integration
+- **Leaflet.js**: Lightweight, well-documented mapping library
+- **OpenStreetMap tiles**: Free base layer, good Tel Aviv coverage
+- **Reveal animations**: Smooth pan/zoom to actual location
+- **Responsive design**: Works on mobile devices
 
-### Architecture Principles
-- **Immutable State**: All game state updates return new state
-- **Pure Functions**: Border detection and GIS calculations are pure
-- **Fail Gracefully**: Multiple API fallbacks, placeholder images
-- **Cache Aggressively**: Border points and image URLs cached
+## Success Metrics
+
+### Gameplay Experience
+- ✅ Smooth answer → reveal → next flow (< 2 second transitions)
+- ✅ Educational value: Players learn Tel Aviv geography
+- ✅ Progressive challenge: 70%+ accuracy on easy, 40%+ on hard
+- ✅ Visual appeal: Clean single-image layout with satisfying reveals
+
+### Technical Performance  
+- ✅ Fast image loading (cached street-view images)
+- ✅ Responsive map integration (works on mobile)
+- ✅ Maintained session reliability (no data loss)
+- ✅ Reuses 80% of existing infrastructure
 
 ## 🎯 Next Steps
-1. Create `resources/api-keys.edn` with your API keys
-2. Test image fetching with real coordinates
-3. Update handlers to use real images instead of placeholders
-4. Add loading states and error handling
-5. Test with real users
+1. **Phase 1**: Modify game logic for binary Yes/No scoring
+2. **Phase 2**: Adapt image selection for single-image Tel Aviv focus
+3. **Phase 3**: Integrate Leaflet.js map with reveal animations
+4. **Phase 4**: Enhance location data with neighborhoods and landmarks
+5. **Testing**: Verify educational value and difficulty progression
 
-## 🚧 Known Issues
-- Factual/geo requires specific namespace loading pattern
-- Some compilation warnings about docstrings (cosmetic)
-- Image APIs may have rate limits
-- Need real polygon data for accurate borders
-
-## 📊 Success Metrics
-- Game loads in < 2 seconds
-- Images load in < 1 second
-- 90% of border points have available images
-- Players achieve 60-80% accuracy (not too easy, not too hard)
-- Sessions persist for at least 1 hour
+This redesigned Border Blur focuses on educational Tel Aviv geography recognition while leveraging the robust infrastructure already built for image collection, spatial diversity, and game session management.
