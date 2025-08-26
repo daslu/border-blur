@@ -14,6 +14,8 @@
   (POST "/game/:session-id/answer" [session-id :as request] (handlers/submit-answer session-id request))
   (POST "/game/:session-id/next" [session-id :as request] (handlers/next-image session-id request))
   (GET "/game/:session-id/results" [session-id :as request] (handlers/results-page session-id request))
+  (GET "/boundaries" [] handlers/boundaries-page) ; New boundaries visualization endpoint
+  (GET "/image-locations" [] handlers/image-locations-page) ; Image locations map endpoint
   (route/resources "/")
   (route/not-found "Page not found"))
 

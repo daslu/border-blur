@@ -78,3 +78,15 @@
     {:status 404
      :headers {"Content-Type" "text/html"}
      :body (views/error-page "Game session not found.")}))
+
+(defn boundaries-page [request]
+  "Display all city boundaries on a Leaflet map for visualization and testing"
+  {:status 200
+   :headers {"Content-Type" "text/html; charset=utf-8"}
+   :body (views/boundaries-page)})
+
+(defn image-locations-page [request]
+  "Display all collected images on a Leaflet map with city boundaries"
+  {:status 200
+   :headers {"Content-Type" "text/html; charset=utf-8"}
+   :body (views/image-locations-page)})
