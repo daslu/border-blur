@@ -1,0 +1,38 @@
+{:tel-aviv
+ {:name "Tel Aviv"
+  :country "Israel"
+  :center [34.7818 32.0853] ; [lng lat]
+  :famous? true
+  :neighbors [:ramat-gan :givatayim :holon :bat-yam]
+  ;; Simplified polygon for testing - real data would be more detailed
+  :boundary [[34.7500 32.1200]
+             [34.8200 32.1200]
+             [34.8200 32.0500]
+             [34.7500 32.0500]
+             [34.7500 32.1200]]}
+
+ :ramat-gan
+ {:name "Ramat Gan"
+  :country "Israel"
+  :center [34.8131 32.0853] ; [lng lat]
+  :famous? false
+  :neighbors [:tel-aviv :givatayim :bnei-brak]
+  ;; Simplified polygon - adjacent to Tel Aviv on the east
+  :boundary [[34.8000 32.1200]
+             [34.8500 32.1200]
+             [34.8500 32.0500]
+             [34.8000 32.0500]
+             [34.8000 32.1200]]}
+
+ :jerusalem
+ {:name "Jerusalem"
+  :country "Israel"
+  :center [35.2137 31.7683] ; [lng lat]
+  :famous? true
+  :neighbors [:bethlehem :maale-adumim :mevaseret-zion]
+  ;; Simplified polygon for testing
+  :boundary [[35.1500 31.8200]
+             [35.2800 31.8200]
+             [35.2800 31.7000]
+             [35.1500 31.7000]
+             [35.1500 31.8200]]}}

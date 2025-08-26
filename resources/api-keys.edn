@@ -1,0 +1,20 @@
+{;; API Keys Configuration for Border Blur
+ ;; Copy this file to api-keys.edn and add your actual API keys
+
+ ;; Mapillary (Best coverage, requires API key)
+ ;; Sign up at: https://www.mapillary.com/developer
+ :mapillary-api-key "your-mapillary-key-here"
+
+ ;; Flickr (User photos, requires API key) 
+ ;; Sign up at: https://www.flickr.com/services/api/
+ :flickr-api-key "your-flickr-key-here"
+ :flickr-secret "your-flickr-secret-here"
+
+ ;; OpenStreetCam (No API key required - good for testing)
+ ;; This service works without keys
+ :openstreetcam-enabled true
+
+ ;; API Rate Limits & Fallbacks
+ :rate-limit-delay-ms 100 ; Delay between API calls
+ :max-retries 3 ; Number of retries on failure
+ :use-placeholders true} ; Fallback to placeholder images if all APIs fail

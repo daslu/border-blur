@@ -1,0 +1,156 @@
+{;; Israeli Cities with more accurate boundaries
+ :tel-aviv
+ {:name "Tel Aviv"
+  :country "Israel"
+  :center [34.7818 32.0853]
+  :famous? true
+  :neighbors [:ramat-gan :givatayim :holon :bat-yam :herzliya]
+  ;; More realistic polygon (simplified but better shape)
+  :boundary [[34.7400 32.1400] ; Northwest
+             [34.8000 32.1400] ; Northeast  
+             [34.8100 32.1000] ; East
+             [34.8100 32.0600] ; Southeast
+             [34.7900 32.0400] ; South
+             [34.7500 32.0450] ; Southwest
+             [34.7400 32.0800] ; West
+             [34.7400 32.1400]]} ; Close polygon
+
+ :ramat-gan
+ {:name "Ramat Gan"
+  :country "Israel"
+  :center [34.8131 32.0800]
+  :famous? false
+  :neighbors [:tel-aviv :givatayim :bnei-brak :petah-tikva]
+  :boundary [[34.8000 32.1100] ; Northwest (borders Tel Aviv)
+             [34.8300 32.1100] ; Northeast
+             [34.8400 32.0900] ; East
+             [34.8400 32.0600] ; Southeast
+             [34.8100 32.0500] ; South (borders Givatayim)
+             [34.8000 32.0600] ; Southwest (borders Tel Aviv)
+             [34.8000 32.1100]]} ; Close polygon
+
+ :givatayim
+ {:name "Givatayim"
+  :country "Israel"
+  :center [34.8100 32.0700]
+  :famous? false
+  :neighbors [:tel-aviv :ramat-gan]
+  :boundary [[34.8000 32.0750]
+             [34.8200 32.0750]
+             [34.8200 32.0650]
+             [34.8000 32.0650]
+             [34.8000 32.0750]]}
+
+ :jerusalem
+ {:name "Jerusalem"
+  :country "Israel"
+  :center [35.2137 31.7683]
+  :famous? true
+  :neighbors [:bethlehem :maale-adumim :mevaseret-zion :abu-ghosh]
+  :boundary [[35.1800 31.8000]
+             [35.2400 31.8100]
+             [35.2600 31.7800]
+             [35.2500 31.7400]
+             [35.2000 31.7300]
+             [35.1700 31.7500]
+             [35.1800 31.8000]]}
+
+ :bethlehem
+ {:name "Bethlehem"
+  :country "Palestine"
+  :center [35.2029 31.7054]
+  :famous? true
+  :neighbors [:jerusalem :beit-jala :beit-sahour]
+  :boundary [[35.1900 31.7200]
+             [35.2200 31.7200]
+             [35.2200 31.6900]
+             [35.1900 31.6900]
+             [35.1900 31.7200]]}
+
+ :haifa
+ {:name "Haifa"
+  :country "Israel"
+  :center [34.9896 32.7940]
+  :famous? true
+  :neighbors [:nesher :tirat-carmel :kiryat-ata]
+  :boundary [[34.9500 32.8300]
+             [35.0200 32.8300]
+             [35.0400 32.8000]
+             [35.0300 32.7600]
+             [34.9800 32.7500]
+             [34.9500 32.7700]
+             [34.9500 32.8300]]}
+
+ :nesher
+ {:name "Nesher"
+  :country "Israel"
+  :center [35.0408 32.7662]
+  :famous? false
+  :neighbors [:haifa]
+  :boundary [[35.0200 32.7800]
+             [35.0600 32.7800]
+             [35.0600 32.7500]
+             [35.0200 32.7500]
+             [35.0200 32.7800]]}
+
+ ;; Major World Cities
+ :manhattan
+ {:name "Manhattan"
+  :country "USA"
+  :center [-73.9712 40.7831]
+  :famous? true
+  :neighbors [:brooklyn :queens :bronx :jersey-city]
+  :boundary [[-74.0194 40.7990] ; Northwest
+             [-73.9730 40.8790] ; Northeast
+             [-73.9070 40.8820] ; East
+             [-73.9280 40.7010] ; Southeast
+             [-74.0130 40.6830] ; Southwest
+             [-74.0194 40.7990]]} ; Close
+
+ :brooklyn
+ {:name "Brooklyn"
+  :country "USA"
+  :center [-73.9442 40.6782]
+  :famous? true
+  :neighbors [:manhattan :queens :staten-island]
+  :boundary [[-74.0420 40.7000]
+             [-73.8330 40.7390]
+             [-73.8670 40.5840]
+             [-74.0420 40.5700]
+             [-74.0420 40.7000]]}
+
+ :london-city
+ {:name "City of London"
+  :country "UK"
+  :center [-0.0915 51.5155]
+  :famous? true
+  :neighbors [:westminster :camden :islington :tower-hamlets]
+  :boundary [[-0.1135 51.5220]
+             [-0.0700 51.5220]
+             [-0.0700 51.5070]
+             [-0.1135 51.5070]
+             [-0.1135 51.5220]]}
+
+ :westminster
+ {:name "Westminster"
+  :country "UK"
+  :center [-0.1357 51.4975]
+  :famous? true
+  :neighbors [:london-city :camden :kensington-chelsea]
+  :boundary [[-0.1800 51.5200]
+             [-0.1135 51.5200]
+             [-0.1135 51.4750]
+             [-0.1800 51.4750]
+             [-0.1800 51.5200]]}
+
+ :paris-1st
+ {:name "Paris 1st Arrondissement"
+  :country "France"
+  :center [2.3417 48.8620]
+  :famous? true
+  :neighbors [:paris-2nd :paris-4th :paris-8th]
+  :boundary [[2.3200 48.8700]
+             [2.3600 48.8700]
+             [2.3600 48.8540]
+             [2.3200 48.8540]
+             [2.3200 48.8700]]}}

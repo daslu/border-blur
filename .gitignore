@@ -1,0 +1,5 @@
+.env
+.cpcache
+.nrepl-port
+.claude
+.clojure-mcp
