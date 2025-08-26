@@ -283,21 +283,48 @@
     (re-find #"bb-|bnei-brak" filename) "Bnei Brak"
     :else "Unknown"))
 
-(defn create-real-image [image-path is-in-tel-aviv difficulty]
-  "Create image data from real collected image"
-  (let [coords (or (parse-coords-from-filename image-path) [34.7818 32.0853])
-        location (parse-location-from-filename image-path)
+(defn create-real-image [image-path is-in-tel-aviv-hint difficulty]
+  "Create image data from real collected image with GIS verification"
+  (let [parsed-coords (parse-coords-from-filename image-path)
+        ;; For images without coords in filename, use city-appropriate defaults
+        default-coords (cond
+                         (re-find #"ramat-gan" image-path) [34.8131 32.0853] ; Ramat Gan center
+                         (re-find #"givatayim" image-path) [34.8095 32.0720] ; Givatayim center  
+                         (re-find #"bnei-brak" image-path) [34.8333 32.0807] ; Bnei Brak center
+                         :else [34.7818 32.0853]) ; Tel Aviv center as fallback
+        coords (or parsed-coords default-coords)
+        original-location (parse-location-from-filename image-path)
         area-type (case difficulty
                     :easy "Center"
                     :medium "Neighborhood"
-                    :hard "Border Area")]
+                    :hard "Border Area")
+        ;; CRITICAL FIX: Verify actual location using GIS boundaries
+        ;; Note: This is a simplified check using bounding box
+        ;; For production, use proper point-in-polygon test
+        [lon lat] coords
+        actually-in-tel-aviv (and (<= 34.75 lon 34.82)
+                                  (<= 32.05 lat 32.12))
+        ;; FIX: Determine actual city based on coordinates
+        actual-city (cond
+                      actually-in-tel-aviv "Tel Aviv"
+                      (and (> lon 34.82) (<= lat 32.12)) "Ramat Gan Area" ; East of Tel Aviv
+                      (and (<= lon 34.75) (<= lat 32.05)) "Bat Yam Area" ; Southwest
+                      (and (<= lon 34.80) (< lat 32.05)) "Holon Area" ; South
+                      :else "Near Tel Aviv")]
     {:url image-path
-     :city location
+     :city actual-city ; Use actual city based on coordinates
      :coords coords
-     :is-in-tel-aviv is-in-tel-aviv
+     :is-in-tel-aviv actually-in-tel-aviv ; Use verified result, not folder hint
      :difficulty difficulty
-     :location-name (str location " " area-type)
-     :fallback false}))
+     :location-name (str actual-city " " area-type)
+     :fallback false
+     :has-real-coords (some? parsed-coords) ; Track if coords are from filename or default
+     :verification-note (when (not= is-in-tel-aviv-hint actually-in-tel-aviv)
+                          (str "WARNING: Image was in "
+                               (if is-in-tel-aviv-hint "tel-aviv" "neighbor")
+                               " folder but is actually "
+                               (if actually-in-tel-aviv "inside" "outside")
+                               " Tel Aviv boundaries"))}))
 
 (defn select-real-tel-aviv-image [difficulty]
   "Select a real Tel Aviv image"

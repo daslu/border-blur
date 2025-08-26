@@ -27,12 +27,13 @@ function initRevealMap(mapElement) {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
     
-    // Tel Aviv boundary (approximate polygon)
+    // Tel Aviv boundary - synchronized with GIS system
+    // CRITICAL: These coordinates must match src/border_blur/gis/cities.clj
     const telAvivBoundary = [
         [32.1200, 34.7500], // Northwest
-        [32.1000, 34.8200], // Northeast  
-        [32.0500, 34.8100], // Southeast
-        [32.0400, 34.7400], // Southwest
+        [32.1200, 34.8200], // Northeast (fixed from 32.10 to 32.12)
+        [32.0500, 34.8200], // Southeast (fixed from 34.81 to 34.82)
+        [32.0500, 34.7500], // Southwest (fixed from 32.04, 34.74 to 32.05, 34.75)
         [32.1200, 34.7500]  // Close polygon
     ];
     

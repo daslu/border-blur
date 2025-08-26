@@ -9,13 +9,31 @@
   "Generate a unique session ID"
   (str (java.util.UUID/randomUUID)))
 
+(defn sanitize-input
+  "Sanitize user input to prevent XSS and injection attacks"
+  [input]
+  (when input
+    (let [str-input (str input)]
+      (-> str-input
+          (str/replace #"<" "&lt;") ; HTML encode
+          (str/replace #">" "&gt;")
+          (str/replace #"\"" "&quot;")
+          (str/replace #"'" "&#x27;")
+          (str/replace #"/" "&#x2F;")
+          (as-> s (subs s 0 (min 200 (count s)))))))) ; Limit to 200 chars ; Limit to 200 chars
+
 (defn new-game [user-city]
-  "Create a new game session for Tel Aviv geography game"
-  (let [session-id (generate-session-id)]
+  "Create a new game session for Tel Aviv geography game with input validation"
+  (let [session-id (generate-session-id)
+        ;; Sanitize and validate user input
+        sanitized-city (sanitize-input user-city)
+        validated-city (if (str/blank? sanitized-city)
+                         "Unknown User"
+                         sanitized-city)]
     {:session-id session-id
-     :user-city user-city ; Still track for potential future features
+     :user-city validated-city ; Sanitized and validated
      :current-stage 1
-     :total-stages 3 ; Shortened for easier testing
+     :total-stages 20 ; Full 20-stage game
      :score 0
      :streak 0
      :current-image nil ; Will hold single image + Tel Aviv answer
@@ -35,6 +53,30 @@
   "Save game session to memory"
   (swap! game-sessions assoc (:session-id game-session) game-session)
   game-session)
+
+(def max-sessions-per-ip 10)
+(def max-total-sessions 10000)
+
+(defn cleanup-old-sessions!
+  "Remove sessions older than 2 hours to prevent memory exhaustion"
+  []
+  (let [two-hours-ago (- (System/currentTimeMillis) (* 2 60 60 1000))
+        old-sessions (filter (fn [[id session]]
+                               (< (:start-time session) two-hours-ago))
+                             @game-sessions)]
+    (doseq [[id _] old-sessions]
+      (swap! game-sessions dissoc id))
+    (count old-sessions)))
+
+(defn enforce-session-limits!
+  "Enforce limits on total sessions to prevent DoS"
+  []
+  (when (> (count @game-sessions) max-total-sessions)
+    ;; Remove oldest sessions
+    (let [sorted-sessions (sort-by (fn [[_ session]] (:start-time session)) @game-sessions)
+          to-remove (take (- (count @game-sessions) (* max-total-sessions 0.8)) sorted-sessions)]
+      (doseq [[id _] to-remove]
+        (swap! game-sessions dissoc id)))))
 
 (defn generate-single-image [user-city current-stage total-stages]
   "Generate a single image for Tel Aviv geography game"

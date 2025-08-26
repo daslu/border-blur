@@ -24,6 +24,58 @@
              [34.8000 32.0500]
              [34.8000 32.1200]]}
 
+ :givatayim
+ {:name "Givatayim"
+  :country "Israel"
+  :center [34.8095 32.0720] ; [lng lat]
+  :famous? false
+  :neighbors [:tel-aviv :ramat-gan]
+  ;; Between Tel Aviv and Ramat Gan
+  :boundary [[34.8000 32.0850]
+             [34.8200 32.0850]
+             [34.8200 32.0600]
+             [34.8000 32.0600]
+             [34.8000 32.0850]]}
+
+ :bnei-brak
+ {:name "Bnei Brak"
+  :country "Israel"
+  :center [34.8333 32.0807] ; [lng lat]
+  :famous? false
+  :neighbors [:ramat-gan :petah-tikva]
+  ;; Northeast of Ramat Gan
+  :boundary [[34.8200 32.1000]
+             [34.8500 32.1000]
+             [34.8500 32.0700]
+             [34.8200 32.0700]
+             [34.8200 32.1000]]}
+
+ :holon
+ {:name "Holon"
+  :country "Israel"
+  :center [34.7772 32.0116] ; [lng lat]
+  :famous? false
+  :neighbors [:tel-aviv :bat-yam :rishon-lezion]
+  ;; South of Tel Aviv
+  :boundary [[34.7500 32.0300]
+             [34.8000 32.0300]
+             [34.8000 31.9900]
+             [34.7500 31.9900]
+             [34.7500 32.0300]]}
+
+ :bat-yam
+ {:name "Bat Yam"
+  :country "Israel"
+  :center [34.7458 32.0167] ; [lng lat]
+  :famous? false
+  :neighbors [:tel-aviv :holon]
+  ;; Southwest of Tel Aviv, on the coast
+  :boundary [[34.7200 32.0300]
+             [34.7600 32.0300]
+             [34.7600 32.0000]
+             [34.7200 32.0000]
+             [34.7200 32.0300]]}
+
  :jerusalem
  {:name "Jerusalem"
   :country "Israel"
