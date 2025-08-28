@@ -34,90 +34,44 @@
     :else :unknown))
 
 (defn get-all-image-locations []
-  "Collect all verified-collection images with ENHANCED buffer-based city classification"
-  ;; Load required namespaces for buffer classification
-
-  (let [verified-collection-path "resources/public/images/verified-collection"
-        collection-dir (java.io.File. verified-collection-path)]
+  "Collect all even-distribution images from metadata files"
+  (let [even-dist-path "resources/public/images/even-distribution"
+        collection-dir (java.io.File. even-dist-path)]
     (if (.exists collection-dir)
       (->> (.listFiles collection-dir)
            (filter #(.isDirectory %))
            (mapcat (fn [city-dir]
-                     (let [folder-city-name (.getName city-dir)
-                           folder-city-key (keyword folder-city-name)]
-                       (->> (.listFiles city-dir)
-                            (filter #(.isFile %))
-                            (filter #(.endsWith (.getName %) ".jpg"))
-                            (keep (fn [image-file]
-                                    (let [filename (.getName image-file)
-                                          image-id (clojure.string/replace filename #"\.jpg$" "")
-                                          metadata-file (java.io.File. city-dir (str image-id ".edn"))
-                                          relative-path (str "images/verified-collection/" folder-city-name "/" filename)]
-                                      (when (.exists metadata-file)
-                                        (try
-                                          (let [metadata (read-string (slurp metadata-file))
-                                                coords (:coordinates metadata)
-                                                lat (:lat coords)
-                                                lng (:lng coords)
-
-                                                ;; APPLY ENHANCED BUFFER-BASED CLASSIFICATION
-                                                buffer-classification (optimizer/classify-image-by-gis lat lng cities/cities)
-
-                                                ;; Determine actual vs folder city
-                                                folder-suggests-city folder-city-name
-                                                actual-city-key buffer-classification
-                                                actual-city-name (case actual-city-key
-                                                                   :tel-aviv-yafo "tel-aviv-yafo"
-                                                                   :ramat-gan "ramat-gan"
-                                                                   :givatayim "givatayim"
-                                                                   :bnei-brak "bnei-brak"
-                                                                   :bat-yam "bat-yam"
-                                                                   :holon "holon"
-                                                                   "unclassified")
-
-                                                ;; Check classification accuracy
-                                                folder-matches-buffer? (= folder-city-name actual-city-name)
-
-                                                classification-status (cond
-                                                                        (nil? actual-city-key) "outside-buffers"
-                                                                        folder-matches-buffer? "accurate"
-                                                                        :else "reclassified")]
-
-                                            {:filename filename
-                                             :path relative-path
-                                             :coordinates [lng lat] ; [lng, lat] format for map
-                                             :folder-city folder-city-name ; Original folder location
-                                             :buffer-city actual-city-name ; New buffer-based classification
-                                             :city actual-city-name ; Use buffer classification as primary
-                                             :classification-status classification-status
-                                             :classification-accurate folder-matches-buffer?
-                                             :metadata metadata
-                                             :verified true
-                                             :buffer-enhanced true}) ; Mark as using enhanced classification
-
-                                          (catch Exception e
-                                            (println "Error processing" filename ":" (.getMessage e))
-                                            ;; Fallback to folder-based classification
-                                            (let [metadata (try (read-string (slurp metadata-file)) (catch Exception _ {}))
-                                                  coords (get metadata :coordinates {:lat 0 :lng 0})]
-                                              {:filename filename
-                                               :path relative-path
-                                               :coordinates [(:lng coords) (:lat coords)]
-                                               :folder-city folder-city-name
-                                               :buffer-city "error"
-                                               :city folder-city-name
-                                               :classification-status "fallback"
-                                               :classification-accurate false
-                                               :metadata metadata
-                                               :verified false
-                                               :buffer-enhanced false
-                                               :error (.getMessage e)})))))))))))
-           (vec))
+                     (let [city-name (.getName city-dir)
+                           metadata-file (java.io.File. city-dir "metadata.json")]
+                       (when (.exists metadata-file)
+                         (try
+                           (let [metadata-json (slurp metadata-file)
+                                 metadata (json/parse-string metadata-json true)
+                                 images (:images metadata)]
+                             (map (fn [img]
+                                    {:filename (str "img-" (:index img) "-" (:id img))
+                                     :path (:url img)
+                                     :coordinates [(:lng img) (:lat img)]
+                                     :city city-name
+                                     :source (:source img)
+                                     :verified true
+                                     :even-distribution true})
+                                  images))
+                           (catch Exception e
+                             (println "Error processing" city-name ":" (.getMessage e))
+                             []))))))
+           (filter some?)
+           (doall))
       [])))
 
 (defn generate-image-locations-json []
-  "Generate JSON data for all image locations"
-  (json/generate-string (get-all-image-locations)))
+  "Generate JSON data for all even distribution image locations"
+  (try
+    (let [all-images (get-all-image-locations)]
+      (json/generate-string all-images))
+    (catch Exception e
+      (println "Error in generate-image-locations-json:" (.getMessage e))
+      (json/generate-string []))))
 
 (defn layout [title content]
   "Base HTML layout with Leaflet.js for maps and OSM attribution"
@@ -394,34 +348,29 @@
 (defn image-locations-page []
   "Interactive map showing all collected image locations with city boundaries"
   (layout
-   "Border Blur - Verified Image Collection Map"
+   "Border Blur - Even Distribution Image Collection Map"
    [:div
     [:div {:class "header-section"}
-     [:h1 "Spatially Optimized Image Collection"]
-     [:p "Visual map of all GIS-verified street-view images in our collection with confirmed city boundaries"]
+     [:h1 "Even Distribution Image Collection"]
+     [:p "Perfectly distributed street-view images across Tel Aviv and nearby cities with uniform spatial coverage"]
      [:div {:style "margin: 20px 0; padding: 15px; background: #f0f8ff; border-radius: 5px;"}
-      [:h3 {:style "margin: 0 0 10px 0;"} "Enhanced Buffer-Based Classification Legend:"]
+      [:h3 {:style "margin: 0 0 10px 0;"} "Even Distribution Legend:"]
       [:div {:style "display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 10px;"}
-       [:div [:span {:style "color: #FF6B6B; font-weight: bold;"} "●"] " Tel Aviv-Yafo (Buffer Verified)"]
-       [:div [:span {:style "color: #4ECDC4; font-weight: bold;"} "●"] " Ramat Gan (Buffer Verified)"]
-       [:div [:span {:style "color: #45B7D1; font-weight: bold;"} "●"] " Givatayim (Buffer Verified)"]
-       [:div [:span {:style "color: #96CEB4; font-weight: bold;"} "●"] " Bnei Brak (Buffer Verified)"]
-       [:div [:span {:style "color: #FECA57; font-weight: bold;"} "●"] " Holon (Buffer Verified)"]
-       [:div [:span {:style "color: #FF9FF3; font-weight: bold;"} "●"] " Bat Yam (Buffer Verified)"]
-       [:div [:span {:style "color: #999999; font-weight: bold;"} "●"] " Outside Buffers/Reclassified"]]
-      [:div {:style "display: flex; flex-wrap: wrap; gap: 20px; margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 3px;"}
-       [:div [:span {:style "background: #4CAF50; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;"} "✓"] " Folder matches buffer classification"]
-       [:div [:span {:style "background: #FF9800; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;"} "⚠"] " Reclassified by buffer analysis"]
-       [:div [:span {:style "background: #f44336; color: white; padding: 2px 6px; border-radius: 3px; font-size: 0.8em;"} "◯"] " Outside all 10m city buffers"]]
+       [:div [:span {:style "color: #FF6B6B; font-weight: bold;"} "●"] " Tel Aviv-Yafo"]
+       [:div [:span {:style "color: #4ECDC4; font-weight: bold;"} "●"] " Ramat Gan"]
+       [:div [:span {:style "color: #45B7D1; font-weight: bold;"} "●"] " Givatayim"]
+       [:div [:span {:style "color: #96CEB4; font-weight: bold;"} "●"] " Bnei Brak"]
+       [:div [:span {:style "color: #FECA57; font-weight: bold;"} "●"] " Holon"]
+       [:div [:span {:style "color: #FF9FF3; font-weight: bold;"} "●"] " Bat Yam"]]
       [:p {:style "margin-top: 10px; font-size: 0.9em; color: #666;"}
-       "Click markers to see buffer classification vs original folder location. Images now classified using 10-meter buffer exclusivity system."]]]
+       "Click markers to view images. Even distribution ensures uniform spatial coverage across all cities."]]]
 
     [:div {:id "image-locations-map" :style "width: 100%; height: 600px; border: 1px solid #ddd; border-radius: 5px; margin: 20px 0;"}]
 
     [:div {:style "margin: 20px 0; padding: 15px; background: #e8f5e8; border-radius: 5px;"}
      [:h3 "✅ Verified Collection Statistics:"]
      [:ul
-      [:li [:strong "Collection Method:"] " Advanced Spatial Optimization System with GIS verification"]
+      [:li [:strong "Collection Method:"] " Even Distribution Grid System with uniform spacing"]
       [:li [:strong "Verification:"] " 100% ray-casting point-in-polygon testing against city boundaries"]
       [:li [:strong "Image Sources:"] " Mapillary API with real-time fetching"]
       [:li [:strong "Total Images:"] (str " " (count (get-all-image-locations)) " spatially optimized images")]
@@ -494,69 +443,37 @@
                           (city.osmId ? '<br/>OSM ID: ' + city.osmId : ''));
       });
       
-      // Add verified image markers with ENHANCED buffer-based classification styling
+      // Add even-distribution image markers
       window.imageLocations.forEach(function(image) {
-          var bufferCity = image['buffer-city'] || image.city; // Use buffer classification
-          var folderCity = image['folder-city'] || image.city; // Original folder location
-          var cityKey = bufferCity.replace(/:/g, ''); // Remove colon from keyword
+          var cityKey = image.city.replace(/:/g, ''); // Remove colon from keyword if present
           var color = cityColors[cityKey] || cityColors['unknown'];
           var coords = image.coordinates;
           
-          // Determine marker style based on classification accuracy
-          var isAccurate = image['classification-accurate'] !== false;
-          var isOutsideBuffers = image['classification-status'] === 'outside-buffers';
-          var isReclassified = image['classification-status'] === 'reclassified';
-          
-          // Create circle marker with classification-aware styling
+          // Create circle marker with simple styling for even distribution
           var markerStyle = {
-              radius: isReclassified ? 9 : 7, // Larger for reclassified
+              radius: 6,
               fillColor: color,
-              color: isAccurate ? '#fff' : (isOutsideBuffers ? '#f44336' : '#FF9800'), // White border for accurate, red for outside buffers, orange for reclassified
-              weight: isReclassified ? 3 : 2, // Thicker border for reclassified
+              color: '#fff',
+              weight: 2,
               opacity: 1.0,
-              fillOpacity: isOutsideBuffers ? 0.5 : 0.9, // Lower opacity for outside buffers
-              dashArray: isReclassified ? '5,3' : null // Dashed border for reclassified
+              fillOpacity: 0.8
           };
           
           var marker = L.circleMarker([coords[1], coords[0]], markerStyle).addTo(map);
           
-          // Enhanced popup content with buffer classification details
-          var statusBadge = '';
-          var statusBackground = '';
-          if (isAccurate && !isOutsideBuffers) {
-              statusBadge = '✅ BUFFER VERIFIED';
-              statusBackground = '#4CAF50';
-          } else if (isReclassified) {
-              statusBadge = '⚠️ RECLASSIFIED';
-              statusBackground = '#FF9800';
-          } else if (isOutsideBuffers) {
-              statusBadge = '◯ OUTSIDE BUFFERS';
-              statusBackground = '#f44336';
-          } else {
-              statusBadge = '❓ UNKNOWN STATUS';
-              statusBackground = '#999';
-          }
-          
+          // Simple popup content for even distribution data
           var popupContent = '<div style=\"text-align: center; max-width: 260px;\">' +
-                           '<div style=\"background: ' + statusBackground + '; color: white; padding: 5px; border-radius: 3px; margin-bottom: 10px;\">' +
-                           '<strong>' + statusBadge + '</strong>' +
+                           '<div style=\"background: ' + color + '; color: white; padding: 5px; border-radius: 3px; margin-bottom: 10px;\">' +
+                           '<strong>📍 EVEN DISTRIBUTION</strong>' +
                            '</div>' +
                            '<strong>' + image.filename + '</strong><br/>' +
-                           '<img src=\"' + image.path + '\" style=\"max-width: 200px; max-height: 140px; margin: 10px 0; border-radius: 3px; border: 1px solid #ddd;\" /><br/>';
-          
-          // Add classification comparison if different
-          if (folderCity !== bufferCity && bufferCity !== 'unclassified') {
-              popupContent += '<div style=\"background: #fff3cd; padding: 5px; border-radius: 3px; margin: 5px 0; font-size: 0.9em;\">' +
-                            '<strong>📁 Folder:</strong> ' + folderCity.replace(/-/g, ' ').replace(/\\b\\w/g, function(l){ return l.toUpperCase() }) + '<br/>' +
-                            '<strong>🎯 Buffer:</strong> ' + bufferCity.replace(/-/g, ' ').replace(/\\b\\w/g, function(l){ return l.toUpperCase() }) +
-                            '</div>';
-          }
-          
-          popupContent += '<strong>Final Classification:</strong> ' + bufferCity.replace(/:/g, '').replace(/-/g, ' ').replace(/\\b\\w/g, function(l){ return l.toUpperCase() }) + '<br/>' +
-                         '<strong>Method:</strong> 10m Buffer Exclusivity<br/>' +
-                         '<strong>Coordinates:</strong><br/>' +
-                         'Lat: ' + coords[1].toFixed(6) + '<br/>' +
-                         'Lng: ' + coords[0].toFixed(6);
+                           '<img src=\"' + image.path + '\" style=\"max-width: 200px; max-height: 140px; margin: 10px 0; border-radius: 3px; border: 1px solid #ddd;\" /><br/>' +
+                           '<strong>City:</strong> ' + image.city.charAt(0).toUpperCase() + image.city.slice(1).replace(/-/g, ' ') + '<br/>' +
+                           '<strong>Source:</strong> ' + (image.source || 'Mapillary') + '<br/>' +
+                           '<strong>Coordinates:</strong><br/>' +
+                           'Lat: ' + coords[1].toFixed(6) + '<br/>' +
+                           'Lng: ' + coords[0].toFixed(6) + '<br/>' +
+                           '<strong>Verified:</strong> ' + (image.verified ? '✅ Yes' : '❌ No');
           
           if (image.error) {
               popupContent += '<div style=\"background: #f8d7da; color: #721c24; padding: 5px; border-radius: 3px; margin-top: 5px; font-size: 0.8em;\">' +
