@@ -40,14 +40,17 @@
   (let [images (load-image-data)]
     {:type "FeatureCollection"
      :features (mapv (fn [image]
-                       {:type "Feature"
-                        :geometry {:type "Point"
-                                   :coordinates [(:lng image) (:lat image)]}
-                        :properties {:id (:id image)
-                                     :borough (:borough image :unclassified)
-                                     :color (borough-color (:borough image))
-                                     :captured-at (:captured-at image)
-                                     :url (:url image)}})
+                       (let [borough-kw (if (:borough image)
+                                          (keyword (:borough image))
+                                          :unclassified)]
+                         {:type "Feature"
+                          :geometry {:type "Point"
+                                     :coordinates [(:lng image) (:lat image)]}
+                          :properties {:id (:id image)
+                                       :borough borough-kw
+                                       :color (borough-color borough-kw)
+                                       :captured-at (:captured-at image)
+                                       :url (:url image)}}))
                      images)}))
 
 (defn map-page
@@ -88,8 +91,9 @@
      (str "
         var map = L.map('map').setView([40.7128, -74.0060], 11);
         
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '© OpenStreetMap contributors'
+        L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+          maxZoom: 20,
+          attribution: '&copy; <a href=\"https://stadiamaps.com/\">Stadia Maps</a>, &copy; <a href=\"https://openmaptiles.org/\">OpenMapTiles</a> &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors'
         }).addTo(map);
         
         fetch('/api/images')

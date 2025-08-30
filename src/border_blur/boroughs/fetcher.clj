@@ -8,11 +8,11 @@
 
 (def borough-osm-ids
   "OSM relation IDs for NYC boroughs - using correct IDs"
-  {:manhattan 2552485  ; New York County/Manhattan
-   :brooklyn 2552487   ; Kings County/Brooklyn
-   :queens 2552484     ; Queens County/Queens
-   :bronx 2552486      ; Bronx County/The Bronx
-   :staten-island 369519}) ; Richmond County/Staten Island - corrected ID
+  {:manhattan 2552485 ; New York County/Manhattan
+   :brooklyn 369518 ; Kings County/Brooklyn - corrected ID
+   :queens 2552484 ; Queens County/Queens
+   :bronx 2552486 ; Bronx County/The Bronx
+   :staten-island 369519}) ; Richmond County/Staten Island ; Richmond County/Staten Island - corrected ID
 
 (defn fetch-borough-boundary
   "Fetch a single borough boundary from OSM"
@@ -20,31 +20,31 @@
   (println (str "Fetching boundary for " (name borough-name) "..."))
   (let [query (format "[out:json];relation(%d);(._;>;);out;" osm-id)
         response (http/post overpass-url
-                           {:form-params {:data query}
-                            :as :json
-                            :socket-timeout 30000
-                            :conn-timeout 30000})]
+                            {:form-params {:data query}
+                             :as :json
+                             :socket-timeout 30000
+                             :conn-timeout 30000})]
     (when (= 200 (:status response))
       (let [elements (get-in response [:body :elements])
             nodes (->> elements
-                      (filter #(= "node" (:type %)))
-                      (map (fn [node] [(:id node) {:lat (:lat node)
-                                                   :lon (:lon node)}]))
-                      (into {}))
+                       (filter #(= "node" (:type %)))
+                       (map (fn [node] [(:id node) {:lat (:lat node)
+                                                    :lon (:lon node)}]))
+                       (into {}))
             ways (->> elements
-                     (filter #(= "way" (:type %)))
-                     (map (fn [way] [(:id way) (:nodes way)]))
-                     (into {}))
+                      (filter #(= "way" (:type %)))
+                      (map (fn [way] [(:id way) (:nodes way)]))
+                      (into {}))
             relation (->> elements
-                         (filter #(= "relation" (:type %)))
-                         first)]
-        
+                          (filter #(= "relation" (:type %)))
+                          first)]
+
         ;; Extract outer boundary
         (when relation
           (let [outer-ways (->> (:members relation)
-                               (filter #(= "outer" (:role %)))
-                               (filter #(= "way" (:type %)))
-                               (map :ref))]
+                                (filter #(= "outer" (:role %)))
+                                (filter #(= "way" (:type %)))
+                                (map :ref))]
             ;; Combine way segments into continuous boundary
             (loop [remaining outer-ways
                    current-boundary []
@@ -55,9 +55,9 @@
                       way-nodes (get ways way-id)]
                   (if way-nodes
                     (let [coords (map (fn [node-id]
-                                       (let [node (get nodes node-id)]
-                                         [(:lon node) (:lat node)]))
-                                     way-nodes)]
+                                        (let [node (get nodes node-id)]
+                                          [(:lon node) (:lat node)]))
+                                      way-nodes)]
                       (recur (rest remaining)
                              (into current-boundary coords)
                              (conj used-ways way-id)))
@@ -105,7 +105,7 @@
     (println "\nSummary:")
     (doseq [[k v] borough-data]
       (println (format "  %s: %d boundary points (simplified to %d)"
-                      (name k)
-                      (count (:full-boundary v))
-                      (count (:simplified-boundary v)))))
+                       (name k)
+                       (count (:full-boundary v))
+                       (count (:simplified-boundary v)))))
     borough-data))

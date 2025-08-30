@@ -2,7 +2,9 @@
   "creator" : null,
   "captured-at" : 1498928206149,
   "compass-angle" : 132.00140380859,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.26,
     "lat" : 40.63333333333333
@@ -16,7 +18,9 @@
   "creator" : null,
   "captured-at" : 1498928216151,
   "compass-angle" : 129.92199707031,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.26,
     "lat" : 40.63333333333333
@@ -30,7 +34,9 @@
   "creator" : null,
   "captured-at" : 1518717690845,
   "compass-angle" : 220.37591552734,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.26,
     "lat" : 40.77666666666667
@@ -44,7 +50,9 @@
   "creator" : null,
   "captured-at" : 1518717688917,
   "compass-angle" : 220.078125,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.26,
     "lat" : 40.77666666666667
@@ -58,7 +66,9 @@
   "creator" : null,
   "captured-at" : 1556381441700,
   "compass-angle" : 19.362060546875,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.26,
     "lat" : 40.87222222222223
@@ -72,7 +82,9 @@
   "creator" : null,
   "captured-at" : 1556372170422,
   "compass-angle" : 202.90466308594,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.26,
     "lat" : 40.87222222222223
@@ -86,7 +98,9 @@
   "creator" : null,
   "captured-at" : 1531950797055,
   "compass-angle" : 306.1335144043,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.19777777777779,
     "lat" : 40.63333333333333
@@ -100,7 +114,9 @@
   "creator" : null,
   "captured-at" : 1582816712205,
   "compass-angle" : 124.57133727965,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.19777777777779,
     "lat" : 40.63333333333333
@@ -114,7 +130,9 @@
   "creator" : null,
   "captured-at" : 1534771175594,
   "compass-angle" : 209.8200378418,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.19777777777779,
     "lat" : 40.681111111111115
@@ -128,7 +146,9 @@
   "creator" : null,
   "captured-at" : 1534771175390,
   "compass-angle" : 209.96331787109,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.19777777777779,
     "lat" : 40.681111111111115
@@ -142,7 +162,9 @@
   "creator" : null,
   "captured-at" : 1531783100925,
   "compass-angle" : 198.12872314453,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.19777777777779,
     "lat" : 40.824444444444445
@@ -156,7 +178,9 @@
   "creator" : null,
   "captured-at" : 1533224210351,
   "compass-angle" : 197.2265625,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.19777777777779,
     "lat" : 40.824444444444445
@@ -170,7 +194,9 @@
   "creator" : null,
   "captured-at" : 1535383678742,
   "compass-angle" : 308.76245117188,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.19777777777779,
     "lat" : 40.87222222222223
@@ -184,7 +210,9 @@
   "creator" : null,
   "captured-at" : 1532534299912,
   "compass-angle" : 119.78414916992,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.19777777777779,
     "lat" : 40.87222222222223
@@ -198,7 +226,9 @@
   "creator" : null,
   "captured-at" : 1434881748718,
   "compass-angle" : 1.5443445495447,
+  "borough" : "unknown",
   "width" : 4128,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.13555555555556,
     "lat" : 40.58555555555556
@@ -212,7 +242,9 @@
   "creator" : null,
   "captured-at" : 1434881744464,
   "compass-angle" : -10.479775140192,
+  "borough" : "unknown",
   "width" : 4128,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.13555555555556,
     "lat" : 40.58555555555556
@@ -226,7 +258,9 @@
   "creator" : null,
   "captured-at" : 1472213967000,
   "compass-angle" : 53.127662916039,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.13555555555556,
     "lat" : 40.72888888888889
@@ -240,7 +274,9 @@
   "creator" : null,
   "captured-at" : 1534782529680,
   "compass-angle" : 53.7890625,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.13555555555556,
     "lat" : 40.72888888888889
@@ -254,7 +290,9 @@
   "creator" : null,
   "captured-at" : 1534028347895,
   "compass-angle" : 220.36483764648,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.13555555555556,
     "lat" : 40.824444444444445
@@ -268,7 +306,9 @@
   "creator" : null,
   "captured-at" : 1534028363429,
   "compass-angle" : 197.1641998291,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.13555555555556,
     "lat" : 40.824444444444445
@@ -282,7 +322,9 @@
   "creator" : null,
   "captured-at" : 1581533773215,
   "compass-angle" : 196.45709129147,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.13555555555556,
     "lat" : 40.92
@@ -296,7 +338,9 @@
   "creator" : null,
   "captured-at" : 1576172373086,
   "compass-angle" : 187.68481445312,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.13555555555556,
     "lat" : 40.92
@@ -310,7 +354,9 @@
   "creator" : null,
   "captured-at" : 1433945926744,
   "compass-angle" : 207.70092487032,
+  "borough" : "unknown",
   "width" : 3232,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.58555555555556
@@ -324,7 +370,9 @@
   "creator" : null,
   "captured-at" : 1433869642200,
   "compass-angle" : 206.97714461347,
+  "borough" : "unknown",
   "width" : 3232,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.58555555555556
@@ -338,7 +386,9 @@
   "creator" : null,
   "captured-at" : 1533061558385,
   "compass-angle" : 171.99140930176,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.63333333333333
@@ -352,7 +402,9 @@
   "creator" : null,
   "captured-at" : 1532300999234,
   "compass-angle" : 46.063297271729,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.63333333333333
@@ -366,7 +418,9 @@
   "creator" : null,
   "captured-at" : 1576680427250,
   "compass-angle" : 31.987030029297,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.72888888888889
@@ -380,7 +434,9 @@
   "creator" : null,
   "captured-at" : 1576680426169,
   "compass-angle" : 27.736145019531,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.72888888888889
@@ -394,7 +450,9 @@
   "creator" : null,
   "captured-at" : 1534365089186,
   "compass-angle" : 113.57702636719,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.92
@@ -408,7 +466,9 @@
   "creator" : null,
   "captured-at" : 1541532305859,
   "compass-angle" : 182.36811828613,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.92
@@ -422,7 +482,9 @@
   "creator" : null,
   "captured-at" : 1475338922532,
   "compass-angle" : 1.218567,
+  "borough" : "brooklyn",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.63333333333333
@@ -436,7 +498,9 @@
   "creator" : null,
   "captured-at" : 1475338441790,
   "compass-angle" : 262.4219,
+  "borough" : "brooklyn",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.63333333333333
@@ -450,7 +514,9 @@
   "creator" : null,
   "captured-at" : 1738531525071,
   "compass-angle" : 183.39481503384,
+  "borough" : "brooklyn",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.681111111111115
@@ -464,7 +530,9 @@
   "creator" : null,
   "captured-at" : 1725837044746,
   "compass-angle" : 40.749592898424,
+  "borough" : "brooklyn",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.681111111111115
@@ -478,7 +546,9 @@
   "creator" : null,
   "captured-at" : 1572782855500,
   "compass-angle" : 0,
+  "borough" : "manhattan",
   "width" : 4000,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.72888888888889
@@ -492,7 +562,9 @@
   "creator" : null,
   "captured-at" : 1532035485973,
   "compass-angle" : 186.01348876953,
+  "borough" : "manhattan",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.72888888888889
@@ -506,7 +578,9 @@
   "creator" : null,
   "captured-at" : 1549400193609,
   "compass-angle" : 236.94926452637,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.77666666666667
@@ -520,7 +594,9 @@
   "creator" : null,
   "captured-at" : 1549400193112,
   "compass-angle" : 241.98960876465,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.77666666666667
@@ -534,7 +610,9 @@
   "creator" : null,
   "captured-at" : 1509896931348,
   "compass-angle" : 160.95835876465,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.824444444444445
@@ -548,7 +626,9 @@
   "creator" : null,
   "captured-at" : 1532090072121,
   "compass-angle" : 339.3391418457,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.824444444444445
@@ -562,7 +642,9 @@
   "creator" : null,
   "captured-at" : 1535315112799,
   "compass-angle" : 146.16174316406,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.87222222222223
@@ -576,7 +658,9 @@
   "creator" : null,
   "captured-at" : 1531753170839,
   "compass-angle" : 93.080932617188,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.87222222222223
@@ -590,7 +674,9 @@
   "creator" : null,
   "captured-at" : 1534885424865,
   "compass-angle" : 179.39065551758,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.92
@@ -604,7 +690,9 @@
   "creator" : null,
   "captured-at" : 1534885442900,
   "compass-angle" : 178.59892272949,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -74.01111111111112,
     "lat" : 40.92
@@ -618,7 +706,9 @@
   "creator" : null,
   "captured-at" : 1541095846225,
   "compass-angle" : 95.582420349121,
+  "borough" : "brooklyn",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.58555555555556
@@ -632,7 +722,9 @@
   "creator" : null,
   "captured-at" : 1436635872672,
   "compass-angle" : 93.90155,
+  "borough" : "brooklyn",
   "width" : 2592,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.58555555555556
@@ -646,7 +738,9 @@
   "creator" : null,
   "captured-at" : 1589144664002,
   "compass-angle" : 141.87117592202,
+  "borough" : "brooklyn",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.63333333333333
@@ -660,7 +754,9 @@
   "creator" : null,
   "captured-at" : 1589146471252,
   "compass-angle" : 322.63119506836,
+  "borough" : "brooklyn",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.63333333333333
@@ -674,7 +770,9 @@
   "creator" : null,
   "captured-at" : 1587582171753,
   "compass-angle" : 272.48196411133,
+  "borough" : "brooklyn",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.681111111111115
@@ -688,7 +786,9 @@
   "creator" : null,
   "captured-at" : 1587582255920,
   "compass-angle" : 279.17416381836,
+  "borough" : "brooklyn",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.681111111111115
@@ -702,7 +802,9 @@
   "creator" : null,
   "captured-at" : 1536151930424,
   "compass-angle" : 156.72961425781,
+  "borough" : "brooklyn",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.72888888888889
@@ -716,7 +818,9 @@
   "creator" : null,
   "captured-at" : 1586716390615,
   "compass-angle" : 124.735541156,
+  "borough" : "brooklyn",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.72888888888889
@@ -730,7 +834,9 @@
   "creator" : null,
   "captured-at" : 1588100418378,
   "compass-angle" : 303.69857788086,
+  "borough" : "manhattan",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.77666666666667
@@ -744,7 +850,9 @@
   "creator" : null,
   "captured-at" : 1589065458440,
   "compass-angle" : 32.969635009766,
+  "borough" : "manhattan",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.77666666666667
@@ -758,7 +866,9 @@
   "creator" : null,
   "captured-at" : 1589303068002,
   "compass-angle" : 29.266126694256,
+  "borough" : "manhattan",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.824444444444445
@@ -772,7 +882,9 @@
   "creator" : null,
   "captured-at" : 1589303069002,
   "compass-angle" : 28.737849773423,
+  "borough" : "manhattan",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.824444444444445
@@ -786,7 +898,9 @@
   "creator" : null,
   "captured-at" : 1536093197535,
   "compass-angle" : 18.359022140503,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.87222222222223
@@ -800,7 +914,9 @@
   "creator" : null,
   "captured-at" : 1536093197535,
   "compass-angle" : 18.359022140503,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.94888888888889,
     "lat" : 40.87222222222223
@@ -814,7 +930,9 @@
   "creator" : null,
   "captured-at" : 1730048225820,
   "compass-angle" : 352.5991303619,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.58555555555556
@@ -828,7 +946,9 @@
   "creator" : null,
   "captured-at" : 1730048285402,
   "compass-angle" : 198.6030844341,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.58555555555556
@@ -842,7 +962,9 @@
   "creator" : null,
   "captured-at" : 1531947840043,
   "compass-angle" : 229.5703125,
+  "borough" : "brooklyn",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.63333333333333
@@ -856,7 +978,9 @@
   "creator" : null,
   "captured-at" : 1532369575598,
   "compass-angle" : 229.92347717285,
+  "borough" : "brooklyn",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.63333333333333
@@ -870,7 +994,9 @@
   "creator" : null,
   "captured-at" : 1532343539667,
   "compass-angle" : 262.24377441406,
+  "borough" : "staten-island",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.72888888888889
@@ -884,7 +1010,9 @@
   "creator" : null,
   "captured-at" : 1584274204123,
   "compass-angle" : 244.57636426549,
+  "borough" : "staten-island",
   "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.72888888888889
@@ -898,7 +1026,9 @@
   "creator" : null,
   "captured-at" : 1576696173873,
   "compass-angle" : 258.91665649414,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.824444444444445
@@ -912,7 +1042,9 @@
   "creator" : null,
   "captured-at" : 1533831826107,
   "compass-angle" : 258.9303894043,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.824444444444445
@@ -926,7 +1058,9 @@
   "creator" : null,
   "captured-at" : 1578756724159,
   "compass-angle" : 53.290618896484,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.87222222222223
@@ -940,7 +1074,9 @@
   "creator" : null,
   "captured-at" : 1578676655168,
   "compass-angle" : 231.16717529297,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.87222222222223
@@ -954,7 +1090,9 @@
   "creator" : null,
   "captured-at" : 1708467913885,
   "compass-angle" : 4.2043237686157,
+  "borough" : "staten-island",
   "width" : 2560,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.58555555555556
@@ -968,7 +1106,9 @@
   "creator" : null,
   "captured-at" : 1726933984137,
   "compass-angle" : 203,
+  "borough" : "staten-island",
   "width" : 2560,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.58555555555556
@@ -982,7 +1122,9 @@
   "creator" : null,
   "captured-at" : 1533485152360,
   "compass-angle" : 263.32406616211,
+  "borough" : "staten-island",
   "width" : 4048,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.72888888888889
@@ -996,7 +1138,9 @@
   "creator" : null,
   "captured-at" : 1533485132672,
   "compass-angle" : 204.19931030273,
+  "borough" : "staten-island",
   "width" : 4048,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.72888888888889
@@ -1010,7 +1154,9 @@
   "creator" : null,
   "captured-at" : 1536584191628,
   "compass-angle" : 21.92759513855,
+  "borough" : "staten-island",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.77666666666667
@@ -1024,7 +1170,9 @@
   "creator" : null,
   "captured-at" : 1533486961424,
   "compass-angle" : 208.18617248535,
+  "borough" : "staten-island",
   "width" : 4048,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.77666666666667
@@ -1038,7 +1186,9 @@
   "creator" : null,
   "captured-at" : 1534687095939,
   "compass-angle" : 291.8310546875,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.824444444444445
@@ -1052,7 +1202,9 @@
   "creator" : null,
   "captured-at" : 1579268658172,
   "compass-angle" : 110.8147277832,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.824444444444445
@@ -1066,7 +1218,9 @@
   "creator" : null,
   "captured-at" : 1535751682098,
   "compass-angle" : 354.4992980957,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.87222222222223
@@ -1080,7 +1234,9 @@
   "creator" : null,
   "captured-at" : 1535751682763,
   "compass-angle" : 354.4992980957,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.87222222222223
@@ -1094,7 +1250,9 @@
   "creator" : null,
   "captured-at" : 1536357523110,
   "compass-angle" : 99.927886962891,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.92
@@ -1108,7 +1266,9 @@
   "creator" : null,
   "captured-at" : 1536357523712,
   "compass-angle" : 99.927886962891,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.92
@@ -1122,7 +1282,9 @@
   "creator" : null,
   "captured-at" : 1580927904000,
   "compass-angle" : 0,
+  "borough" : "staten-island",
   "width" : 4000,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.76222222222222,
     "lat" : 40.63333333333333
@@ -1136,7 +1298,9 @@
   "creator" : null,
   "captured-at" : 1580927906000,
   "compass-angle" : 0,
+  "borough" : "staten-island",
   "width" : 4000,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.76222222222222,
     "lat" : 40.63333333333333
@@ -1150,7 +1314,9 @@
   "creator" : null,
   "captured-at" : 1534802539052,
   "compass-angle" : 317.30615234375,
+  "borough" : "staten-island",
   "width" : 4048,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.76222222222222,
     "lat" : 40.681111111111115
@@ -1164,7 +1330,9 @@
   "creator" : null,
   "captured-at" : 1534802473311,
   "compass-angle" : 173.31970214844,
+  "borough" : "staten-island",
   "width" : 4048,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.76222222222222,
     "lat" : 40.681111111111115
@@ -1178,7 +1346,9 @@
   "creator" : null,
   "captured-at" : 1539462610901,
   "compass-angle" : 127.5050201416,
+  "borough" : "staten-island",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.76222222222222,
     "lat" : 40.72888888888889
@@ -1192,7 +1362,9 @@
   "creator" : null,
   "captured-at" : 1532602822844,
   "compass-angle" : 131.18727111816,
+  "borough" : "staten-island",
   "width" : 1920,
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.76222222222222,
     "lat" : 40.72888888888889
@@ -1206,7 +1378,9 @@
   "creator" : null,
   "captured-at" : 1544907209867,
   "compass-angle" : 37.221145629883,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.76222222222222,
     "lat" : 40.92
@@ -1220,7 +1394,9 @@
   "creator" : null,
   "captured-at" : 1544907211267,
   "compass-angle" : 40.272514343262,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.76222222222222,
     "lat" : 40.92
@@ -1234,7 +1410,9 @@
   "creator" : null,
   "captured-at" : 1558650560735,
   "compass-angle" : 292.63269042969,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.58555555555556
@@ -1248,7 +1426,9 @@
   "creator" : null,
   "captured-at" : 1558650570760,
   "compass-angle" : 295.90246582031,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.58555555555556
@@ -1262,7 +1442,9 @@
   "creator" : null,
   "captured-at" : 1556641037548,
   "compass-angle" : 190.65759277344,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.63333333333333
@@ -1276,7 +1458,9 @@
   "creator" : null,
   "captured-at" : 1556640975731,
   "compass-angle" : 263.47314453125,
+  "borough" : "unknown",
   "width" : 4032,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.63333333333333
@@ -1290,7 +1474,9 @@
   "creator" : null,
   "captured-at" : 1533819421423,
   "compass-angle" : 276.6796875,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.681111111111115
@@ -1304,7 +1490,9 @@
   "creator" : null,
   "captured-at" : 1531945470925,
   "compass-angle" : 286.98910522461,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.681111111111115
@@ -1318,7 +1506,9 @@
   "creator" : null,
   "captured-at" : 1538680568923,
   "compass-angle" : 199.83508300781,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.72888888888889
@@ -1332,7 +1522,9 @@
   "creator" : null,
   "captured-at" : 1538680544652,
   "compass-angle" : 287.31848144531,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.72888888888889
@@ -1346,7 +1538,9 @@
   "creator" : null,
   "captured-at" : 1535886961730,
   "compass-angle" : 57.750919342041,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.77666666666667
@@ -1360,7 +1554,9 @@
   "creator" : null,
   "captured-at" : 1535886960759,
   "compass-angle" : 58.092304229736,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.77666666666667
@@ -1374,7 +1570,9 @@
   "creator" : null,
   "captured-at" : 1539881948870,
   "compass-angle" : 169.40953063965,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.824444444444445
@@ -1388,7 +1586,9 @@
   "creator" : null,
   "captured-at" : 1539881945566,
   "compass-angle" : 168.90034484863,
+  "borough" : "unknown",
   "width" : 1920,
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.7,
     "lat" : 40.824444444444445
