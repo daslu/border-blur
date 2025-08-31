@@ -10,6 +10,7 @@ A Clojure-based system for collecting street view images uniformly distributed a
 - **Borough Classification**: Point-in-polygon geometric analysis using JTS spatial libraries with corrected coordinate handling
 - **API Integration**: Mapillary API with rate limiting, error handling, and authentication
 - **Web Visualization**: Interactive Leaflet.js map showing color-coded borough classifications with proper polygon boundaries
+- **NYC Borough Game**: Interactive geography game where users identify which borough street view images are from
 - **Large-Scale Collection**: Proven at 1000+ point sampling with 25% success rate
 - **License Compliance**: CC BY-SA 4.0 compliant for public website usage
 
@@ -24,8 +25,9 @@ src/border_blur/
 ├── boroughs/
 │   ├── fetcher.clj           # OpenStreetMap boundary data fetching with improved way chaining
 │   └── classifier.clj        # Geographic point-in-polygon classification with fixed coordinate handling
+├── borough_game.clj           # NYC borough identification game logic with session management
 └── web/
-    └── server.clj            # Ring/Compojure web server with map visualization and borough polygons
+    └── server.clj            # Ring/Compojure web server with map visualization, borough polygons, and game interface
 ```
 
 ### Key Files
@@ -52,7 +54,9 @@ src/border_blur/
 ### Web Framework
 - **`ring/ring-core` 1.12.1**: HTTP server foundation
 - **`ring/ring-jetty-adapter` 1.12.1**: Jetty web server integration
-- **`ring/ring-defaults` 0.5.0**: Security and middleware defaults
+- **`ring/ring-defaults` 0.5.0**: Security and middleware defaults with CSRF disabled
+- **`ring/ring-middleware-params`**: Form parameter parsing for game interactions
+- **`ring/ring-middleware-keyword-params`**: Keyword parameter conversion
 - **`ring/ring-devel` 1.12.1**: Development tools and reloading
 - **`compojure/compojure` 1.7.1**: Routing library
 - **`hiccup/hiccup` 1.0.5**: HTML generation
@@ -61,6 +65,29 @@ src/border_blur/
 - **`org.scicloj/noj` 2-beta18**: Mathematical operations and data analysis
 
 ## Available Tools & APIs
+
+### NYC Borough Game
+```clojure
+;; Create new game session
+(require '[border-blur.borough-game :as bg])
+(def game (bg/new-game "Very familiar - I live/lived in NYC"))
+(bg/save-game-session! game)
+
+;; Process user answers
+(bg/process-answer session-id "brooklyn") ; Returns result with scoring
+
+;; Advance to next stage
+(bg/advance-to-next-stage session-id) ; Returns game state or completion
+
+;; Game features:
+;; - 15 stages with progressive difficulty (easy → medium → hard)
+;; - Scoring system with streak bonuses (1-10 points per correct answer)
+;; - Multiple-choice interface with color-coded borough buttons
+;; - Session management with in-memory storage
+;; - Reveal maps with borough boundary overlays highlighting correct answers
+;; - User familiarity tracking for analytics
+;; - Responsive design with inline styling for button visibility
+```
 
 ### Image Collection (Updated)
 
@@ -243,6 +270,11 @@ clj -M:nrepl
 
 # Make changes to server.clj, then:
 (server/restart-server!)
+
+# Game development workflow:
+(require '[border-blur.borough-game :as bg])
+(def test-game (bg/new-game "test"))
+(bg/save-game-session! test-game)
 ```
 
 ### Testing & Debugging
@@ -290,7 +322,12 @@ head -20 data/random-classified-images.json
 - **Unclassified**: #4B5563 (Dark grey)
 
 ### API Endpoints
-- **`/`**: Main map visualization page
+- **`/`**: Redirects to NYC Borough Game
+- **`/images-map`**: Interactive map visualization page
+- **`/borough-game`**: NYC borough identification game landing page
+- **`/borough-game/{session-id}`**: Game interface with street view images and multiple-choice buttons
+- **`/borough-game/{session-id}/reveal`**: Answer reveal page with interactive maps
+- **`/borough-game/{session-id}/results`**: Final game results and statistics
 - **`/api/images`**: GeoJSON FeatureCollection of all images with corrected borough data
 - **`/api/boroughs`**: GeoJSON FeatureCollection of borough boundary polygons
 
@@ -360,8 +397,13 @@ head -20 data/random-classified-images.json
 ✅ **Borough Boundaries**: Complete OSM data with corrected relation IDs and proper way chaining
 ✅ **Classification System**: Fixed coordinate handling and accurate borough assignment
 ✅ **Web Visualization**: Interactive map with accurate borough polygons and prioritized data loading
+✅ **NYC Borough Game**: Complete 15-stage geography game with progressive difficulty and scoring
+✅ **Game Session Management**: In-memory session storage with proper form parameter handling
+✅ **Interactive Reveal Maps**: Borough polygon overlays with location highlighting
+✅ **Game UI Polish**: Color-coded borough buttons with inline styling and improved visibility
+✅ **Form Parameter Debugging**: Resolved form submission issues with explicit Ring middleware
 ✅ **REPL Development**: Hot-reloadable server functions for development
-✅ **Code Cleanup**: Removed obsolete distance-constraint functions
+✅ **Code Cleanup**: Removed obsolete distance-constraint functions and debug logging
 ✅ **Data Management**: Smart data file prioritization (random over grid)
 
 ### Latest Collection Results (1000-Point Random Sampling)
@@ -386,6 +428,16 @@ head -20 data/random-classified-images.json
 - **Smart Data Loading**: Prioritizes `random-classified-images.json` over legacy `nyc-images.json`
 - **Fresh Data Display**: Automatically loads latest collection results
 - **Port Flexibility**: Easy server restart on different ports to bypass browser caching
+
+### NYC Borough Game Implementation (December 2024)
+- **Complete Game System**: 15-stage geography game with progressive difficulty (easy → medium → hard)
+- **Interactive UI**: Color-coded multiple-choice buttons with inline styling for maximum visibility
+- **Form Parameter Resolution**: Fixed Ring middleware configuration for proper form submission handling
+- **Session Management**: In-memory game session storage with UUID-based session IDs
+- **Reveal System**: Interactive maps showing correct answers with highlighted borough polygons
+- **Scoring Algorithm**: Progressive scoring with streak bonuses (1-10 points per correct answer)
+- **User Analytics**: Familiarity level tracking for educational research
+- **Production Polish**: Removed debug logging, optimized button colors, improved font sizing
 
 ### Enhanced Search Algorithm & Web Interface (December 2024)
 - **Unclassified Point Filtering**: Updated `collect-and-classify-random` to automatically filter out all `:unknown` classified points
