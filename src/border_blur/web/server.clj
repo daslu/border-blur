@@ -121,9 +121,50 @@
          border-radius: 50%; 
          margin-right: 8px; 
        }
+       #image-viewer {
+         position: fixed;
+         top: 20px;
+         right: 20px;
+         width: 350px;
+         max-height: 400px;
+         background: white;
+         border-radius: 8px;
+         box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+         padding: 15px;
+         display: none;
+         z-index: 1000;
+         overflow-y: auto;
+       }
+       #image-viewer img {
+         max-width: 100%;
+         height: auto;
+         display: block;
+         margin: 10px 0;
+         border-radius: 4px;
+       }
+       #image-viewer .close-btn {
+         float: right;
+         background: #f44336;
+         color: white;
+         border: none;
+         border-radius: 50%;
+         width: 25px;
+         height: 25px;
+         cursor: pointer;
+         margin-bottom: 10px;
+       }
+       #image-viewer .info {
+         margin-bottom: 10px;
+         font-size: 14px;
+       }
      "]]
    [:body
     [:div#map]
+    [:div#image-viewer
+     [:button.close-btn {:onclick "document.getElementById('image-viewer').style.display='none'"} "×"]
+     [:div.info "Click a marker to view image"]
+     [:img {:id "viewer-image" :style "display: none;"}]
+     [:a {:id "viewer-link" :target "_blank" :style "display: none;"} "View Full Size"]]
     [:script {:src "https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"}]
     [:script
      (str "
@@ -150,9 +191,9 @@
                 weight: 2,
                 opacity: 0.7,
                 fillColor: props.color,
-                fillOpacity: 0.1
+                fillOpacity: 0.1,
+                interactive: false  // Make polygons non-interactive
               })
-              .bindPopup('<strong>Borough:</strong> ' + props.name.charAt(0).toUpperCase() + props.name.slice(1))
               .addTo(map);
             });
           });
@@ -165,19 +206,58 @@
               var coords = feature.geometry.coordinates;
               var props = feature.properties;
               
-              L.circleMarker([coords[1], coords[0]], {
-                radius: 4,
+              // Create circle marker
+              var marker = L.circleMarker([coords[1], coords[0]], {
+                radius: 8,
                 fillColor: props.color,
                 color: props.color,
-                weight: 1,
+                weight: 2,
                 opacity: 1,
                 fillOpacity: 0.8
-              })
-              .bindPopup('<strong>Borough:</strong> ' + props.borough + 
-                        '<br><strong>Image ID:</strong> ' + props.id +
-                        '<br><strong>Captured:</strong> ' + new Date(props['captured-at']).toLocaleDateString() +
-                        '<br><a href=\"' + props.url + '\" target=\"_blank\">View Image</a>')
-              .addTo(map);
+              });
+              
+              marker.addTo(map);
+              
+              // Add click handler to show image in viewer
+              marker.on('click', function(e) {
+                var viewer = document.getElementById('image-viewer');
+                
+                if (!viewer) return;
+                
+                var img = document.getElementById('viewer-image');
+                var link = document.getElementById('viewer-link');
+                var info = viewer.querySelector('.info');
+                
+                // Update info text
+                if (info) {
+                  info.innerHTML = '<strong>' + (props.borough || 'Unknown') + '</strong><br>' +
+                    'Captured: ' + new Date(props['captured-at']).toLocaleDateString();
+                }
+                
+                // Set up image
+                if (img) {
+                  img.style.display = 'none';
+                  img.onload = function() {
+                    this.style.display = 'block';
+                  };
+                  img.onerror = function() {
+                    this.style.display = 'none';
+                    if (info) info.innerHTML += '<br><em>Image could not be loaded</em>';
+                  };
+                  img.src = props.url;
+                }
+                
+                // Set up link
+                if (link) {
+                  link.href = props.url;
+                  link.style.display = 'block';
+                }
+                
+                // Show the viewer
+                viewer.style.display = 'block';
+              });
+              
+              // No popup - only click handler for image viewer
             });
           });
         
@@ -197,7 +277,7 @@
       ")]]))
 
 (defroutes app-routes
-  (GET "/" [] (map-page))
+  (GET "/images-map" [] (map-page))
   (GET "/api/images" []
     (-> (images-geojson)
         (json/generate-string)

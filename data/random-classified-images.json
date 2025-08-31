@@ -1,289 +1,321 @@
 [ {
   "creator" : null,
-  "captured-at" : 1568576030276,
-  "compass-angle" : 345.76669311523,
-  "borough" : "unknown",
-  "width" : 4032,
-  "classification-confidence" : "none",
-  "grid-point" : {
-    "lng" : -74.03367439722984,
-    "lat" : 40.7082825280437
-  },
-  "id" : "455465548850988",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An-qaoK39N28Qn0FPohT9UZsfei4p6pM95Zi4g0jjYgqI0CwCMi2TaV0yLZG5Q4r4Sjnbfq9VtJk7WJ5NRn1jRgyWSVi22dYgBhj317iUg4snr4mto-KsjMuhfZWWUGbyQlsFl8NllIV4cd53RXrLlM?edm=AOnQwmMEAAAA&_nc_gid=9eYJpDX6HGdBe8Ffw5LJYw&_nc_oc=AdnXfDQcjLxd0XHvcBGsYylr0BB5yKeci7dnuuFjhz61513eohTVFpfhqnCy2D8Q-RM&ccb=10-5&oh=00_AfXv8xzeSvKzqMUz3o1Xbkw5LFUBXLQM6JQ5-5r7h0E91Q&oe=68DB1758&_nc_sid=201bca",
-  "lat" : 40.708535485798,
-  "lng" : -74.034372028599,
-  "height" : 3024
-}, {
-  "creator" : null,
-  "captured-at" : 1586638057002,
-  "compass-angle" : 23.348954913392,
-  "borough" : "bronx",
+  "captured-at" : 1532428080575,
+  "compass-angle" : 29.900953292847,
+  "borough" : "manhattan",
   "width" : 1920,
   "classification-confidence" : "high",
   "grid-point" : {
-    "lng" : -73.9036108176744,
-    "lat" : 40.8403456877654
+    "lng" : -73.97425976718799,
+    "lat" : 40.788625716071245
   },
-  "id" : "816589719243005",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An-EYLGRt2RrDU20PCxrR63zldm6pdxngrifuIFoIR_pr0n1GhSc0-kjIPzUtuXdbA5zfYHGt2ZTz1cMhSio2bvIE_oWytg0FZCoRt6JP-Hl7Ou-MXmwsJ2s07Yph6o4Kqw2Li0UIB1aIo8SGDQXYA?edm=AOnQwmMEAAAA&_nc_gid=nhGG995dV9gpRvtVX0nZ4A&_nc_oc=AdkYetCWXp8TdzLvfLDSY7sRC-GaN249zhSRfiMcYOg7_8JofGT_dVIC6_PrFC_S6KQ&ccb=10-5&oh=00_AfVbBhSflvMSnNmVdC5OXc-AsFsUkB-FGw_G5eThPzrxKA&oe=68DB1057&_nc_sid=201bca",
-  "lat" : 40.841158681818,
-  "lng" : -73.904567257576,
+  "id" : "1689718601214234",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An84ThfqHI384A6Jxa30XOUu6X_c4iO7MAcHX2G2kRIgRvJmIumWRYhYrdy2CZojDZKt4Br22fPhHT7fwAccx9ZX4OEdFtvqHSX-iPduZSt0Ba2xlAk2veUoOqhzeyO-7DnwPARjzD_UwxmfyVq_jg?edm=AOnQwmMEAAAA&_nc_gid=pf5J6uM4Vo76cWZYCmp7Hg&_nc_oc=Adk8imXvMY0xI31M3lw7OtgDKZz-4Unqzd39CbD4ygoM6Gez9u-GTOCFAERJX8iSFRI&ccb=10-5&oh=00_AfVunN3845thvclH-sxysmHf5MZVro_17axU25HWkioC_g&oe=68DB6D68&_nc_sid=201bca",
+  "lat" : 40.789392661117,
+  "lng" : -73.973777706373,
   "height" : 1080
 }, {
   "creator" : null,
-  "captured-at" : 1537616660327,
-  "compass-angle" : 41.1328125,
+  "captured-at" : 1534693986537,
+  "compass-angle" : 336.43682861328,
   "borough" : "queens",
   "width" : 1920,
   "classification-confidence" : "high",
   "grid-point" : {
-    "lng" : -73.91439257586586,
-    "lat" : 40.73992774980626
+    "lng" : -73.81167624155931,
+    "lat" : 40.696157927942906
   },
-  "id" : "303126801291725",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An9MMZQg9NzVeiAQsM1sKmANavTKZTJtwGxA3qEK2xoFUeEAgDqIOgITXw_CLNV9izp9FMqI0RV3_wdYfXMRb6gWTaYTEGHEfxYxRUii7ZT8gfY1OF7FLEd-GCM2lSwEKzZWfQO_y_VKMCk50ViWpg?edm=AOnQwmMEAAAA&_nc_gid=ud0FyhRRQFvxPl6A58c-lQ&_nc_oc=AdlQ3iI6RIOJ3Ic0O-AoDQj3rj0HLqA5v1y8X-XhT3V7bn1I9dER4s8eetoMPFtAHQY&ccb=10-5&oh=00_AfVjFwAGj2gJk-Eg0kZmTq0vv_XXUY5_zg3w6geNnJqcyw&oe=68DB1998&_nc_sid=201bca",
-  "lat" : 40.740858581383,
-  "lng" : -73.915385405633,
+  "id" : "2894703740804428",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8E2ChyZssY1n1Td76Fdbw6F9UfnqYdzNgNoSYS4zDl3s9kKCabhCbri-pA_UL7Z8jjGGVZfmeirRtmAy2LNGGmpCbP3aTMH0GZIZuM0mGUPHRxI1yUXTafUd2mxrgJVIv7TwjplrPu0lAzYPYIUw?edm=AOnQwmMEAAAA&_nc_gid=7kVkt13Va7q5PWZUgJjBrg&_nc_oc=Adkqu36v-IL25HvfTNxVAfwXYwj5eWdB4oLgvMSpEZKuzff0au9pxutaFfu4cXeqPtE&ccb=10-5&oh=00_AfU27zi7yRuL_9_Y_gN3HmOjKQM4ygdmtrPb8YA4iMwBdA&oe=68DB6653&_nc_sid=201bca",
+  "lat" : 40.695322030366,
+  "lng" : -73.812417834668,
   "height" : 1080
 }, {
   "creator" : null,
-  "captured-at" : 1532301027427,
-  "compass-angle" : 353.90414428711,
-  "borough" : "staten-island",
-  "width" : 1920,
-  "classification-confidence" : "high",
-  "grid-point" : {
-    "lng" : -74.07265137015749,
-    "lat" : 40.63471385396751
-  },
-  "id" : "137780378382574",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_-3880LUp7b2OKEzOEBQWqNkQhksonuyFs0UMmvxEr37tbmTHzu16nUFd3j9xuJx1i1MGgOxWX6Jp6zrXiNGdWjZ_nuI5Kj4gafPkU_x9_J4JzkaBrbToaLvmZTZJzrezVHf3zn_yB9DUNF7qOaw?edm=AOnQwmMEAAAA&_nc_gid=bTA31J_hSphIchG50yMI-Q&_nc_oc=AdlsSQgScW6_WIOKD6zwJXTr1M1qBqGobU1kiZL_fDkZCUCZzEENMbHEX_5ewk_Vxnc&ccb=10-5&oh=00_AfWwACu6x-b90g3F--sW_T5UXKZsoPFWJF0B31fyaaJ-TQ&oe=68DB00DC&_nc_sid=201bca",
-  "lat" : 40.635594079383,
-  "lng" : -74.073327528483,
-  "height" : 1080
-}, {
-  "creator" : null,
-  "captured-at" : 1473344441400,
-  "compass-angle" : 224.55183381729,
-  "borough" : "bronx",
-  "width" : 3648,
-  "classification-confidence" : "high",
-  "grid-point" : {
-    "lng" : -73.87663129227597,
-    "lat" : 40.892848662130696
-  },
-  "id" : "366533761501817",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_snE0hn_IN0ZJ6FSTfpaZPGvgW7tZ1mHGbnAix0uWxOOp2J5TwxBTWWd1_TweNfsKaZktIxcXNdSSOg6l5TgEuwqT7VIdi0lXEjvu1Ilet46_Ha3T7073NicN9w0c811hZhocj9F81LCUp9vs2hQ?edm=AOnQwmMEAAAA&_nc_gid=jEqt2nXo_dYf0_wuTUcHsQ&_nc_oc=Adn67qJ0lIZNCUgFddKNLnbyVog7Q0G12suIRJszT0WseGV_Cku2map7BWSXUsfr75U&ccb=10-5&oh=00_AfVJxpSt3mTlsTKzWSMNp8Af7D_qZ9q49D3zqOmdTgj6WQ&oe=68DB0893&_nc_sid=201bca",
-  "lat" : 40.892725,
-  "lng" : -73.876173333333,
-  "height" : 2432
-}, {
-  "creator" : null,
-  "captured-at" : 1727818665570,
-  "compass-angle" : 107,
-  "borough" : "unknown",
-  "width" : 4032,
-  "classification-confidence" : "none",
-  "grid-point" : {
-    "lng" : -74.1763171068556,
-    "lat" : 40.68163797441484
-  },
-  "id" : "901086291914409",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_hJUbUid4fil0LTbG2cjkZ0cBuGD0WBxOIfWxojxZxXl2SLLw9NjBLEzQWnZOSov6gtphMeq-J8GqUsWPsbBM7HkMCYLXpXkMyGmpzfemaU6N1zm9qd5SFizp6kugQOsAiqb09IPZlhmcfJfiCPwY?edm=AOnQwmMEAAAA&_nc_gid=v5MLwD1YgviD_jKlBxg3MA&_nc_oc=AdmxLJEYIWC9nBziiRlUq9uCx1jRuhbTTrPA1JScmfzo4YjXbPel4nkHRTSyURQkb9I&ccb=10-5&oh=00_AfUrP3v04Jo60BVqDNFlzwxuCdNDeLjRSUDFADSE1LsZrA&oe=68DAE8DD&_nc_sid=201bca",
-  "lat" : 40.6814644,
-  "lng" : -74.1755643,
-  "height" : 3024
-}, {
-  "creator" : null,
-  "captured-at" : 1572785695500,
-  "compass-angle" : 0,
-  "borough" : "unknown",
-  "width" : 4000,
-  "classification-confidence" : "none",
-  "grid-point" : {
-    "lng" : -74.10874180080282,
-    "lat" : 40.76862080097623
-  },
-  "id" : "4157521424311962",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An83Wa-JVcnHBh52-nRBZfgemIdntqBhKUgSYylU8K6cMuOe1nDEYMUzwcYcyygWh6OFqZBvyxy2PyDTjX5dYyekNX_-8Jne67dhxkpkdQmWlpvDdUeNEnT8KxmNfkBEVkHevIYO5dv2aB7vzOCABv0?edm=AOnQwmMEAAAA&_nc_gid=qAhX8GFWjhu7k_6yT9XUpg&_nc_oc=Adlg4GM-zYId8WGgUcT1Pwj8A7DLfyG6SdS_15YXBDEMAk7htinxrU3TB6TDqiTTABg&ccb=10-5&oh=00_AfUHNkADbZXWWnDMk6EnNYEgpMyzsoEKYbIifiu6T-Pl-A&oe=68DB1085&_nc_sid=201bca",
-  "lat" : 40.7676851,
-  "lng" : -74.108909199972,
-  "height" : 3000
-}, {
-  "creator" : null,
-  "captured-at" : 1502385655108,
-  "compass-angle" : 126.69592285156,
-  "borough" : "staten-island",
-  "width" : 4048,
-  "classification-confidence" : "high",
-  "grid-point" : {
-    "lng" : -74.06426090688223,
-    "lat" : 40.59118052894781
-  },
-  "id" : "2929834053902410",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_-mGERyBOuwhiNteewCFdnZUiLuTIRkF19htQ7DjXftf_AM3GZnU2FZ-p6QN53Oz_YUyL05ZRZP9Cq50yAOFvIHoGX5UYBYEmAhoDLJ95SgBap1zE3bwj-Nx5bCQ58ThUBh0UI9oo7G7JaNxt1KXA?edm=AOnQwmMEAAAA&_nc_gid=IgcmDHb4rk4q6IcTYnPeJQ&_nc_oc=Adl2_rrmUhfFBNXHePkl7XBDULzu5EaCQBjWafvKBCkyr5FLIuVFxOANaPhdMSFrXC8&ccb=10-5&oh=00_AfXuDlqkbywGZ87C-Vk6Ti2cIEmCK8UA7kuQRNrTsfB9RA&oe=68DAFE00&_nc_sid=201bca",
-  "lat" : 40.59029230178,
-  "lng" : -74.064983365935,
-  "height" : 3036
-}, {
-  "creator" : null,
-  "captured-at" : 1570902813241,
-  "compass-angle" : 242.43310546875,
-  "borough" : "queens",
-  "width" : 4032,
-  "classification-confidence" : "high",
-  "grid-point" : {
-    "lng" : -73.79390074446012,
-    "lat" : 40.709077462965645
-  },
-  "id" : "1202653600163573",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8q26Y-R81qHK0GoPWsY8iXqk4eYOFzVXApmwMnt0IJWxAEcB5i209e1A7ayXQukB2hE_DPRD3ht8ii63lOFRWNVh5VVtwCsPEv97EU0-cfykkmKEf5nbuRt00LBq_orgChZ_e42AQkOtRsTxcEZg?edm=AOnQwmMEAAAA&_nc_gid=Njm6MPgS3SjqcFvU6kbXGw&_nc_oc=Adn0YHAnEXizHMRGII0fCkIqBJPVI8M33XIG_UF68BWOytafKOl-HZLLXLErWiHR5Lw&ccb=10-5&oh=00_AfV9cxMkWjKRd0hn1L_xigV-ztmnKXC7wqZ78ew8JA4-Sw&oe=68DB0CE3&_nc_sid=201bca",
-  "lat" : 40.7096927859,
-  "lng" : -73.793486056182,
-  "height" : 3024
-}, {
-  "creator" : null,
-  "captured-at" : 1576256805552,
-  "compass-angle" : 64.369079589844,
-  "borough" : "unknown",
-  "width" : 4032,
-  "classification-confidence" : "none",
-  "grid-point" : {
-    "lng" : -74.0504044131592,
-    "lat" : 40.719820597260856
-  },
-  "id" : "470489557389428",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An9lI6ET86kF91Lucb0Z70sTuVdpJrUl0DoQSCVaRf6ethnd5a-VjGbMkvvlE4Umizc0iDb9o2X58ZDXEheocpvw86UwFoWSImJou25mtxJ5rpbeZhFSTmbKlU6F4Tvksur-YI6AgM7H3XD1E06rnw?edm=AOnQwmMEAAAA&_nc_gid=VPVulrkdNXXfw4gBSpMFeQ&_nc_oc=AdkvP8TpuuddO4SIEW5eO0pqXyiEvlfGdTQ7fs8zFYfOwu1v40VAJaMVRXCJ2LTTKTs&ccb=10-5&oh=00_AfVvKq8USDYOwT1i1ij3NxozJ2C6u4fhO-zVKti00Xinow&oe=68DB08DD&_nc_sid=201bca",
-  "lat" : 40.718974,
-  "lng" : -74.051234,
-  "height" : 3024
-}, {
-  "creator" : null,
-  "captured-at" : 1577454119121,
-  "compass-angle" : 269.78924560547,
-  "borough" : "brooklyn",
-  "width" : 4128,
-  "classification-confidence" : "high",
-  "grid-point" : {
-    "lng" : -73.93615396025,
-    "lat" : 40.66330881718361
-  },
-  "id" : "1613983852123434",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An9BUYDgyLOHuwKBpXPuHfi3PJIYBp9QP_k-PRCJEWYySBpL9ynE8wOp0xO03oQbtud1D5lvPnP0GW8jUdU3QAEaQPamrRdZEByByWV7mndRwiU70UYUwX3wFFY479gjVH9eiau37Rpwtg6vCSG1yw?edm=AOnQwmMEAAAA&_nc_gid=CVBsxPRZKUB00qKk3st_EA&_nc_oc=AdmwE03pJeL1jh0dO9ishStixsAX_9G3NikWlC-LGB2UMGXYeUtmNXL7nRakPj-jUH0&ccb=10-5&oh=00_AfUu1e6nCdcB9rpbN_Ko8k4Oay4iGxHAoAvJ3I63bpYxfw&oe=68DAFA1A&_nc_sid=201bca",
-  "lat" : 40.663741761462,
-  "lng" : -73.936621357905,
-  "height" : 2322
-}, {
-  "creator" : null,
-  "captured-at" : 1535573216236,
-  "compass-angle" : 129.3268737793,
-  "borough" : "unknown",
-  "width" : 1920,
-  "classification-confidence" : "none",
-  "grid-point" : {
-    "lng" : -74.05044619535127,
-    "lat" : 40.784306351641625
-  },
-  "id" : "2954878538085486",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_gRKhG0l0V7lzkdNb8UuPMmmuZuLS3uC1SZc78qmqVzIDj4eON163HTELZXaLUWqQ162_WBmka8Q-PSTg6XISFpYrZNFRLtwG69gb8DseQowGYTxTa3ajjaf2FnKYV6Cb0qFVu1zXJ6lGcrSMGfw0?edm=AOnQwmMEAAAA&_nc_gid=dl9u6mgNdZXNs3U7_FblmQ&_nc_oc=AdlFH_5HpnKtjzOgsMGPNsXLBGu41aeInw5NPE7em5CS-OYCoqBsg_DWLJY4OuALXyg&ccb=10-5&oh=00_AfVi2FbYCr6dtu4DMHJmkDApPXEiNzvShkInAVSQ2b1vBw&oe=68DB091B&_nc_sid=201bca",
-  "lat" : 40.785173786687,
-  "lng" : -74.050634805382,
-  "height" : 1080
-}, {
-  "creator" : null,
-  "captured-at" : 1584200321147,
-  "compass-angle" : 355.95930607689,
-  "borough" : "queens",
-  "width" : 4032,
-  "classification-confidence" : "high",
-  "grid-point" : {
-    "lng" : -73.87289106845171,
-    "lat" : 40.71063376975037
-  },
-  "id" : "461937324895365",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_tV_tiUDZmNAmdRoi38bAPrt7kqOvf9Yo1c8X_uy7qPpKkaWq9Kb6fXcT9GzeeYSqI8t4Ao5AUrCVCDHe-DGiumfd8M-v7Lx303VZ9CeR2HtrcUDBgJXMjzclXmPcFqUHmUi7UX1SjFSMaG7cyOg?edm=AOnQwmMEAAAA&_nc_gid=LyLLtlUSe5wn2GdvNb2mQQ&_nc_oc=Admp5kVyGmv0-yQba5806-YHBzPBsFgfIWi04pAL9uyUz0jB-vB7VmOGJmlu2pzvP7A&ccb=10-5&oh=00_AfWpdug5tpk_wNxP9FWO5gbntdn8XnDhuFwN7xdZnJO4Xw&oe=68DAF5D4&_nc_sid=201bca",
-  "lat" : 40.711158202749,
-  "lng" : -73.87343709986,
-  "height" : 3024
-}, {
-  "creator" : null,
-  "captured-at" : 1523230857481,
-  "compass-angle" : 131.29556274414,
-  "borough" : "queens",
-  "width" : 4048,
-  "classification-confidence" : "high",
-  "grid-point" : {
-    "lng" : -73.92562641103088,
-    "lat" : 40.75419845930427
-  },
-  "id" : "1372371933149649",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8bUVGG9lBHloij4VWlAzq0doh1GuBY62IjHOHkB494YhhmsRHr_VrdH8Zrd6VcrHD_M6DtwVWuvsoqYhOkQ742gj7eT4SoTPIs-W4NlrcnHSKK2oA3iFsGJOa63MUEScO8TBeTUfglFxtnuzmsa3w?edm=AOnQwmMEAAAA&_nc_gid=n-vIj1GLkQl-mHH_iaxAaA&_nc_oc=Adlav1eZnPZm37lYuoaXff4BOqK_ztBF_zNBjEMiw6zPfhEqHP3A4E0jdlGrp94_3P0&ccb=10-5&oh=00_AfVhacQvadpn0NDgSbV5N9IQnwTg4azNzamz59ov4Bukng&oe=68DAFB9D&_nc_sid=201bca",
-  "lat" : 40.754354305703,
-  "lng" : -73.925044967461,
-  "height" : 3036
-}, {
-  "creator" : null,
-  "captured-at" : 1531655792201,
-  "compass-angle" : 96.110221862793,
-  "borough" : "queens",
-  "width" : 1920,
-  "classification-confidence" : "high",
-  "grid-point" : {
-    "lng" : -73.79552269461814,
-    "lat" : 40.64478111514935
-  },
-  "id" : "561456121926016",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An9CBkOsm8vem--b9OxFBE5WLt7dEa2wDogg1wt-GhYW2mYNkx7P4PffmgmI4kIoqItdBglQB2JiL2od5-aLeqHMIoQWFaPWKzRTTbrFdtv4yYsYctllV39xAxwlvCiCBX4wraiBRWViwj6T6AEu2g?edm=AOnQwmMEAAAA&_nc_gid=Zv_CShKvZiwCOEwx_PP4HA&_nc_oc=Adl7FnwcH2Ee3wWvDpyibGOTVGsAoN5Sp6YJapzvr4woW63ulnEhRu_5mrZTzJY_4U0&ccb=10-5&oh=00_AfXCW1ELqaRdtfmck7sehzKUOe_F3TA5NwgAy7I6vZcc0w&oe=68DAF39A&_nc_sid=201bca",
-  "lat" : 40.644571649173,
-  "lng" : -73.796208400681,
-  "height" : 1080
-}, {
-  "creator" : null,
-  "captured-at" : 1616588189522,
-  "compass-angle" : 95.170737266541,
+  "captured-at" : 1723292672685,
+  "compass-angle" : 288,
   "borough" : "manhattan",
   "width" : 4032,
   "classification-confidence" : "high",
   "grid-point" : {
-    "lng" : -73.97768382745123,
-    "lat" : 40.79824455518877
+    "lng" : -73.9470742065675,
+    "lat" : 40.79450816829827
   },
-  "id" : "2850662625199644",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An80CXIabZ7lbhSNCEGJClMlG75jVAsbzxJPMSpEzMrKjBwzgk_uMGw8iastMuh5HxttnUuziIWME4dIN3vt-tidLTzgS8H12dIOu5CW0DQMiTeE4uiQHbhPRw8U36jzl95Y3Ugor_-u5sef01D3GA?edm=AOnQwmMEAAAA&_nc_gid=k4KFfZZ5VcUDppJ-_vV71w&_nc_oc=AdkeQjFFaY_mjLE5TXXUsOGyadJWfZ1By9_Ox7MM21KMvovxvqZvPhcTciZaXdhKihM&ccb=10-5&oh=00_AfW-djdjIqsISNYvffbOFtWOZObmeJYNAk3UdWEPX-ZO9g&oe=68DAE9A4&_nc_sid=201bca",
-  "lat" : 40.797750918118,
-  "lng" : -73.976697672197,
+  "id" : "1686779545407312",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_X58DdaAr7DI7Nncd-ACnZ2w1AwJ4vf_MXkWVIb1lDOQl5CZcnqAmDyq2yBPgr23dZiV-N1Al3GGBoZEyZ-4EdX5NBY9KrBWjlwDiY1NbuKga7FO8HNdBKoStejsBTKZOIdWRdF6xizx6NZQ0hUWE?edm=AOnQwmMEAAAA&_nc_gid=p0zc3B9XhvPMASx5EEAhjQ&_nc_oc=AdmhxfoqkYpsjifOhQvf-0_wvWN0vMbzcHZu4KVKJdiD4oC3BqUp9opvzYTnOpcIhh8&ccb=10-5&oh=00_AfXIQhCQGO9sM0qd3oHycDwGPGHSZoDfgKeLrdEOAb2lfg&oe=68DB40C2&_nc_sid=201bca",
+  "lat" : 40.7945785,
+  "lng" : -73.9464757,
   "height" : 3024
 }, {
   "creator" : null,
-  "captured-at" : 1576869692161,
-  "compass-angle" : 339.95196533203,
+  "captured-at" : 1586638484002,
+  "compass-angle" : 86.672085804935,
+  "borough" : "bronx",
+  "width" : 1920,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.90515669630005,
+    "lat" : 40.84521459797386
+  },
+  "id" : "2889394974616783",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8JMtb8Q55hSxzwSfnMByEIqD1wKH6KExIufB7iIVaJOVeMuFQCKZ8gJ7HgPSad-PUisl1LgWCLf5qGJqQ-6eZ_BJdj_pZbffpQ4gQaw-hPWtBWYymKB2dOEmJxsNT4_nxa9CpENReWlS3TWsKBVg?edm=AOnQwmMEAAAA&_nc_gid=fRS7gFQs04lkkqB0kLZqtg&_nc_oc=Adm1WLt2UmY781iWaLsptoFxjztOogSkH1ftxhXUgOPOpAYJJc4nHvwwEUCSAdW0LLY&ccb=10-5&oh=00_AfW10ElVnlS0PfdjSVYY9eaS9Is_GEzTempG8W3fADvWGw&oe=68DB62DF&_nc_sid=201bca",
+  "lat" : 40.844593490519,
+  "lng" : -73.905438204424,
+  "height" : 1080
+}, {
+  "creator" : null,
+  "captured-at" : 1534187520260,
+  "compass-angle" : 285.20053100586,
+  "borough" : "queens",
+  "width" : 1920,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.83219928696391,
+    "lat" : 40.6658323508417
+  },
+  "id" : "799306557664727",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_le_ipjzcp4nM8Q6CMYRpEku_DthsDddMeUPTqJ7Fd7Jbs50dM9Hq2ymhMj4HlkL3UgQ914WaUx8Cxx83kGvuYJWqm7h1VdSZF-XNLG3zuVqeyCNsJ7q07x8Z1G_M5sz1NYiOq9N9Tz3U9QCJ5L2E?edm=AOnQwmMEAAAA&_nc_gid=JF3FAV5h_pH1y4ocCPmr-Q&_nc_oc=Adls5yFiw7adrOjARg_r_r_ATJvcbrYGflbe_ldRhJdWMBkwEVtSMfxIBiuOjuFKOYc&ccb=10-5&oh=00_AfUH4yO45_1V-TS8seIDlUuYN-sOdcqm3WQXmuLCU1e3dg&oe=68DB6125&_nc_sid=201bca",
+  "lat" : 40.665757733372,
+  "lng" : -73.832365826723,
+  "height" : 1080
+}, {
+  "creator" : null,
+  "captured-at" : 1533227832506,
+  "compass-angle" : 200.7087097168,
+  "borough" : "queens",
+  "width" : 1920,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.8368071401938,
+    "lat" : 40.74451800752271
+  },
+  "id" : "382848886343308",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_NwlR2M7f9SYVAGCRgUjOOolzPIAYjbRdPZze4TWeBbLAN8zM6gVNX2C03u_Ua87YZTF5X7t_HFygZezdZTMKsbyLj1a0yoYS3OX3Ugzb_w9Qoam1OFJTfqFqhmxauEPuA46PKjS2hQlbELEwDxgQ?edm=AOnQwmMEAAAA&_nc_gid=6a9Hfhdy_4WZSXk49jpSLQ&_nc_oc=AdkDhza7iPcqF2YCrtjrJx2tV7z8bx_uMjiBUpb7ea2nniFVUXPCVjD0b5m_Hid4_BA&ccb=10-5&oh=00_AfVx0EcJtUwQVoST4RpYM4g4Mhgp0cA5BSYh-2Cxu8i6bg&oe=68DB4B97&_nc_sid=201bca",
+  "lat" : 40.7442918551,
+  "lng" : -73.837378442686,
+  "height" : 1080
+}, {
+  "creator" : null,
+  "captured-at" : 1499032834220,
+  "compass-angle" : 312.86669921875,
+  "borough" : "brooklyn",
+  "width" : 4032,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.97416726111753,
+    "lat" : 40.663665044259616
+  },
+  "id" : "1143535206073267",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An9MyG1RZJwHj2QYpSKCCe3XShh4l5a-Z3nV6DdlfvEYqopvQPXF5oN9Imccf7vi5XfljsAo4Yu3qr2HmNw-DHoQPUtfgAdPCgwDVAacofFFEIVXZJA_Rl66Mtxx350txdcoz61sDWK333cZtGo24A?edm=AOnQwmMEAAAA&_nc_gid=E92Luqb-d3B3tF9tx-dB5Q&_nc_oc=AdnVgFsu4CpRRQnmIelBPXWz5Uyn-HOSJ6TxE-_vQC0UC4s_o703o48QHwlcRbvLkPk&ccb=10-5&oh=00_AfX1LTH_Fv5pvSXOtrGIH44PfMuXjnNGRv7DtDVdBGayZQ&oe=68DB699E&_nc_sid=201bca",
+  "lat" : 40.663067687937,
+  "lng" : -73.974458291759,
+  "height" : 3024
+}, {
+  "creator" : null,
+  "captured-at" : 1586633448213,
+  "compass-angle" : 210.634765625,
+  "borough" : "brooklyn",
+  "width" : 4032,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.9801385981419,
+    "lat" : 40.66972056152503
+  },
+  "id" : "911407586089992",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An-8owhyBBd8cGvx1JtbuenLtX4w0EZkqXwhJ8XhFGcvE-Q5r9YwHzxriobj7KTFYo-L-JcjlQOlIRYwKcvor9cmFw2gpgUncJo6N8lK7vWFoDJUYMMyRReZaZe0RC0mYoEtgA6WD94dF3zej1IddQ?edm=AOnQwmMEAAAA&_nc_gid=s1b1OG1u06UYC57W3QCBjg&_nc_oc=AdkfHnZo0IsmQWEHpkuxdCu-A2dPflJdvea6Y3mIVgDOLToeepJY4H6Y1zP1MxrV5gc&ccb=10-5&oh=00_AfWH2iwy5AAWeaacTe6CNDAoGKSwslO-b8p14y298E61rA&oe=68DB5393&_nc_sid=201bca",
+  "lat" : 40.669467116129,
+  "lng" : -73.979502509677,
+  "height" : 2268
+}, {
+  "creator" : null,
+  "captured-at" : 1433708364685,
+  "compass-angle" : 21.814572527986,
+  "borough" : "manhattan",
+  "width" : 3984,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -74.02938118467472,
+    "lat" : 40.689726531909756
+  },
+  "id" : "304000494456430",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8az1AJ-5tRlqqTJ18esn36XU7N5xluy7cAAbvme7ocWQn9yeo5rDJBcLeYlHK0u8AHpBzdpjSVQ_SqNYtYxXeQLCQWY0QOtIpShwkU0chKto6llzqJgq2Md9xb7jGbze4TL6An03ypCG98M3TkSA?edm=AOnQwmMEAAAA&_nc_gid=ePIoIJbu0mGmYEz7oSWbjQ&_nc_oc=AdkTWNphNJbEs37SK9C_BiWFE7Jz1ZjLcGwem6bL7KWXyojpLx2mJdo8NgiacW0Yegw&ccb=10-5&oh=00_AfWRdfmP2iFHacS02SJ_EthtdAdLIhkqPUvRwbnpaatEpA&oe=68DB5D70&_nc_sid=201bca",
+  "lat" : 40.689211,
+  "lng" : -74.029254,
+  "height" : 2988
+}, {
+  "creator" : null,
+  "captured-at" : 1576777303270,
+  "compass-angle" : 252.23583984375,
   "borough" : "queens",
   "width" : 4032,
   "classification-confidence" : "high",
   "grid-point" : {
-    "lng" : -73.77665982224549,
-    "lat" : 40.71966487298678
+    "lng" : -73.81796805573859,
+    "lat" : 40.79181561146797
   },
-  "id" : "1112912829230276",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An9MGxQ8bthPSCO7xQZuNsXQ80b8rGeFFk4LK3YS7nKQ2enzVKvSLYupZY6nZY0MIteffCNP4LXnfDZjYEzvUp3BpVxxLXOZdo0aIHWVRw9dFYi-yh-k1qSYjS1CUMdRh3w5rAaZBmcltzI2st1j1Q?edm=AOnQwmMEAAAA&_nc_gid=GpoT_a841-uok8D43_6x4w&_nc_oc=Adm6puUKDUoThuGyn29YhRd7ME7LAquOKSnVM1H8qOyBDmgHJiT-hRfut9l168ILwlw&ccb=10-5&oh=00_AfXSH0cVS8AidZ2SurdjMpZJldhpOU1WznNjC-gCF7q33A&oe=68DAF1A5&_nc_sid=201bca",
-  "lat" : 40.71964,
-  "lng" : -73.775737,
+  "id" : "468795337665604",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8Sf1U2uNZejo2gdMAagErpwP9LR2jdy8yLeNrrbO8mnKHcgcQnQQHmvb1VNnUX1320_C8K3LXtWbKgCNpE67SAS3CGXRsfoAxcfdBWWQrTkcHyAdMA-X7R3C2u1n-z5MKOkQI60fslhFG51K7TeQ?edm=AOnQwmMEAAAA&_nc_gid=vJdeeCDHxuh8VXCiPOiVpg&_nc_oc=AdnsuNH93P4oNg8NXizcOos5ZPNTeSdU0QX-9St0Lx9zcaqytOeRZOynNb6TlIBSrzg&ccb=10-5&oh=00_AfWy_ITUIsj--eiC4CD9IJ6r_hnFtKKm2LAqRha0BGnchA&oe=68DB41B0&_nc_sid=201bca",
+  "lat" : 40.791917,
+  "lng" : -73.817587,
   "height" : 3024
 }, {
   "creator" : null,
-  "captured-at" : 1532957847242,
-  "compass-angle" : 294.33920288086,
-  "borough" : "unknown",
-  "width" : 1920,
-  "classification-confidence" : "none",
+  "captured-at" : 1561593700711,
+  "compass-angle" : 0,
+  "borough" : "brooklyn",
+  "width" : 4032,
+  "classification-confidence" : "high",
   "grid-point" : {
-    "lng" : -74.19543550443655,
-    "lat" : 40.8740457738522
+    "lng" : -73.95648776125019,
+    "lat" : 40.65127077177824
   },
-  "id" : "4004120892998221",
-  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An-i_9-Ne4F-jBeNy5RTI1K6DowmllJyjPVof5auNrXCo0aBDOFdw3eA8PHxkja8FrPjfczU02WxHG4V6VoaXmHoXw8ONy2gQjZRyD74FqwAjau8HaRW-IfZQMKgsFbVA2XYS6ad9tGnuUQV028QqQ?edm=AOnQwmMEAAAA&_nc_gid=s1QuXzvJrezWhRro83x5Cw&_nc_oc=AdkK6K3p6PPGUmyl1-JLzQ9KRzStahyiOg4n-k8D4FRxmnVgHFkZMHXT82ce3qRw2IM&ccb=10-5&oh=00_AfXnPlR_OiDCalnJcCdmY5kQEywCfYaHWYGP9se1W-8dOw&oe=68DB19B0&_nc_sid=201bca",
-  "lat" : 40.873105571427,
-  "lng" : -74.195212194478,
+  "id" : "137509401730171",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8GOneRa5vBqvwPkY2FIueGcfUrmQd2tx20cNw8zXd5eYBPi0cRyRt4jE_4dzwDUDqbC0I5Ah1gLRZyp6TJwIK75cDPKx7FflcdmeqBuyI6ppSitrEu4JCvAb5OtzzDEFfQSNouGPQ5zAaernH59A?edm=AOnQwmMEAAAA&_nc_gid=Sq9vxjoQxCeoo_4xapMY0A&_nc_oc=AdkU2-PBvDDjfEtjfrbU8jjZSew0AadR5Mf0yGBxDIwCNCw7zUqvRSKVqMEbiyGUyWM&ccb=10-5&oh=00_AfWfukZ6eqWctBWf8Vy3qa3lGiFgSN2QPfen0uw8qV0iUQ&oe=68DB658D&_nc_sid=201bca",
+  "lat" : 40.652269440002,
+  "lng" : -73.956271960002,
+  "height" : 3024
+}, {
+  "creator" : null,
+  "captured-at" : 1532189040203,
+  "compass-angle" : 120.05539703369,
+  "borough" : "manhattan",
+  "width" : 1920,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.95372048515183,
+    "lat" : 40.81051555376697
+  },
+  "id" : "1103351186861195",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An89wFuLFl2pc9742kMsGw6XWyjUK5uMb1JmCSjcuO7PIuV5IYNv8M0aHVprzC5iWZN52lcmGHkspGAxjz7VfXGJ2Lkytv4GeeNb1WuXQnhyIc7ntfQ5XK5E4NHH5TicxgM4yY40KUhS5MyFdQb3MQ?edm=AOnQwmMEAAAA&_nc_gid=2e9PPTYC554pWyw4xsq63A&_nc_oc=AdlCh_GexqOAmmZzrxYN3Y04GJ1QpzY63qUVNy9kMqQy_O5Y3ZIjyRRlK-MuVfvtt2o&ccb=10-5&oh=00_AfU6iYMge3LeoWHCQsRHG90zQ-9xjIWEUeMH8_1UShGZcA&oe=68DB577F&_nc_sid=201bca",
+  "lat" : 40.811268733458,
+  "lng" : -73.953844529134,
   "height" : 1080
+}, {
+  "creator" : null,
+  "captured-at" : 1539173527533,
+  "compass-angle" : 11.25,
+  "borough" : "queens",
+  "width" : 1920,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.84498280329542,
+    "lat" : 40.73091522362656
+  },
+  "id" : "497850268021861",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8-pHRqv2wpuxvGOQ0zFj6lMKNpHX74w694QN0d3tDKHRpzrBBGLs2JUMEhbF1wH8XPeJw-_iMu1hH9UgDZEQEHkarZ-yBRrfTfFhwR8L92Z4mUKq083PXvIqEu-7RGN5989UC2w10uflW5qXN-ow?edm=AOnQwmMEAAAA&_nc_gid=kbKPqCJsUa2KFmGCym12qQ&_nc_oc=Adl_ZvkavJJS_xouJjfcyrSCCoHX6OX2-24zYEh0vpYv9svWz-Y3ujtVBk9UnRhIC0I&ccb=10-5&oh=00_AfWwkouRefRLwLdiDNAOPalmVz30c-nZfA1PiL3AS8NbXA&oe=68DB564F&_nc_sid=201bca",
+  "lat" : 40.73025181671,
+  "lng" : -73.845773583274,
+  "height" : 1080
+}, {
+  "creator" : null,
+  "captured-at" : 1471007556000,
+  "compass-angle" : 202.72758825894,
+  "borough" : "manhattan",
+  "width" : 1920,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.98550557189554,
+    "lat" : 40.72255862784729
+  },
+  "id" : "2909684659306937",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_upS_-VMPw46CEYTlubSbBjLALuBOcLdQAr-E_z7u3EqWMlKfrlwlHLExFLKVbDcd5EJiTrDo8_9FYUfHa0auCt8-qHmJiC9NE9fbezpO3_wIKh3C6Nx6QSZwW_zSKLqEvQFg4zUa2LsuAx60L5jA?edm=AOnQwmMEAAAA&_nc_gid=TcSqKJRNhesFZI1F9C9oMw&_nc_oc=AdkgNfvfyMvrV7khUVhwevGqoME7oUxJnFo2Fhl9j14eh8TBBA2ArJnJmHTi9O8Hkzc&ccb=10-5&oh=00_AfVFuIBeGWNSMi0CF4HQ3mqcm9ru4tbTXvbatd-9B-Lg8Q&oe=68DB7066&_nc_sid=201bca",
+  "lat" : 40.721761388889,
+  "lng" : -73.984836388889,
+  "height" : 1080
+}, {
+  "creator" : null,
+  "captured-at" : 1537181133486,
+  "compass-angle" : 247.3267364502,
+  "borough" : "queens",
+  "width" : 1920,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.80825792942487,
+    "lat" : 40.720174767774644
+  },
+  "id" : "468455637780498",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An9xaYYsH9hJLRnnuwPqEH3wPMp-U_A-JW5zCCf0zRyPHeFRV4wXJehKewegX2QEFKFuJFadDEB9JKfZsCY1mvBGeNYjaZLn8PeRVOlb5Op-7HgNdTH76ihzbYATBhqPx0jmLIN3pUshIVb2_q1JxQ?edm=AOnQwmMEAAAA&_nc_gid=24FAc_h9QzKjDcSSJxLstA&_nc_oc=AdlWduFX_9F6PLINM9CQuYRTTDETZGfckiHsD5C8wTQZ69ZlSXuMlTuVccAzWoTQM9o&ccb=10-5&oh=00_AfUkyTrzh7Rot03MC1qPxUYxKbZJlmeEXmdICgr71zy4Cw&oe=68DB71CE&_nc_sid=201bca",
+  "lat" : 40.7203247783,
+  "lng" : -73.808024903903,
+  "height" : 1080
+}, {
+  "creator" : null,
+  "captured-at" : 1535561998664,
+  "compass-angle" : 110.8629989624,
+  "borough" : "queens",
+  "width" : 1920,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.87165661821479,
+    "lat" : 40.7718235693237
+  },
+  "id" : "962091384526756",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An9NKN6bSOkDvKvZns3FKonHRTf-NZRhvK9JVwe3EHh06JvL4pRIxWDcWNihPoZlx7otGacPM1m-7ouaka4DH23GcgCA6jdD8QljSaCukWGWDqE59kWhoged3FtMFuR3rsS7apmzeqGp6w5PHGt8C9U?edm=AOnQwmMEAAAA&_nc_gid=vTJm8UzEswkIYXKm24mB2w&_nc_oc=Adn0ZVmxZNpQAvu2TZ1bWucVqPU1Dz2XCjJs3djdrlX23ANyPYoqJ9MxVE02wtO3PUM&ccb=10-5&oh=00_AfUCeohi2PkwedzHjc4NWE1nghjya8W-4W1d9Icz66m2aA&oe=68DB3EE2&_nc_sid=201bca",
+  "lat" : 40.771301572843,
+  "lng" : -73.870678512083,
+  "height" : 1080
+}, {
+  "creator" : null,
+  "captured-at" : 1578684672197,
+  "compass-angle" : 320.39764404297,
+  "borough" : "bronx",
+  "width" : 4032,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.81724664858285,
+    "lat" : 40.87227927173023
+  },
+  "id" : "289358336171653",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An_aJyrCwRoYa5Hg4Kf0HRWO5epHtm0Ia1bQdfXvelb6by7iu65n6JjdsdbA10fTr3PRRMH_QS5WajMtNdqjemEZp9wo_LIgkA30XeA5ppA8rNY_UOEgdjA57xABgxnVYXl8ZaY4f8bexVFYKcfv9to?edm=AOnQwmMEAAAA&_nc_gid=i5Hgo4RWX8Ua_0NaCTsPTQ&_nc_oc=AdncHlm5U8djbs7ROed8vLk0yoZVnLMGc2o9fK9qSdl8qKiFVjK7c2aWaLIOpLvMX98&ccb=10-5&oh=00_AfX-GHVEvUwgCErWSs9Onl5Z3N1B2BPjZd0OQg6yrrcqgw&oe=68DB6053&_nc_sid=201bca",
+  "lat" : 40.872015,
+  "lng" : -73.816514,
+  "height" : 3024
+}, {
+  "creator" : null,
+  "captured-at" : 1588079369832,
+  "compass-angle" : 58.284729003906,
+  "borough" : "brooklyn",
+  "width" : 4032,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.92041953014997,
+    "lat" : 40.63629943550544
+  },
+  "id" : "290948839371012",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An8K_MRNEH15jqR1_hPBsDuHkbwhgT2sLZGt24QCXU0gSZfw5XxU6AEubvXgS9swRT-0CfMyfSrh8oOPB4m91rZKGEKO_ThHXOEhCp5DIrZoYBFmo2oJrzRxVdMIpd53o7urDm3yaAIzftVjHKxz1Q?edm=AOnQwmMEAAAA&_nc_gid=LxOq52m71AEKnok_0F1c2g&_nc_oc=Adle5LhrMb7hKk0R00J6wHqSV1tteioL5-so0hCbOpfJva1ZiHtbWny62GdMAcVNWv8&ccb=10-5&oh=00_AfXKe7b5eJPxBYla0qxBRmz5yhKlUAymkxXYOFb6eP4fMQ&oe=68DB4F51&_nc_sid=201bca",
+  "lat" : 40.637172776582,
+  "lng" : -73.91971015981,
+  "height" : 3024
+}, {
+  "creator" : null,
+  "captured-at" : 1535748132108,
+  "compass-angle" : 251.84063720703,
+  "borough" : "bronx",
+  "width" : 4048,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.89943230788158,
+    "lat" : 40.7984611922513
+  },
+  "id" : "298241938503260",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An92y6fZxOZNqw_Hc8BsXFDgUFP4GZpwPYPF7IwoK5k6leqJG-CvFjERhA89oJzejOXQTN65lEAqbX63dCFj_3nz6whY_XPhxVmKDpKJ_NshOsdszW85l55hh0S6wMBJKV-ihmv214DFTQ-UtrJgIw?edm=AOnQwmMEAAAA&_nc_gid=e2BfjDfQ4YNkeAuvc2szSw&_nc_oc=AdmtbHcLVyw68ROsHtxHRsvu3ZQ4ol7F4xPUBon5qh5n4uhO33bFqqPZOgyJhlyzWoY&ccb=10-5&oh=00_AfW4NRKDH85XnYZlqtXG138RJ6IO5nSKC4q5V0RN1u-7sQ&oe=68DB72AD&_nc_sid=201bca",
+  "lat" : 40.798412098182,
+  "lng" : -73.898671923636,
+  "height" : 3036
+}, {
+  "creator" : null,
+  "captured-at" : 1587660262359,
+  "compass-angle" : 245.95674133301,
+  "borough" : "bronx",
+  "width" : 4032,
+  "classification-confidence" : "high",
+  "grid-point" : {
+    "lng" : -73.86881421520148,
+    "lat" : 40.8398681303076
+  },
+  "id" : "1329009780825843",
+  "url" : "https://scontent.ftlv6-1.fna.fbcdn.net/m1/v/t6/An-P1KvX9ogdz5Z5zdx_FcjKgm3u2C8r4kmgW2xdcliSEZD-CjXHYjTF0S-9EgUo2EIt6J0CRK2JaBSDyi6q1Ekqlu5IzadcCGUBF5ZqJJBlK3f07ID0q1c4jxdOcuKEuv35_EsRHXSpQdJWYgD3-w?edm=AOnQwmMEAAAA&_nc_gid=Ol3Z007QWoodpIAr9Plx8g&_nc_oc=AdnCV3TElLYfy4BvRVVlR-WmExeomzbayuPrVZAsNjW4KmHb8RmVyIrllKpra-Y-88M&ccb=10-5&oh=00_AfWmWxWxVVm__6O7u6_w9IhDfawfkPsCLwD_e_0IjXyb4A&oe=68DB6716&_nc_sid=201bca",
+  "lat" : 40.839949632179,
+  "lng" : -73.868695860896,
+  "height" : 3024
 } ]

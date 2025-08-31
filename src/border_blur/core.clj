@@ -76,7 +76,7 @@
                 classified-images))))))))
 
 (defn collect-and-classify-random
-  "Collect and classify images using pure uniform random sampling"
+  "Collect and classify images using pure uniform random sampling, filtering out unclassified points"
   [& {:keys [total-images output-file]
       :or {total-images 100
            output-file "data/random-classified-images.json"}}]
@@ -86,22 +86,53 @@
   (let [boroughs (classifier/load-borough-data)
         _ (println "Loaded borough boundary data")
 
-        images (collector/collect-nyc-images-random
-                :total-images total-images)
-        _ (println (format "Collected %d images using pure uniform random sampling" (count images)))
+        ;; We'll collect more images initially to account for filtering
+        ;; Estimate ~50% will be unclassified based on previous runs
+        initial-target (* total-images 2)
+        max-attempts 5
+        collected-classified (atom [])]
 
-        classified-images (classifier/classify-images images boroughs)
-        _ (println "Classified images by borough")]
+    (loop [attempt 1
+           collection-multiplier 2]
+      (when (and (< (count @collected-classified) total-images)
+                 (<= attempt max-attempts))
+        (println (format "\nAttempt %d: Collecting %d images..."
+                         attempt
+                         (int (* total-images collection-multiplier))))
 
-    (collector/save-collected-images classified-images output-file)
-    (println (format "Saved classified images to %s" output-file))
+        (let [images (collector/collect-nyc-images-random
+                      :total-images (int (* total-images collection-multiplier)))
+              _ (println (format "Collected %d images" (count images)))
 
-    (let [borough-counts (frequencies (map :borough classified-images))]
-      (println "\nClassification summary:")
-      (doseq [[borough count] (sort-by second > borough-counts)]
-        (println (format "  %s: %d images" (name borough) count))))
+              classified-images (classifier/classify-images images boroughs)
+              _ (println "Classified images by borough")
 
-    classified-images))
+              ;; Filter out unclassified (:unknown) images
+              borough-classified (remove #(= :unknown (:borough %)) classified-images)
+              _ (println (format "Found %d images in boroughs (filtered out %d unclassified)"
+                                 (count borough-classified)
+                                 (- (count classified-images) (count borough-classified))))]
+
+          ;; Add new classified images to our collection
+          (swap! collected-classified concat borough-classified)
+
+          ;; If we still need more, increase the multiplier for next attempt
+          (when (< (count @collected-classified) total-images)
+            (recur (inc attempt) (* collection-multiplier 1.5))))))
+
+    ;; Take only the requested number of images
+    (let [final-images (take total-images @collected-classified)]
+
+      (collector/save-collected-images final-images output-file)
+      (println (format "\nSaved %d classified images to %s"
+                       (count final-images) output-file))
+
+      (let [borough-counts (frequencies (map :borough final-images))]
+        (println "\nClassification summary (borough-only):")
+        (doseq [[borough count] (sort-by second > borough-counts)]
+          (println (format "  %s: %d images" (name borough) count))))
+
+      final-images)))
 
 (defn run-test-collection
   "Run a small test collection to verify everything works"
