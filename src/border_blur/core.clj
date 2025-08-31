@@ -75,6 +75,34 @@
                 ;; Return the classified images
                 classified-images))))))))
 
+(defn collect-and-classify-random
+  "Collect and classify images using pure uniform random sampling"
+  [& {:keys [total-images output-file]
+      :or {total-images 100
+           output-file "data/random-classified-images.json"}}]
+  (println "Starting pure uniform random collection and classification...")
+  (ensure-borough-data)
+
+  (let [boroughs (classifier/load-borough-data)
+        _ (println "Loaded borough boundary data")
+
+        images (collector/collect-nyc-images-random
+                :total-images total-images)
+        _ (println (format "Collected %d images using pure uniform random sampling" (count images)))
+
+        classified-images (classifier/classify-images images boroughs)
+        _ (println "Classified images by borough")]
+
+    (collector/save-collected-images classified-images output-file)
+    (println (format "Saved classified images to %s" output-file))
+
+    (let [borough-counts (frequencies (map :borough classified-images))]
+      (println "\nClassification summary:")
+      (doseq [[borough count] (sort-by second > borough-counts)]
+        (println (format "  %s: %d images" (name borough) count))))
+
+    classified-images))
+
 (defn run-test-collection
   "Run a small test collection to verify everything works"
   []
@@ -94,6 +122,9 @@
       "collect" (if-let [grid-size (second args)]
                   (collect-and-classify :grid-size (Integer/parseInt grid-size))
                   (collect-and-classify))
+      "collect-random" (if-let [total-images (second args)]
+                         (collect-and-classify-random :total-images (Integer/parseInt total-images))
+                         (collect-and-classify-random))
       "fetch-boroughs" (fetcher/fetch-and-save-boroughs)
       "web" (server/start-server! :port (if-let [port (second args)]
                                           (Integer/parseInt port)
@@ -101,10 +132,12 @@
       (do
         (println "NYC Street View Collection System")
         (println "\nUsage:")
-        (println "  clj -M:run test              # Run test collection (small sample)")
-        (println "  clj -M:run collect [size]    # Full collection with optional grid size")
-        (println "  clj -M:run fetch-boroughs    # Fetch borough boundaries only")
-        (println "  clj -M:run web [port]        # Start web visualization server")
-        (println "\nExample:")
-        (println "  clj -M:run collect 20        # 20x20 grid across NYC")
-        (println "  clj -M:run web 8080          # Start web server on port 8080")))))
+        (println "  clj -M:run test                    # Run test collection (small sample)")
+        (println "  clj -M:run collect [size]          # Grid-based collection with optional grid size")
+        (println "  clj -M:run collect-random [count]  # Random sampling collection with optional image count")
+        (println "  clj -M:run fetch-boroughs          # Fetch borough boundaries only")
+        (println "  clj -M:run web [port]              # Start web visualization server")
+        (println "\nExamples:")
+        (println "  clj -M:run collect 20              # 20x20 grid across NYC")
+        (println "  clj -M:run collect-random 150      # 150 randomly distributed images")
+        (println "  clj -M:run web 8080                # Start web server on port 8080")))))

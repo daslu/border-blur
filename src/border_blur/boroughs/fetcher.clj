@@ -7,12 +7,12 @@
 (def overpass-url "https://overpass-api.de/api/interpreter")
 
 (def borough-osm-ids
-  "OSM relation IDs for NYC boroughs - using correct IDs"
-  {:manhattan 2552485 ; New York County/Manhattan
-   :brooklyn 369518 ; Kings County/Brooklyn - corrected ID
-   :queens 2552484 ; Queens County/Queens
-   :bronx 2552486 ; Bronx County/The Bronx
-   :staten-island 369519}) ; Richmond County/Staten Island ; Richmond County/Staten Island - corrected ID
+  "OSM relation IDs for NYC boroughs - verified from OpenStreetMap direct links"
+  {:manhattan 2552485 ; New York County/Manhattan - verified
+   :brooklyn 369518 ; Kings County/Brooklyn - verified working
+   :queens 369519 ; Queens County/Queens - corrected from web search
+   :bronx 2552450 ; Bronx County - verified from OSM
+   :staten-island 962876}) ; Richmond County/Staten Island ; Richmond County/Staten Island - corrected ID
 
 (defn fetch-borough-boundary
   "Fetch a single borough boundary from OSM"
@@ -45,23 +45,96 @@
                                 (filter #(= "outer" (:role %)))
                                 (filter #(= "way" (:type %)))
                                 (map :ref))]
-            ;; Combine way segments into continuous boundary
-            (loop [remaining outer-ways
-                   current-boundary []
-                   used-ways #{}]
-              (if (empty? remaining)
-                current-boundary
-                (let [way-id (first remaining)
-                      way-nodes (get ways way-id)]
-                  (if way-nodes
-                    (let [coords (map (fn [node-id]
-                                        (let [node (get nodes node-id)]
-                                          [(:lon node) (:lat node)]))
-                                      way-nodes)]
-                      (recur (rest remaining)
-                             (into current-boundary coords)
-                             (conj used-ways way-id)))
-                    (recur (rest remaining) current-boundary used-ways)))))))))))
+            ;; Build all disconnected boundary components and return the largest
+            (letfn [(way-coordinates [way-id]
+                      (when-let [way-nodes (get ways way-id)]
+                        (map (fn [node-id]
+                               (let [node (get nodes node-id)]
+                                 [(:lon node) (:lat node)]))
+                             way-nodes)))
+
+                    (build-component [start-way remaining-ways]
+                      (loop [result (vec (way-coordinates start-way))
+                             remaining (disj remaining-ways start-way)]
+                        (if (empty? remaining)
+                          result
+                          (let [last-point (last result)
+                                first-point (first result)
+                                ;; Find a way that connects to our current chain
+                                next-way (first
+                                          (filter (fn [way-id]
+                                                    (when-let [coords (way-coordinates way-id)]
+                                                      (let [way-first (first coords)
+                                                            way-last (last coords)]
+                                                        (or (= last-point way-first)
+                                                            (= last-point way-last)
+                                                            (= first-point way-first)
+                                                            (= first-point way-last)))))
+                                                  remaining))]
+                            (if next-way
+                              (let [next-coords (way-coordinates next-way)
+                                    way-first (first next-coords)
+                                    way-last (last next-coords)]
+                                (cond
+                                  ;; Connects at end, add in order (skip duplicate point)
+                                  (= last-point way-first)
+                                  (recur (into result (rest next-coords))
+                                         (disj remaining next-way))
+
+                                  ;; Connects at end, add in reverse (skip duplicate point)
+                                  (= last-point way-last)
+                                  (recur (into result (rest (reverse next-coords)))
+                                         (disj remaining next-way))
+
+                                  ;; Connects at beginning, prepend in reverse (skip duplicate)
+                                  (= first-point way-last)
+                                  (recur (into (vec (reverse (butlast next-coords))) result)
+                                         (disj remaining next-way))
+
+                                  ;; Connects at beginning, prepend in order (skip duplicate)
+                                  (= first-point way-first)
+                                  (recur (into (vec (butlast (reverse next-coords))) result)
+                                         (disj remaining next-way))
+
+                                  :else
+                                  (recur result (disj remaining next-way))))
+                              ;; No more connecting ways, return what we have
+                              result)))))
+
+                    (build-all-components [all-ways]
+                      (loop [remaining (set all-ways)
+                             components []]
+                        (if (empty? remaining)
+                          components
+                          (let [start-way (first remaining)
+                                component (build-component start-way remaining)
+                                used-ways (set (filter (fn [way-id]
+                                                         (some #(= % way-id)
+                                                               (map (fn [coord]
+                                                                      (some (fn [way-id2]
+                                                                              (let [way-coords (way-coordinates way-id2)]
+                                                                                (some #(= coord %) way-coords)))
+                                                                            all-ways))
+                                                                    component)))
+                                                       remaining))]
+                            (recur (apply disj remaining
+                                          (filter (fn [way-id]
+                                                    (let [coords (way-coordinates way-id)]
+                                                      (some (fn [coord]
+                                                              (some #(= coord %) component))
+                                                            coords)))
+                                                  remaining))
+                                   (conj components component))))))]
+
+              ;; Build all components and return the largest one
+              (let [components (build-all-components outer-ways)
+                    largest-component (->> components
+                                           (sort-by count)
+                                           last)]
+                (println (format "  Found %d boundary components, using largest with %d points"
+                                 (count components)
+                                 (count largest-component)))
+                largest-component))))))))
 
 (defn simplify-boundary
   "Simplify boundary by sampling every nth point"

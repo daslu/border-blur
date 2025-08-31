@@ -17,21 +17,21 @@
 
 (defn mapillary-api-call
   "Make a call to Mapillary API"
-  [token bbox & {:keys [limit fields] 
+  [token bbox & {:keys [limit fields]
                  :or {limit 50
                       fields "id,thumb_original_url,geometry,captured_at,compass_angle,is_pano,camera_type,width,height,creator_username"}}]
   (try
     (let [response (http/get "https://graph.mapillary.com/images"
-                            {:query-params {:access_token token
-                                          :bbox (str (:west bbox) "," 
-                                                    (:south bbox) "," 
-                                                    (:east bbox) "," 
-                                                    (:north bbox))
-                                          :limit limit
-                                          :fields fields}
-                             :as :json
-                             :socket-timeout 10000
-                             :conn-timeout 10000})]
+                             {:query-params {:access_token token
+                                             :bbox (str (:west bbox) ","
+                                                        (:south bbox) ","
+                                                        (:east bbox) ","
+                                                        (:north bbox))
+                                             :limit limit
+                                             :fields fields}
+                              :as :json
+                              :socket-timeout 10000
+                              :conn-timeout 10000})]
       (if (= 200 (:status response))
         {:success true
          :data (get-in response [:body :data] [])}
@@ -46,30 +46,30 @@
   [image-data]
   (let [;; Check if panoramic
         is-pano? (or (:is_pano image-data)
-                    (= "spherical" (:camera_type image-data)))
-        
+                     (= "spherical" (:camera_type image-data)))
+
         ;; Check resolution (filter out very low resolution)
         width (:width image-data)
         height (:height image-data)
         has-good-resolution? (and width height
                                   (>= width 800)
                                   (>= height 600))
-        
+
         ;; Check age (prefer recent images, but accept up to 5 years old)
         captured-at (:captured_at image-data)
         age-ms (when captured-at
                  (- (System/currentTimeMillis) captured-at))
         age-days (when age-ms (/ age-ms 86400000))
         is-recent? (or (nil? age-days)
-                      (<= age-days 1825)) ; 5 years
-        
+                       (<= age-days 1825)) ; 5 years
+
         ;; Calculate quality score
         quality-score (cond-> 0
-                       (not is-pano?) (+ 40)
-                       has-good-resolution? (+ 30)
-                       is-recent? (+ 20)
-                       (and age-days (<= age-days 365)) (+ 10))] ; Bonus for very recent
-    
+                        (not is-pano?) (+ 40)
+                        has-good-resolution? (+ 30)
+                        is-recent? (+ 20)
+                        (and age-days (<= age-days 365)) (+ 10))] ; Bonus for very recent
+
     ;; Accept if quality score is >= 70 (out of 100)
     (>= quality-score 70)))
 
@@ -82,6 +82,16 @@
           j (range grid-size)]
       {:lng (+ min-lng (* i lng-step))
        :lat (+ min-lat (* j lat-step))})))
+
+ ; Earth radius in meters
+
+(defn generate-pure-random-points
+  "Generate N completely random points within bounds (no distance constraints)"
+  [min-lng max-lng min-lat max-lat n]
+  (repeatedly n
+              (fn []
+                {:lng (+ min-lng (* (rand) (- max-lng min-lng)))
+                 :lat (+ min-lat (* (rand) (- max-lat min-lat)))})))
 
 (defn fetch-images-at-point
   "Fetch quality images near a specific point"
@@ -115,27 +125,27 @@
   (let [token (read-api-token)
         ;; NYC approximate bounding box
         nyc-bounds {:min-lng -74.26
-                   :max-lng -73.70
-                   :min-lat 40.49
-                   :max-lat 40.92}
-        
-        grid-points (create-uniform-grid 
+                    :max-lng -73.70
+                    :min-lat 40.49
+                    :max-lat 40.92}
+
+        grid-points (create-uniform-grid
                      (:min-lng nyc-bounds)
                      (:max-lng nyc-bounds)
                      (:min-lat nyc-bounds)
                      (:max-lat nyc-bounds)
                      grid-size)
-        
+
         ;; Small radius for each grid point (about 200 meters)
         search-radius 0.002]
-    
-    (println (format "Collecting images from %d grid points across NYC..." 
-                    (count grid-points)))
+
+    (println (format "Collecting images from %d grid points across NYC..."
+                     (count grid-points)))
     (println "Grid configuration:")
     (println (format "  - Grid size: %dx%d" grid-size grid-size))
     (println (format "  - Search radius: ~%.0f meters" (* search-radius 111000)))
     (println (format "  - Max images per point: %d" max-images-per-point))
-    
+
     (let [all-images (atom [])
           progress (atom 0)]
       (doseq [point grid-points]
@@ -145,10 +155,56 @@
           (swap! progress inc)
           (when (zero? (mod @progress 10))
             (println (format "Progress: %d/%d points processed, %d images collected"
-                           @progress (count grid-points) (count @all-images))))))
-      
+                             @progress (count grid-points) (count @all-images))))))
+
       (println (format "\nCollection complete: %d images from %d points"
-                      (count @all-images) (count grid-points)))
+                       (count @all-images) (count grid-points)))
+      @all-images)))
+
+(defn collect-nyc-images-random
+  "Collect images using pure uniform random sampling across NYC"
+  [& {:keys [total-images]
+      :or {total-images 100}}]
+  (let [token (read-api-token)
+        ;; NYC approximate bounding box
+        nyc-bounds {:min-lng -74.26
+                    :max-lng -73.70
+                    :min-lat 40.49
+                    :max-lat 40.92}
+
+        ;; Generate completely random points (no distance constraints)
+        random-points (generate-pure-random-points
+                       (:min-lng nyc-bounds)
+                       (:max-lng nyc-bounds)
+                       (:min-lat nyc-bounds)
+                       (:max-lat nyc-bounds)
+                       total-images)
+
+        ;; Small radius to get nearby images
+        search-radius 0.001]
+
+    (println (format "Collecting images from %d pure random points across NYC..."
+                     (count random-points)))
+    (println "Pure uniform sampling configuration:")
+    (println (format "  - Target images: %d" total-images))
+    (println (format "  - Generated points: %d" (count random-points)))
+    (println (format "  - Search radius per point: ~%.0f meters" (* search-radius 111000)))
+    (println "  - No distance constraints - pure uniform distribution")
+
+    (let [all-images (atom [])
+          progress (atom 0)]
+      (doseq [point random-points]
+        (let [images (fetch-images-at-point token point search-radius)]
+          (when (seq images)
+            ;; Take only the best image from each point
+            (swap! all-images conj (first images)))
+          (swap! progress inc)
+          (when (zero? (mod @progress 25))
+            (println (format "Progress: %d/%d points processed, %d images collected"
+                             @progress (count random-points) (count @all-images))))))
+
+      (println (format "\nPure random collection complete: %d images from %d points"
+                       (count @all-images) (count random-points)))
       @all-images)))
 
 (defn save-collected-images

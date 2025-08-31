@@ -16,23 +16,45 @@
 (defn load-image-data
   "Load collected NYC street view images from JSON file"
   []
-  (when (.exists (io/file "data/nyc-images.json"))
+  (let [random-file "data/random-classified-images.json"
+        grid-file "data/nyc-images.json"]
+    (cond
+      (.exists (io/file random-file))
+      (try
+        (json/parse-string (slurp random-file) true)
+        (catch Exception e
+          (println "Error loading random image data:" (.getMessage e))
+          []))
+
+      (.exists (io/file grid-file))
+      (try
+        (json/parse-string (slurp grid-file) true)
+        (catch Exception e
+          (println "Error loading grid image data:" (.getMessage e))
+          []))
+
+      :else [])))
+
+(defn load-borough-data
+  "Load NYC borough boundary data from EDN file"
+  []
+  (when (.exists (io/file "resources/boroughs/nyc-boroughs.edn"))
     (try
-      (json/parse-string (slurp "data/nyc-images.json") true)
+      (read-string (slurp "resources/boroughs/nyc-boroughs.edn"))
       (catch Exception e
-        (println "Error loading image data:" (.getMessage e))
-        []))))
+        (println "Error loading borough data:" (.getMessage e))
+        {}))))
 
 (defn borough-color
   "Return color for borough visualization"
   [borough]
   (case borough
-    :manhattan "#FF6B6B"
-    :brooklyn "#4ECDC4"
-    :queens "#45B7D1"
-    :bronx "#96CEB4"
-    :staten-island "#FFEAA7"
-    "#808080")) ; grey for unclassified
+    :manhattan "#DC2626" ; Dark red
+    :brooklyn "#059669" ; Dark green  
+    :queens "#1D4ED8" ; Dark blue
+    :bronx "#7C2D12" ; Dark brown
+    :staten-island "#A16207" ; Dark amber
+    "#4B5563")) ; Dark grey for unclassified ; grey for unclassified
 
 (defn images-geojson
   "Convert image data to GeoJSON format for map visualization"
@@ -40,9 +62,10 @@
   (let [images (load-image-data)]
     {:type "FeatureCollection"
      :features (mapv (fn [image]
-                       (let [borough-kw (if (:borough image)
-                                          (keyword (:borough image))
-                                          :unclassified)]
+                       (let [borough-kw (cond
+                                          (nil? (:borough image)) :unclassified
+                                          (= "unknown" (:borough image)) :unclassified
+                                          :else (keyword (:borough image)))]
                          {:type "Feature"
                           :geometry {:type "Point"
                                      :coordinates [(:lng image) (:lat image)]}
@@ -52,6 +75,21 @@
                                        :captured-at (:captured-at image)
                                        :url (:url image)}}))
                      images)}))
+
+(defn boroughs-geojson
+  "Convert borough boundary data to GeoJSON format"
+  []
+  (let [boroughs (load-borough-data)]
+    {:type "FeatureCollection"
+     :features (mapv (fn [[borough-key borough-data]]
+                       {:type "Feature"
+                        :geometry {:type "Polygon"
+                                   :coordinates [(mapv (fn [[lng lat]] [lng lat])
+                                                       (:full-boundary borough-data))]}
+                        :properties {:name (name borough-key)
+                                     :borough borough-key
+                                     :color (borough-color borough-key)}})
+                     boroughs)}))
 
 (defn map-page
   "Generate HTML page with interactive map"
@@ -96,6 +134,30 @@
           attribution: '&copy; <a href=\"https://stadiamaps.com/\">Stadia Maps</a>, &copy; <a href=\"https://openmaptiles.org/\">OpenMapTiles</a> &copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors'
         }).addTo(map);
         
+        // Load borough boundaries first
+        fetch('/api/boroughs')
+          .then(response => response.json())
+          .then(data => {
+            data.features.forEach(feature => {
+              var coords = feature.geometry.coordinates[0];
+              var props = feature.properties;
+              
+              // Convert coordinates for Leaflet (swap lng/lat)
+              var leafletCoords = coords.map(coord => [coord[1], coord[0]]);
+              
+              L.polygon(leafletCoords, {
+                color: props.color,
+                weight: 2,
+                opacity: 0.7,
+                fillColor: props.color,
+                fillOpacity: 0.1
+              })
+              .bindPopup('<strong>Borough:</strong> ' + props.name.charAt(0).toUpperCase() + props.name.slice(1))
+              .addTo(map);
+            });
+          });
+        
+        // Load image points
         fetch('/api/images')
           .then(response => response.json())
           .then(data => {
@@ -123,12 +185,12 @@
         legend.onAdd = function (map) {
           var div = L.DomUtil.create('div', 'legend');
           div.innerHTML = '<h4>Boroughs</h4>' +
-            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #FF6B6B\"></div>Manhattan</div>' +
-            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #4ECDC4\"></div>Brooklyn</div>' +
-            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #45B7D1\"></div>Queens</div>' +
-            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #96CEB4\"></div>Bronx</div>' +
-            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #FFEAA7\"></div>Staten Island</div>' +
-            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #808080\"></div>Unclassified</div>';
+            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #DC2626\"></div>Manhattan</div>' +
+            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #059669\"></div>Brooklyn</div>' +
+            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #1D4ED8\"></div>Queens</div>' +
+            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #7C2D12\"></div>Bronx</div>' +
+            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #A16207\"></div>Staten Island</div>' +
+            '<div class=\"legend-item\"><div class=\"legend-color\" style=\"background-color: #4B5563\"></div>Unclassified</div>';
           return div;
         };
         legend.addTo(map);
@@ -138,6 +200,11 @@
   (GET "/" [] (map-page))
   (GET "/api/images" []
     (-> (images-geojson)
+        (json/generate-string)
+        (response)
+        (content-type "application/json")))
+  (GET "/api/boroughs" []
+    (-> (boroughs-geojson)
         (json/generate-string)
         (response)
         (content-type "application/json")))

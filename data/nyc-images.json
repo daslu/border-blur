@@ -386,9 +386,9 @@
   "creator" : null,
   "captured-at" : 1533061558385,
   "compass-angle" : 171.99140930176,
-  "borough" : "unknown",
+  "borough" : "staten-island",
   "width" : 1920,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.63333333333333
@@ -402,9 +402,9 @@
   "creator" : null,
   "captured-at" : 1532300999234,
   "compass-angle" : 46.063297271729,
-  "borough" : "unknown",
+  "borough" : "staten-island",
   "width" : 1920,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -74.07333333333334,
     "lat" : 40.63333333333333
@@ -930,9 +930,9 @@
   "creator" : null,
   "captured-at" : 1730048225820,
   "compass-angle" : 352.5991303619,
-  "borough" : "unknown",
+  "borough" : "brooklyn",
   "width" : 4032,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.58555555555556
@@ -946,9 +946,9 @@
   "creator" : null,
   "captured-at" : 1730048285402,
   "compass-angle" : 198.6030844341,
-  "borough" : "unknown",
+  "borough" : "brooklyn",
   "width" : 4032,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.58555555555556
@@ -962,9 +962,9 @@
   "creator" : null,
   "captured-at" : 1531947840043,
   "compass-angle" : 229.5703125,
-  "borough" : "brooklyn",
+  "borough" : "unknown",
   "width" : 1920,
-  "classification-confidence" : "high",
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.63333333333333
@@ -978,9 +978,9 @@
   "creator" : null,
   "captured-at" : 1532369575598,
   "compass-angle" : 229.92347717285,
-  "borough" : "brooklyn",
+  "borough" : "unknown",
   "width" : 1920,
-  "classification-confidence" : "high",
+  "classification-confidence" : "none",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.63333333333333
@@ -994,7 +994,7 @@
   "creator" : null,
   "captured-at" : 1532343539667,
   "compass-angle" : 262.24377441406,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 1920,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1010,7 +1010,7 @@
   "creator" : null,
   "captured-at" : 1584274204123,
   "compass-angle" : 244.57636426549,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 4032,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1026,9 +1026,9 @@
   "creator" : null,
   "captured-at" : 1576696173873,
   "compass-angle" : 258.91665649414,
-  "borough" : "unknown",
+  "borough" : "bronx",
   "width" : 4032,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.824444444444445
@@ -1042,9 +1042,9 @@
   "creator" : null,
   "captured-at" : 1533831826107,
   "compass-angle" : 258.9303894043,
-  "borough" : "unknown",
+  "borough" : "bronx",
   "width" : 1920,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.824444444444445
@@ -1058,9 +1058,9 @@
   "creator" : null,
   "captured-at" : 1578756724159,
   "compass-angle" : 53.290618896484,
-  "borough" : "unknown",
+  "borough" : "bronx",
   "width" : 4032,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.87222222222223
@@ -1074,9 +1074,9 @@
   "creator" : null,
   "captured-at" : 1578676655168,
   "compass-angle" : 231.16717529297,
-  "borough" : "unknown",
+  "borough" : "bronx",
   "width" : 4032,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.88666666666667,
     "lat" : 40.87222222222223
@@ -1090,7 +1090,7 @@
   "creator" : null,
   "captured-at" : 1708467913885,
   "compass-angle" : 4.2043237686157,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 2560,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1106,7 +1106,7 @@
   "creator" : null,
   "captured-at" : 1726933984137,
   "compass-angle" : 203,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 2560,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1122,7 +1122,7 @@
   "creator" : null,
   "captured-at" : 1533485152360,
   "compass-angle" : 263.32406616211,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 4048,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1138,7 +1138,7 @@
   "creator" : null,
   "captured-at" : 1533485132672,
   "compass-angle" : 204.19931030273,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 4048,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1154,7 +1154,7 @@
   "creator" : null,
   "captured-at" : 1536584191628,
   "compass-angle" : 21.92759513855,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 1920,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1170,7 +1170,7 @@
   "creator" : null,
   "captured-at" : 1533486961424,
   "compass-angle" : 208.18617248535,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 4048,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1186,9 +1186,9 @@
   "creator" : null,
   "captured-at" : 1534687095939,
   "compass-angle" : 291.8310546875,
-  "borough" : "unknown",
+  "borough" : "bronx",
   "width" : 1920,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.824444444444445
@@ -1202,9 +1202,9 @@
   "creator" : null,
   "captured-at" : 1579268658172,
   "compass-angle" : 110.8147277832,
-  "borough" : "unknown",
+  "borough" : "bronx",
   "width" : 4032,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.824444444444445
@@ -1218,9 +1218,9 @@
   "creator" : null,
   "captured-at" : 1535751682098,
   "compass-angle" : 354.4992980957,
-  "borough" : "unknown",
+  "borough" : "bronx",
   "width" : 1920,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.87222222222223
@@ -1234,9 +1234,9 @@
   "creator" : null,
   "captured-at" : 1535751682763,
   "compass-angle" : 354.4992980957,
-  "borough" : "unknown",
+  "borough" : "bronx",
   "width" : 1920,
-  "classification-confidence" : "none",
+  "classification-confidence" : "high",
   "grid-point" : {
     "lng" : -73.82444444444445,
     "lat" : 40.87222222222223
@@ -1282,7 +1282,7 @@
   "creator" : null,
   "captured-at" : 1580927904000,
   "compass-angle" : 0,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 4000,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1298,7 +1298,7 @@
   "creator" : null,
   "captured-at" : 1580927906000,
   "compass-angle" : 0,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 4000,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1314,7 +1314,7 @@
   "creator" : null,
   "captured-at" : 1534802539052,
   "compass-angle" : 317.30615234375,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 4048,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1330,7 +1330,7 @@
   "creator" : null,
   "captured-at" : 1534802473311,
   "compass-angle" : 173.31970214844,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 4048,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1346,7 +1346,7 @@
   "creator" : null,
   "captured-at" : 1539462610901,
   "compass-angle" : 127.5050201416,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 1920,
   "classification-confidence" : "high",
   "grid-point" : {
@@ -1362,7 +1362,7 @@
   "creator" : null,
   "captured-at" : 1532602822844,
   "compass-angle" : 131.18727111816,
-  "borough" : "staten-island",
+  "borough" : "queens",
   "width" : 1920,
   "classification-confidence" : "high",
   "grid-point" : {
